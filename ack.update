@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+curl http://beyondgrep.com/ack-2.14-single-file > ack
+chmod 0755 ack
