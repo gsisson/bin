@@ -1,0 +1,47 @@
+# usage:
+# in some dotfile:
+# 
+#   _enter_dot_file
+#   _source  ~/.some_other_dot_file
+#   _leave_dot_file
+
+_enter_dot_file() {
+  local sentinal="$HOME/.dotfiles_debug_sentinal"
+  if [ -f $sentinal ]; then
+    if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
+    if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
+    caller=${caller#/cygdrive/?}
+    caller=${caller#/users/[a-zA-Z]*/}
+    echo "in  $caller (SHELL: ${SHELL##*/})"
+  fi
+}
+
+_leave_dot_file() {
+  local sentinal="$HOME/.dotfiles_debug_sentinal"
+  if [ -f $sentinal ]; then
+    if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
+    if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
+    caller=${caller#/cygdrive/?}
+    caller=${caller#/users/[a-zA-Z]*/}
+    echo "OUT $caller $@ (SHELL: ${SHELL##*/})"
+  fi
+}
+
+_source() {
+  local sentinal="$HOME/.dotfiles_debug_sentinal"
+  local file="$1"
+  if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
+  if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
+  caller=${caller#/cygdrive/?}
+  caller=${caller#/users/[a-zA-Z]*/}
+  file=${file#/cygdrive/?}
+  file=${file#/users/[a-zA-Z]*/}
+  if [ -f "$file" ]; then
+    if [ -f $sentinal ]; then
+      echo "    $caller (now loading $file)"
+    fi
+    source "$file"
+  else
+    echo "    $caller (CANNOT FIND FILE: $file)"
+  fi
+}
