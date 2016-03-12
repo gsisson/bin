@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ "$#" = 0 ]; then
+  set -- "${PWD}"
+fi
+if [ "$#" = 1 -a "$1" = '.' ]; then
+  set -- "${PWD}"
+fi
+
+echo + /Applications/RubyMine.app/Contents/MacOS/rubymine "${@}"
+       /Applications/RubyMine.app/Contents/MacOS/rubymine "${@}" > /dev/null 2>&1
