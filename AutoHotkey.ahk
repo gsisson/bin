@@ -82,26 +82,26 @@ return
 
 ^+u::
 SetTitleMatchMode 2 ;match anywhere in title
-IfWinExist Bash_1_Ctrl_Shift_U
+IfWinExist Mintty_1_Ctrl_Shift_U
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Bash_1_Ctrl_Shift_U.lnk
+  Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
 return
 
 ^+j::
 SetTitleMatchMode 2 ;match anywhere in title
-IfWinExist Bash_2_Ctrl_Shift_J
+IfWinExist Mintty_2_Ctrl_Shift_J
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Bash_2_Ctrl_Shift_J.lnk
+  Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
 return
 
 ^+n::
 SetTitleMatchMode 2 ;match anywhere in title
-IfWinExist Bash_3_Ctrl_Shift_N
+IfWinExist Mintty_3_Ctrl_Shift_N
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Bash_3_Ctrl_Shift_N.lnk
+  Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
 return
 
 ;; Picasa must be full screen
