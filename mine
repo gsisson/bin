@@ -7,5 +7,18 @@ if [ "$#" = 1 -a "$1" = '.' ]; then
   set -- "${PWD}"
 fi
 
-echo + /Applications/RubyMine.app/Contents/MacOS/rubymine "${@}"
-       /Applications/RubyMine.app/Contents/MacOS/rubymine "${@}" > /dev/null 2>&1
+app=$(basename $0)
+shift
+case "$app" in
+  mine)    app='/Applications/RubyMine.app/Contents/MacOS/rubymine';;
+  hipchat) app='/Applications/HipChat.app/Contents/MacOS/HipChat';;
+  *)       echo "ERROR: '$app' is not supported yet!  Please edit this script!"; exit 1;;
+esac
+
+if [ ! -f "$app" ]; then
+  echo "ERROR: $app is not found!"
+  exit 1
+fi
+
+echo + $app "${@}"
+       $app "${@}" > /dev/null 2>&1 &
