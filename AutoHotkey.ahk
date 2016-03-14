@@ -53,6 +53,12 @@ return
 
 Menu, Tray, Icon, C:\WINDOWS\system32\SHELL32.dll, 13
 
+; Allow Alt-P to paste test (to mintty, since Alt-Space->Edit->Paste) isn't available
+!p::
+;get rid of any non-text on the clipboard
+SendInput %clipboard%
+return
+
 ^+a::
 ;get rid of any non-text on the clipboard
 clipboard = %clipboard%
