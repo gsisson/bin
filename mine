@@ -10,15 +10,21 @@ fi
 app=$(basename $0)
 shift
 case "$app" in
-  mine)    app='/Applications/RubyMine.app/Contents/MacOS/rubymine';;
-  hipchat) app='/Applications/HipChat.app/Contents/MacOS/HipChat';;
+  mine)    app='/Applications/RubyMine.app';;
+  hipchat) app='/Applications/HipChat.app';;
+  lync)    app='/Applications/Microsoft Lync.app'
+           pid=`ps -ef | grep Lync | grep -v grep | sed -E -e 's| +[0-9]+ +||' -e 's: .*::'`
+	   if [ -n "$pid" ]; then
+	       echo + kill $pid
+                      kill $pid
+	   fi;;
   *)       echo "ERROR: '$app' is not supported yet!  Please edit this script!"; exit 1;;
 esac
 
-if [ ! -f "$app" ]; then
+if [ ! -f "$app" -a ! -d "$app" ]; then
   echo "ERROR: $app is not found!"
   exit 1
 fi
 
-echo + $app "${@}"
-       $app "${@}" > /dev/null 2>&1 &
+echo + open "$app" "${@}"
+       open "$app" "${@}" # > /dev/null 2>&1
