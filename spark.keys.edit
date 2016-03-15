@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+. ~/.profile
+. ~/.bashrc
+
+open '/Applications/Utilities/Script Editor.app' \
+  $HOME/usr/src/applescript/spark.applescript.GoPopUp.ctrl.shift.slash.scpt

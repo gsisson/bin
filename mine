@@ -10,6 +10,7 @@ fi
 app=$(basename $0)
 shift
 case "$app" in
+  sql.pro) app='/Applications/Sequel Pro.app';;
   mine)    app='/Applications/RubyMine.app';;
   hipchat) app='/Applications/HipChat.app';;
   lync)    app='/Applications/Microsoft Lync.app'
