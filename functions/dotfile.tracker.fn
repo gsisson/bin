@@ -5,7 +5,13 @@
 #   _source  ~/.some_other_dot_file
 #   _leave_dot_file
 
+_do_something() {
+  # output something here, to help figure out where in the dot file loading, something happens
+  # echo $LESS |wc
+}
+
 _enter_dot_file() {
+  _do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   if [ -f $sentinal ]; then
     if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
@@ -18,6 +24,7 @@ _enter_dot_file() {
 }
 
 _leave_dot_file() {
+  _do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   if [ -f $sentinal ]; then
     if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
@@ -30,6 +37,7 @@ _leave_dot_file() {
 }
 
 _source() {
+  _do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   local file="$1"
   if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
