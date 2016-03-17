@@ -8,6 +8,7 @@
 _do_something() {
   # output something here, to help figure out where in the dot file loading, something happens
   # echo $LESS |wc
+  :
 }
 
 _enter_dot_file() {
