@@ -8,10 +8,9 @@ if [ "$#" = 1 -a "$1" = '.' ]; then
 fi
 
 app=$(basename $0)
-shift
 case "$app" in
   sql.pro) app='/Applications/Sequel Pro.app';;
-  mine)    app='/Applications/RubyMine.app';;
+  mine)    app='/Applications/RubyMine.app/Contents/MacOS/rubymine';;
   hipchat) app='/Applications/HipChat.app';;
   lync)    app='/Applications/Microsoft Lync.app'
            pid=`ps -ef | grep Lync | grep -v grep | sed -E -e 's| +[0-9]+ +||' -e 's: .*::'`
@@ -27,5 +26,13 @@ if [ ! -f "$app" -a ! -d "$app" ]; then
   exit 1
 fi
 
-echo + open "$app" "${@}"
-       open "$app" "${@}" # > /dev/null 2>&1
+if [ -f "$app" ]; then
+  echo + nohup "$app" "${@}" '2>&1 > /dev/null &'
+         nohup "$app" "${@}" 2>&1 > /dev/null &
+fi
+
+if [ -d "$app" ]; then
+  echo + open "$app" "${@}"
+         open "$app" "${@}" # > /dev/null 2>&1
+fi
+
