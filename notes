@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+cd ~/usr/notes
+
+tmpf=_notes.files.names.txt
+rm -f ${tmpf}
+
+if [ -f "${@}" ];then
+  if [ ! -x ./"${@}" ]; then
+    echo ./"${@}" is not executable
+    exit 1
+  fi
+  eval ./"${@}"
+  exit $?
+fi
+
+if [ $(ack "${@}" | wc -l) != 0 ]; then
+  ack "${@}"
+fi
+
+find . -type f > ${tmpf}
+bold_green='\e[1;32m'
+reset='\e[0m'
+
+if [ $(ack "${@}" ${tmpf} | wc -l) = 0 ]; then
+  echo "no filename or file contents match \"$@\""
+  exit 1
+fi
+
+printf ${bold_green}======================================${reset}"\n"
+ack "${@}" ${tmpf}
+rm ${tmpf}
