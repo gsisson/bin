@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+usage() {
+  echo "usage: $(basename $0) <number>"
+  echo " info: this will run tail in a windows/mac"
+  echo "       independent way:"
+  echo "       mac:    tail +n"
+  echo "       cygwin: tail --lines=+n"
+  echo 1
+}
+
+if [ $# != 1 ]; then
+  usage
+fi
+
+case $(uname) in
+  Darwin)  tail +${1};;
+  CYGWIN*) tail --lines=+${1};;
+  *)       echo "not supported on this playform!"
+	   exit 1;;
+esac
