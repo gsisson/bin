@@ -2,7 +2,7 @@
 # in some dotfile:
 # 
 #   _enter_dot_file
-#   _source  ~/.some_other_dot_file
+#   _source_dot_file  ~/.some_other_dot_file
 #   _leave_dot_file
 
 _do_something() {
@@ -37,7 +37,7 @@ _leave_dot_file() {
   fi
 }
 
-_source() {
+_source_dot_file() {
   _do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   local file="$1"
