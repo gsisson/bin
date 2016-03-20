@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+wdir=~/documents/home/data
+
+usage() {
+  echo "finddrive <drive>..."
+  echo "existing files:"
+  echo $wdir/find.*.txt | cygdrivePathFix | sed -e 's:^:  :'
+}
+
+if [ "$#" = 1 -a "$1" = '*' -o "$#" = 0 ]
+then
+  cd $wdir
+  set -- $(ls -1 find.?.txt | cut -c6-6)
+  cd -
+fi
+
+if [ "$#" = 0 ]
+then
+  usage
+  exit 1
+fi
+
+for drive in "$@"
+do
+  drive="${drive%:}"
+  if [ ! -d ${drive}:/ ]
+  then
+    echo directory ${drive}:/ does not exist'!'
+    continue
+  fi
+  case $drive in
+   t)
+      echo "+ part 1 of 2"
+        t=`echo $wdir/find.${drive}.txt | cygdrivePathFix`
+        cd t:/
+        echo '+ > '$t
+        > $t
+        for i in *
+        do
+          if [[ $i = recyclable ]]
+          then
+            echo skipping $i
+            continue
+          fi
+          echo "+ find  t:/$i    >> $t 2>&1"
+                  find "t:/$i"   >> $t 2>&1
+        done
+      echo "+ part 2 of 2"
+        t=`echo T:/recyclable/output/find.${drive}.txt | cygdrivePathFix`
+        drive='t:/recyclable'
+        echo "+ find ${drive}   > $t 2>&1"
+                find ${drive}   > $t 2>&1
+      ;;
+   *)
+      t=`echo $wdir/find.${drive}.txt | cygdrivePathFix`
+      echo "+ find ${drive}:/ > $t 2>&1"
+              find ${drive}:/ > $t 2>&1
+      echo "+ cp         $t ${drive}:/"
+              cp         $t ${drive}:/
+      ;;
+  esac
+done
