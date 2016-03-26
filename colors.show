@@ -96,7 +96,7 @@ full() {
       if [ $clbg -lt 100 ]; then
   	pad=" "
       fi
-      for attr in 0 1 2 3 4 5 6 7 ; do
+      for attr in 0 1 2 3 4 5 53 7 ; do
   	#Print the result
   	echo -en "\033[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m${pad} \033[0m"
       done

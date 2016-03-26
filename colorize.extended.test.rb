@@ -36,11 +36,12 @@ puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.bold+"<-- b
 puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.blink+"<-- blink"
 puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.italic+"<-- italic (*2)"
 puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.dim+"<-- dim (*1)"
-puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.overline+"<-- overline (*1,2)"
+puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.overline+"<-- overline (*1,*2)"
 puts "  -->"+"ONE".green.underline+"TWO"+"THREE".light_yellow.on_red.hide+"<-- hide (*1)"
 puts
 puts "   (*1) does not work on Mac iTerm2"
 puts "   (*2) does not work on Mac Terminal"
-puts "   (*?) does not work on Cygwin Mintty..."
+puts "   all work on 'Cygwin Mintty' and 'Cygwin Terminal'"
+puts "   but none work with bash in CMD shell."
 
 # puts String.color_samples
