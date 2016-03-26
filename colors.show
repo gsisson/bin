@@ -1,8 +1,31 @@
 #!/usr/bin/env bash
 
-echo "# in bash: must use 'echo -e'"
-echo "# in bash: must use '\033' for escape (not '\e')"
-echo "#          (zsh can use '\e')"
+usage() {
+  echo "usage: $(basename $0) [simple|full]"
+  exit 1
+}
+
+print_notes () {
+  echo "# Notes:"
+  echo "#   in bash: must use 'echo -e'"
+  echo "#   in bash: must use '\033' for escape (not '\e' nor '^[')"
+  echo "#            (but, zsh can use '\e')"
+  echo "#   reset/terminate with \"\033[0m\""
+  echo "#   examples:"
+  one=" underlined italic 'green' "
+  two=" no formatting here "
+  three=" bold blinking 'yellow' on 'red' "
+  four=" overlined dim 'white' on 'grey' "
+  five=" italic 'black' on 'cyan' "
+  echo    "#     echo -e \"-->\033[03;04;32m${one}\033[0m${two} <--\""
+  echo -e         "#       -->\033[03;04;32m${one}\033[0m${two} <--"
+  echo    "#     echo -e \"--> \033[01;05;93;41;m${three}\033[0m <--\""
+  echo -e         "#       --> \033[01;05;93;41;m${three}\033[0m <--"
+  echo    "#     echo -e \"--> \033[02;06;37;100m${four}\033[0m <--\""
+  echo -e         "#       --> \033[02;06;37;100m${four}\033[0m <--"
+  echo    "#     echo -e \"--> \033[03;46;30m${five}\033[0m <--\""
+  echo -e         "#       --> \033[03;46;30m${five}\033[0m <--"
+}
 
 color() {
   local n=$1            # ex: "0;31"
@@ -28,21 +51,75 @@ do_color() {
   color "1;$n" "bold+highlight $c" "(9X: only iterm2)"
 }
 
-echo "# Foreground Colors: "
-do_color 31 red 
-do_color 32 green
-do_color 33 yellow
-do_color 34 blue
-do_color 35 magenta
-do_color 36 cyan
-do_color 37 grey_white
-echo
+simple() {
+  echo "# Foreground Colors: "
+  do_color 31 red 
+  do_color 32 green
+  do_color 33 yellow
+  do_color 34 blue
+  do_color 35 magenta
+  do_color 36 cyan
+  do_color 37 grey_white
+  echo
+  echo "# Background Colors: "
+  do_color 41 red_background 
+  do_color 42 green_background
+  do_color 43 yellow_background
+  do_color 44 blue_background
+  do_color 45 magenta_background
+  do_color 46 cyan_background
+  do_color 47 grey_white_background
+}
 
-echo "# Background Colors: "
-do_color 41 red_background 
-do_color 42 green_background
-do_color 43 yellow_background
-do_color 44 blue_background
-do_color 45 magenta_background
-do_color 46 cyan_background
-do_color 47 grey_white_background
+mode_legend() {
+  echo -n "    normal   "
+  echo -n "     bold    "
+  echo -n "      dim    "
+  echo -n "    italic   "
+  echo -n "   underline "
+  echo -n "     blink   "
+  echo -n "   overline  "
+  echo -n "   reverse   "
+  echo
+}
+
+full() {
+  mode_legend
+  # backgrounds
+  #            black  white  yellow green  cyan   blue   magenta red    XX
+  for clbg in  40 100 47 107 43 103 42 102 46 106 44 104 45 105  41 101 49; do
+    # foreground
+    #           black white XX yellow green cyan  blue  magenta red
+    for clfg in 30 90 37 97 39 33 93  32 92 36 96 34 94 35 95   31 91; do
+      #Formatting
+      pad=""
+      if [ $clbg -lt 100 ]; then
+  	pad=" "
+      fi
+      for attr in 0 1 2 3 4 5 6 7 ; do
+  	#Print the result
+  	echo -en "\033[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m${pad} \033[0m"
+      done
+      echo #Newline
+    done
+  done
+  mode_legend
+}
+
+if [ $# != 1 ]; then
+  usage
+fi
+
+if [ $1 = simple ]; then
+  simple
+  print_notes
+  exit 0
+fi
+
+if [ $1 = full ]; then
+  full
+  print_notes
+  exit 0
+fi
+
+usage

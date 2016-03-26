@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 
 # echo -e "\033[04;53;31;43m" underline, overline, red on yellow "\033[0m"
+# echo -e "-->\033[03;04;32mONE\033[0mTWO\033[01;03;04;05;93;41;mTHREE\033[0m<--"
+#                                             ^  ^  ^  ^  ^  ^
+#                                             bold  underline^
+#                                                italic^  YEL^
+#                                                      blink red
+#                                             6 code prefixes (test this on PC)
+#                                               - this would not work with colorize gem
+#                                                 since it only expects 3 color/mode #s max
 
 def usage()
   $stderr.puts "usage: #{File.basename(__FILE__)} [background color]"
@@ -14,7 +22,7 @@ def header()
 end
 
 def foreground_codes()
-  { 
+  {#'black'     => 30+0,  'grey'        => 30+60 (offset is 30)
     'black'     => 30,    'grey'        => 90,
     'red'       => 31,    'lite_red'    => 91,
     'green'     => 32,    'lite_green'  => 92,
@@ -28,7 +36,7 @@ def foreground_codes()
 end
 
 def background_codes()
-  { 
+  {#'black_background'     => 40+0,      'grey_background'         =>  40+60 (offset is 40)
     'black_background'     => 40,        'grey_background'         => 100,
     'red_background'       => 41,        'lite_red_background'     => 101,
     'green_background'     => 42,        'lite_green_background'   => 102,
