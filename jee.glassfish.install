@@ -1,0 +1,11 @@
+chmod +x glassfish
+
+# run as root
+if [ $EUID != 0 ]
+then
+  echo 'must be root to run' 1>&2
+  exit
+fi
+cp glassfish /etc/init.d/
+update-rc.d glassfish defaults
+/etc/init.d/glassfish start
