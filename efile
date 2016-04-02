@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+check() {
+  $(ps -W | grep -i emacs.exe > /dev/null 2>&1)
+  echo $?  
+}
+
+retcode=`check`
+if [ $retcode != 0 ]; then
+  echo + c:/emacs/bin/runemacs.exe
+  c:/emacs/bin/runemacs.exe
+  while :; do
+    echo + sleep 1
+    sleep 1
+    retcode=`check`
+    if [ $retcode = 0 ]; then
+      break
+    fi
+  done
+fi
+
+gnuclientw "${@}"
