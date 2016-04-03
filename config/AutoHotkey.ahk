@@ -56,7 +56,7 @@ Menu, Tray, Icon, C:\WINDOWS\system32\SHELL32.dll, 13
 ; Allow Alt-P to paste test (to mintty, since Alt-Space->Edit->Paste) isn't available
 !p::
 ;get rid of any non-text on the clipboard
-SendInput %clipboard%
+SendInput {Raw}%clipboard%
 return
 
 ^+a::
@@ -186,4 +186,3 @@ return
 ; Please read the QUICK-START TUTORIAL near the top of the help file.
 ; It explains how to perform common automation tasks such as sending
 ; keystrokes and mouse clicks.  It also explains more about hotkeys.
-
