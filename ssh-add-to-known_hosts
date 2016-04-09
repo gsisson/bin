@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+~/src/mashup_scripts/bin/ssh-add-to-known_hosts "$@"
