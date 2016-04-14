@@ -1,0 +1,8 @@
+case "$1" in
+  on)  cmd="touch ~/.dotfiles_debug_sentinal";;
+  off) cmd="rm -f ~/.dotfiles_debug_sentinal";;
+  *) echo 'usage: dotfiles.sh [on|off]'; exit 1;;
+esac
+
+echo "+ $cmd"
+eval $cmd
