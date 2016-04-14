@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -x
+brew install --cocoa emacs
+if [ -d /usr/local/Cellar/emacs ]
+then
+  ln -s /usr/local/Cellar/emacs/24.3/Emacs.app /Applications/Emacs.app
+else
+  ln -s /opt/boxen/homebrew/Cellar/emacs/24.3/Emacs.app /Applications/Emacs.app
+fi
