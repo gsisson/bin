@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+open '/Applications/Utilities/Script Editor.app' \
+  $HOME/usr/src/applescript/bluetooth.select.jabrapro9470.scpt

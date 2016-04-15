@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+osascript \
+  $HOME/usr/src/applescript/bluetooth.select.jabrapro9470.scpt
