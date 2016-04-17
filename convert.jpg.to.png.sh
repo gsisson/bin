@@ -3,8 +3,15 @@
 src=$(basename $0)
 src=${src#convert.}
 src=${src%.sh}
+src=${src%.dto}
+src=${src%.set}
 tgt=${src#???????}
 src=${src%???????}
+
+case ${0} in
+  *set.dt*) setdatetime=true;;
+  *)        setdatetime=false;;
+esac
 
 if [ $# = 0 ]; then
   echo "usage: $(basename $0) <$src files>"
@@ -24,4 +31,12 @@ for p in "${@}"; do
     continue
   fi
   rm "$p"
+  if [ "$setdatetime" = true ]; then
+    exif.set.DateTimeOriginal.from.filename.rb "$j"
+    if [ ! -f "${j}_original" ]; then
+      echo "exif failed!"
+      continue
+    fi
+    rm "${j}_original"
+  fi
 done
