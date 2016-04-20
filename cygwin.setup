@@ -1,0 +1,5 @@
+#!/bin/sh
+. ~/.bashrc
+
+#start $downloads/c/Cygwin/setup-x86_64.exe
+ start $downloads/c/Cygwin/setup-x86.exe
