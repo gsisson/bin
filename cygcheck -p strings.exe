@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+cat << EOF
+
+Run "cygcheck -p strings.exe" to find what package
+  "strings.exe" is in. Or, search at
+  "http://cygwin.com/packages/"
+
+When installing,
+  let "$downloads\c\Cygwin\INCOMING" be the
+  incoming directory, since you don't need 24 MB of binaries
+  in ~/bin/cygwin/ 
+
+Additions to cygwin I usually get
+(this list also at: https://docs.google.com/document/d/16cHMdJLyT46Y79G4XF0Yif0s1lQok9cXW1IioBblu84/edit)
+
+  Devel category
+    binutils Package [strings.exe]
+    git Package [git.exe]
+    gcc4-core Package [cc compiler]
+    gcc4-g++ Package [since gcc-core fails to get it]
+  Utils category
+    ncurses Package [tput.exe] (for bin/endec script)
+  Web category
+    wget Package [wget.exe]
+  Net category
+    openssl Package [openssl.exe] (for bin/endec script)
+    openssh Package [ssh.exe]
+  Libs category
+    libmpfr4 Package [since gcc-core fails to get it]
+
+EOF
