@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+"$progcs/ImageOrienter/bin/debug/ImageOrienter.exe" "$@"
