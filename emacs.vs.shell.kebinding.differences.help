@@ -1,0 +1,5 @@
+cat $0 | tailplus 3 ; exit
+
+                      shell  emacs
+prefix for entering
+non-printable          ^v     ^q

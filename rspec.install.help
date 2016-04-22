@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'colorize'
+
+[
+%q{ADD TO GEMFILE =====================================}.cyan,
+%q{group :development, :test do}.yellow.bold,
+%q{  gem 'rspec-rails', '~> 3.0'}.yellow.bold,
+%q{end}.yellow.bold,
+%q{}.yellow.bold,
+%q{#allow using 'guard' to run rspec fast}.yellow.bold,
+%q{group :development do}.yellow.bold,
+%q{  gem 'guard-rspec'                                 }.yellow.bold,
+%q{  gem 'spring-commands-rspec', group: :development}.yellow.bold,
+%q{# gem 'rb-fsevent' if `uname` =~ /Darwin/}.yellow.bold,
+%q{end}.yellow.bold,
+%q{}.yellow.bold,
+%q{RUN ================================================}.cyan,
+%q{bundle}.green.bold,
+%q{}.green.bold,
+%q{rails generate rspec:install}.green.bold,
+%q{RAILS_ENV=test rake db:create db:migrate db:setup}.green.bold,
+%q{bundle exec spring binstub rspec}.green.bold,
+%q{}.green.bold,
+%q{guard init}.green.bold,
+%q{sed -i BAK \\}.green.bold,
+%q{  's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile}.green.bold,
+%q{}.green.bold,
+%q{CREATE TEST ========================================}.cyan,
+%q{rails generate rspec:feature my_feature}.green.bold,
+%q{}.green.bold,
+%q{TO TEST ============================================}.cyan,
+%q{guard}.green.bold,
+%q{(from: http://girders.org/blog/2014/02/06/setup-rails-41-spring-rspec-and-guard/)}.cyan.bold,
+].each do |l|
+  puts l
+end
