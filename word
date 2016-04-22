@@ -47,6 +47,9 @@ runofficeapp() {
 
 
 case $(basename $0) in
-  word) runofficeapp winword.exe "$@";;
+  word)    runofficeapp winword.exe "$@";;
+  excel)   runofficeapp excel.exe "$@";;
+  outlook) runofficeapp outlook.exe "$@";;
+  ppt)     runofficeapp powerpnt.exe "$@";;
   *)    echo 'no match';;
 esac
