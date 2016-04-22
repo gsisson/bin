@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+runofficeapp() {
+  err=true
+  exe="$1"
+  shift
+  if [ "$1" = 2007 ]; then
+    office2007=true
+    shift
+  fi
+  for dir in "Program Files (x86)" "Program Files"
+  do
+    for dir2 in "Microsoft Office 2010 Beta" "Microsoft Office" 
+    do
+      if [ "$office2007" = true -a "$dir2" = "Microsoft Office 2010 Beta" ]; then
+        continue
+      fi
+      for ver in 14 12 11 10
+      do
+        if [ "$office2007" = true -a "$ver" = "14" ]; then
+          continue
+        fi
+        file="/${dir}/${dir2}/Office${ver}/${exe}"
+        for drive in c:
+        do
+          if [ -f "$drive${file}" ]; then
+            echo "$drive${file}"
+            start "$drive${file}" "$@"
+            err=false
+            break
+          fi
+        done
+        if [ $err = false ]; then
+          break
+        fi
+      done
+      if [ $err = false ]; then
+        break
+      fi
+    done
+  done
+  if [ "$err" = "true" ]; then
+    echo "${exe} not found in any office directories searched"
+  fi
+}
+
+
+case $(basename $0) in
+  word) runofficeapp winword.exe "$@";;
+  *)    echo 'no match';;
+esac
