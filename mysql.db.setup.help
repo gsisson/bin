@@ -1,0 +1,80 @@
+cat $0 | tailplus 3 ; exit
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !! Note, to change password try this (rather than the command way down below):
+# !! 
+# !!  $ mysqladmin -u root password
+# !! 
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !! 
+# !! Note, try "rake db:create" to create the db, rather than doing it manually
+# !! 
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# rails expects the db to have been setup when you create a new app, but it
+# may not be so you may have to set it up your self.
+
+ sudo gem install mysql
+ sudo gem install mysql -- --with-mysql-dir=/usr/local/mysql
+
+# Lynda.com Rails class notes (near the end of lesson 4.3) that: their steps
+# won't work for newer Rails, since the db is assumed to be available by Rails
+# before the course has you create it.  So, do the following steps (as noted
+# in lesson 6.2 and 6.3 of the course) which create the DB, set permissions
+# for a user, and configure the user name and pwd in the YAML file, and test
+# it.
+
+mysql -u root -p
+mysql>
+
+SET PASSWORD FOR root@localhost=PASSWORD('secretpassword');
+FLUSH PRIVILEGES;
+
+SHOW DATABASES;
+CREATE DATABASE <dbname>;
+GRANT ALL PRIVILEGES ON <dbname>.* TO 'some-username'@'localhost' IDENTIFIED BY 'some-pwd';
+                                                                required quotes ^        ^
+  db=simple_cms_development
+  u=simple_cms
+  p=password
+  echo "GRANT ALL PRIVILEGES ON $db.* TO '$u'@'localhost' IDENTIFIED BY '$p';" |c
+
+SHOW GRANTS FOR 'simple_cms'@'localhost';
+
+# --------------------------------------------------------------------------
+
+Tell Rails about the database and user
+
+  Edit YAML file for Rails app:
+    config/database.yml:
+      under the "development" section
+        edit these name-value pairs
+=>        username: simple_cms
+=>        password: <the_pwd>
+
+  Test by running "rake db:schema:dump".
+    Note:
+      this used to be necessary for rake to work:
+#       export DYLD_LIBRARY_PATH=/opt/boxen/homebrew/lib
+      or this:
+#       sudo ln -s /opt/boxen/homebrew/lib/libmysqlclient.18.dylib \
+#                                 /usr/lib/libmysqlclient.18.dylib
+
+    There is no schema to dump, but rake should return w/ no errors or output
+    There should also now be a "db/schema.db" file
+
+# --------------------------------------------------------------------------
+
+Load your 'development' and 'test' dbs from an existing schema file
+
+be rake db:drop
+be rake db:setup
+   (shorthand for:
+     be rake db:create
+     => for goguide, at list point, you must create the subscriptions table, or schema:load fails
+     => get the create table syntax from dev database
+     be rake db:schema:load
+     be rake db:seed
+   )

@@ -1,0 +1,14 @@
+cat $0 | tailplus 3 ; exit
+
+These notes are from this article
+  * http://stackoverflow.com/questions/3903817/pull-new-updates-from-original-github-repository-into-forked-github-repository
+
+* git remote add upstream git://github.com/ORIGINAL-USER/THEIR-REPO.git
+* merge one of two ways:
+  * like a "git pull --rebase"  
+    * git rebase upstream/master        
+  * or, like "git pull" (which is fetch + merge)
+    * git fetch upstream
+    * git merge upstream/master master
+* push to your repo (forked from theirs):
+  * git push

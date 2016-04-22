@@ -1,0 +1,35 @@
+cat $0 | tailplus 3 ; exit
+
+# uninstall ----------------------------------------------------------------------
+  brew uninstall mysql
+# maybe reboot the Mac
+  reboot
+
+# reinstall ----------------------------------------------------------------------
+  brew install mysql
+# secure it
+  mysql_secure_installation
+# apply upgrades, if any
+  mysql_upgrade -u root -p --force
+# stop any auto-load auto-start auto-restart
+  mv ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist \
+     ~/tmp/HOME=Library=LaunchAgents=homebrew.mxcl.mysql.plist
+# restart
+  mysql.server restart
+# maybe reboot the Mac
+  reboot
+
+# check projects ----------------------------------------------------------------
+  for each project
+    bundle
+    if there are problems...
+      gem uninstall mysql2
+      bundle # to reinstall it
+      rake db:migrate
+
+# notes ------------------------------------------------------------------------------
+
+# show what directory contais the mysql database files:
+  mysql -e "select @@datadir"   # /usr/local/var/mysql
+# see if mysql is running:
+  ps -ef | grep -v grep | grep mysql
