@@ -2,36 +2,84 @@
 
 require 'colorize'
 
-[
-%q{ADD TO GEMFILE =====================================}.cyan,
-%q{group :development, :test do}.yellow.bold,
-%q{  gem 'rspec-rails', '~> 3.0'}.yellow.bold,
-%q{end}.yellow.bold,
-%q{}.yellow.bold,
-%q{#allow using 'guard' to run rspec fast}.yellow.bold,
-%q{group :development do}.yellow.bold,
-%q{  gem 'guard-rspec'                                 }.yellow.bold,
-%q{  gem 'spring-commands-rspec', group: :development}.yellow.bold,
-%q{# gem 'rb-fsevent' if `uname` =~ /Darwin/}.yellow.bold,
-%q{end}.yellow.bold,
-%q{}.yellow.bold,
-%q{RUN ================================================}.cyan,
-%q{bundle}.green.bold,
-%q{}.green.bold,
-%q{rails generate rspec:install}.green.bold,
-%q{RAILS_ENV=test rake db:create db:migrate db:setup}.green.bold,
-%q{bundle exec spring binstub rspec}.green.bold,
-%q{}.green.bold,
-%q{guard init}.green.bold,
-%q{sed -i BAK \\}.green.bold,
-%q{  's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile}.green.bold,
-%q{}.green.bold,
-%q{CREATE TEST ========================================}.cyan,
-%q{rails generate rspec:feature my_feature}.green.bold,
-%q{}.green.bold,
-%q{TO TEST ============================================}.cyan,
-%q{guard}.green.bold,
-%q{(from: http://girders.org/blog/2014/02/06/setup-rails-41-spring-rspec-and-guard/)}.cyan.bold,
-].each do |l|
-  puts l
+def show(line)
+  lines=line.strip.split("\n")
+  puts "#{lines[0].cyan}" if lines[0]
+  lines[1..-1].each do |line|
+    puts "#{line.yellow.bold}"
+  end
 end
+
+show(%q{
+== Setup Spring, Rspec and Guard ======================
+(from: http://girders.org/blog/2014/02/06/setup-rails-41-spring-rspec-and-guard/)
+})
+
+show(%q{
+== Avoid Test::Unit ===================================
+# when generating rails app
+rails new <app> -T # -T skips Test::Unit
+})
+
+show(%q{
+== Add Rspec, Guard, Spring, Capybara to Gemfile ======
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+end
+
+#allow using 'guard' to run rspec fast
+group :development do
+  gem 'guard-rspec'
+  gem 'spring-commands-rspec', group: :development
+# gem 'rb-fsevent' if `uname` =~ /Darwin/
+end
+
+gem 'capybara', group: :test
+})
+
+show(%q{
+== Initialize =========================================
+bundle
+
+rails generate rspec:install
+RAILS_ENV=test rake db:create db:migrate db:setup
+bundle exec spring binstub rspec
+
+guard init
+sed -i BAK \\
+  's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile
+})
+
+show(%q{
+== Generate Code with Tests ===========================
+rails generate controller Greetings hello goodbye
+})
+
+show(%q{
+== Create A Feature Test ==============================
+rails generate rspec:feature homepage_greeting
+})
+
+show(%q{
+== Run Tests Continuously =============================
+guard
+})
+
+show(%q{
+== Write Tests  =======================================
+  Add  any utils to 'app/helpers/greetings_helper.rb'
+  Test those utils 'spec/helpers/greetings_helper_spec.rb'
+  Test controllers 'spec/controllers/greetings_controller_spec.rb'
+  Test views 'spec/views/greetings/hello.html.erb_spec.rb'
+    it "says hello" do
+       render
+       expect(rendered).to match /hello/
+    end
+  Write Feature Specs 'spec/features/homepage_greetings_spec.rb'
+    visit(get_homepage())
+    expect(page).to have_content('hello')
+})
+
+show(%q{
+=======================================================
+})
