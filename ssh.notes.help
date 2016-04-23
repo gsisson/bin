@@ -1,0 +1,14 @@
+cat $0 | tailplus 3 | less; exit
+
+# the ssh-agent needs to be running, and loaded with my ssh keys for bitbucket and github,
+# or git SSH authentication won't work automatically
+
+  ps -ef | grep ssh-agent | grep -v grep
+  ssh-add -l
+  ssh-add .ssh/personalID
+  ssh-add -l
+
+
+# to generate keypair
+
+  ssh-keygen -t rsa -C "your.email@address.com"

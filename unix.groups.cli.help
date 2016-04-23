@@ -1,0 +1,8 @@
+cat $0 | tailplus 3 | less; exit
+
+# check membership in group authedusers
+  dseditgroup -o checkmember -m `whoami` authedusers
+# add to group authedusers
+  sudo dseditgroup -o edit -a `whoami` authedusers
+# delete from group authedusers
+  sudo dseditgroup -o edit -d `whoami` authedusers

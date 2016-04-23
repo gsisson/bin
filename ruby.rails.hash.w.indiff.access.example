@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'active_support/core_ext/hash/indifferent_access'
+hash = ActiveSupport::HashWithIndifferentAccess.new
+
+hash["str"] = 'string'
+hash[:sym] = ':symbol'
+puts ":string:   #{hash[:str]}   (OK)"
+puts "'sym':    #{hash['sym']}   (OK)"
+
+# But NOW it will become a regular hash!
+
+hash = { "hash_is_now" => 'a_normal_hash' } # because we re-assigned the 'hash' var
+
+hash["str"] = 'string'
+hash[:sym] = ':symbol'
+puts ":string:   #{hash[:str]}         (NO INDIF ACCESS ANYMORE)"
+puts "'sym':    #{hash['sym']}          (NO INDIF ACCESS ANYMORE)"

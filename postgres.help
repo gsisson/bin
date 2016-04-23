@@ -1,0 +1,24 @@
+cat $0 | tailplus 3 | less; exit
+
+***********************************************************
+*** in attempt to get 'gem install pg' to work...
+***   ran "brew install postgresql" and got this output...
+***********************************************************
+If builds of PostgreSQL 9 are failing and you have version 8.x installed,
+you may need to remove the previous version first. See:
+  https://github.com/Homebrew/homebrew/issues/issue/2510
+
+To migrate existing data from a previous major version (pre-9.3) of PostgreSQL, see:
+  http://www.postgresql.org/docs/9.3/static/upgrading.html
+
+When installing the postgres gem, including ARCHFLAGS is recommended:
+  ARCHFLAGS="-arch x86_64" gem install pg
+
+To install gems without sudo, see the Homebrew wiki.
+
+To have launchd start postgresql at login:
+    ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+Then to load postgresql now:
+    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+Or, if you don't want/need launchctl, you can just run:
+    postgres -D /usr/local/var/postgres

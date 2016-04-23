@@ -1,0 +1,4 @@
+# get the CCSM tool for telling Ubuntu to not use "Alt" key for HUD
+# but to use "Alt Super" instead (freeing up the Alt key for use in
+# xterms and emacs)
+    sudo apt-get install compizconfig-settings-manager

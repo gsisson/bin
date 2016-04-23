@@ -1,0 +1,3 @@
+# google "ubuntu nvidea drivers 12.10 falkvinge"
+sudo apt-get install linux-source
+sudo apt-get install linux-headers-generic

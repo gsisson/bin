@@ -1,0 +1,10 @@
+cat $0 | tailplus 3 | less; exit
+
+Logo + Plus / Minus: Open magnifier (and Zoom in / out)
+
+Ctrl + Alt + I:   Invert colors of magnifier
+Ctrl + Alt + L/F: Switch between lens/full mode
+Ctrl + Alt + D    Switch to docked mode
+
+Logo + Esc: Exit Magnifier
+

@@ -1,0 +1,27 @@
+cat $0 | tailplus 3 ; exit
+
+repo=big_repo  # your_repo_with_unwanted_big_files
+git clone git@github.com:$work_github_account/$repo
+cp -rp ${repo} ${repo}.BAK
+cd $repo
+#git checkout -b some_branch origin/some_branch
+git checkout master
+git log > ../${repo}.log
+du -sh $(find . -type f) | grep -v /.git/ | sort > ../${repo}.du
+cd -
+
+git clone --mirror git@github.com:$work_github_account/$repo
+cp -rp ${repo}.git ${repo}.git.BAK
+cd ${repo}.git
+git log > ../${repo}.git.log
+du -sh $(find . -type f) | grep -v /.git/ | sort > ../${repo}.git.du
+cd -
+
+java -jar ~/Downloads/bfg-1.12.8.jar --strip-blobs-bigger-than 4K ${repo}.git
+cd ${repo}.git
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+git log > ../${repo}.git.2.log
+du -sh $(find . -type f) | grep -v /.git/ | sort > ../${repo}.git.2.du
+
+# git push
+cd -
