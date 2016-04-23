@@ -46,8 +46,9 @@ RAILS_ENV=test rake db:create db:migrate db:setup
 bundle exec spring binstub rspec
 
 guard init
-sed -i BAK \\
+sed -i .bak \\
   's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile
+rm Guardfile.bak
 })
 
 show(%q{
@@ -76,8 +77,9 @@ show(%q{
        expect(rendered).to match /hello/
     end
   Write Feature Specs 'spec/features/homepage_greetings_spec.rb'
-    visit(get_homepage())
-    expect(page).to have_content('hello')
+    it "Homepage says 'hello'" do
+      visit(get_homepage())
+      expect(page).to have_content('hello')
 })
 
 show(%q{
