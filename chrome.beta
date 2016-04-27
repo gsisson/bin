@@ -1,0 +1,11 @@
+nohup /Applications/Google\ Chrome\ Beta.app/Contents/MacOS/Google\ Chrome --user-data-dir=~/tmp/chromebetaprofile > /dev/null 2>&1 &
+
+echo '
+# update the icon of the beta chrome:
+# 1) right-click copy the following image to clipboard:
+     open https://raw.githubusercontent.com/paulirish/browser-logos/master/chrome-beta-android/chrome-beta-android.png
+# 2) open /Applications
+#    right-click "Google Chrome Beta.app" and select "information"
+# 3) select the small icon in very upper-left; it gets a blue selection circle around it
+# 4) paste image from clipboard
+'
