@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 nohup /Applications/Google\ Chrome\ Beta.app/Contents/MacOS/Google\ Chrome --user-data-dir=~/tmp/chromebetaprofile > /dev/null 2>&1 &
 
 echo '
