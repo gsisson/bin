@@ -1,4 +1,4 @@
-cat $0 | tailplus 3 ; exit
+cat $0 | tailplus 3 | less; exit
 
 # Git notes
  (good discussion about tracking branches:

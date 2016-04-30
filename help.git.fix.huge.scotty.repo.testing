@@ -1,4 +1,4 @@
-cat $0 | tailplus 3 ; exit
+cat $0 | tailplus 3 | less; exit
 
 repo=big_repo  # your_repo_with_unwanted_big_files
 git clone git@github.com:$work_github_account/$repo

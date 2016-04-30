@@ -46,3 +46,8 @@ SHELL (http://www.tldp.org/LDP/Bash-Beginners-Guide/html)
     ((ar[4]=3))
     echo ${ar[1]}
     echo ${#array[@]}  # size of the array
+
+  quotes
+      mkdir "a b"
+      ls -d  $(echo "a b")  #fails, as expected
+      ls -d "$(echo "a b")" #surprisingly, this works!! (strange pairing of double quotes)

@@ -11,6 +11,20 @@ def show(line)
 end
 
 show(%q{
+== Setup Steps for RSpec when NOT using Rails =========
+gem install rspec
+gem update rspec
+rbenv rehash
+rspec --version
+rspec --help
+rspec --init # create .rspec spec/spec_helper.rb
+})
+
+show(%q{
+== Setup Steps for RSpec when using Rails =============
+})
+
+show(%q{
 == Setup Spring, Rspec and Guard ======================
 (from: http://girders.org/blog/2014/02/06/setup-rails-41-spring-rspec-and-guard/)
 })
@@ -35,19 +49,18 @@ group :development do
 end
 
 gem 'capybara', group: :test
+
+bundle
 })
 
 show(%q{
 == Initialize =========================================
-bundle
-
 rails generate rspec:install
 RAILS_ENV=test rake db:create db:migrate db:setup
 bundle exec spring binstub rspec
 
 guard init
-sed -i .bak \\
-  's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile
+sed -i .bak 's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile
 rm Guardfile.bak
 })
 
@@ -68,10 +81,11 @@ guard
 
 show(%q{
 == Write Tests  =======================================
-  Add  any utils to 'app/helpers/greetings_helper.rb'
-  Test those utils 'spec/helpers/greetings_helper_spec.rb'
-  Test controllers 'spec/controllers/greetings_controller_spec.rb'
-  Test views 'spec/views/greetings/hello.html.erb_spec.rb'
+* Add  any utils to 'app/helpers/greetings_helper.rb'
+* Test those utils 'spec/helpers/greetings_helper_spec.rb'
+* Test controllers 'spec/controllers/greetings_controller_spec.rb'
+* Test models
+* Test views 'spec/views/greetings/hello.html.erb_spec.rb'
     it "says hello" do
        render
        expect(rendered).to match /hello/

@@ -1,4 +1,4 @@
-cat $0 | tailplus 3 ; exit
+cat $0 | tailplus 3 | less; exit
 
 These notes are from this article
   * http://stackoverflow.com/questions/3903817/pull-new-updates-from-original-github-repository-into-forked-github-repository
