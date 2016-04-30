@@ -2,6 +2,16 @@
 
 cd ~/usr/
 
+usage() {
+  echo "$(basename $0): <search-string> [-f]"
+  echo "  -f: will show/run the file if there is a single match"
+  exit 1
+}
+
+if [ "$1" = '-h' -o "$1" = '-?' -o "$1" = '--help' ]; then
+  usage
+fi
+
 reset='\033[0m'
 bold_green='\033[1;32m'
 bold_cyan='\033[1;96m'
@@ -41,7 +51,8 @@ if [ -f "${1}" ];then
         echo ./"${1}" is not executable
         exit 1
       fi
-      eval ./"${1}"
+      echo -e "${color}executing ${1}${reset}"
+      exec ./"${1}"
       ;;
   esac
   exit $?
@@ -49,15 +60,26 @@ fi
 
 # list files that match the glob (even it just one file matches)
 
-if [ $(ack -i "${1}" ${prefix}* | wc -l) != 0 ]; then
+if [ -n "${1}" ]; then
+  # some arg was passed, so search for it in the files
   ack -i "${1}" ${prefix}*
+else
+  # no arg passed, so set it to '.' for upcoming search of filenames
+  set -- .
 fi
 
 find . -type f | grep "${prefix}" > ${tmpf}
 
+count=$(ack -i "${1}" ${tmpf} | wc -l | sed -e 's/ *//g')
+
+if [ "$count" = 1 -a "$2" = '-f' ]; then
+  exec $0 $(ack -i "${1}" ${tmpf})
+fi
+
 echo -e "${color}======================================${reset}"
-if [ $(ack -i "${1}" ${tmpf} | wc -l) = 0 ]; then
-  echo "no match for \"$1\" in any filename in ${dir}."
+
+if [ "$count" = 0 ]; then
+  echo "no match for \"${1}\" in any filename in ${dir}."
   exit
 fi
 
