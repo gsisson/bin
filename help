@@ -62,6 +62,10 @@ fi
 
 if [ -n "${1}" ]; then
   # some arg was passed, so search for it in the files
+  file_count_with_matches=$(ack -icl "${1}" ${prefix}* | wc -l)
+  if [ $file_count_with_matches = 1 ]; then
+    the_only_file_name_with_matches=$(ack -icl "${1}" ${prefix}* | sed -e 's/:.*//')
+  fi
   ack -i "${1}" ${prefix}*
 else
   # no arg passed, so set it to '.' for upcoming search of filenames
@@ -70,10 +74,17 @@ fi
 
 find . -type f | grep "${prefix}" > ${tmpf}
 
-count=$(ack -i "${1}" ${tmpf} | wc -l | sed -e 's/ *//g')
+file_count_with_matches=$(ack -i "${1}" ${tmpf} | wc -l | sed -e 's/ *//g')
 
-if [ "$count" = 1 -a "$2" = '-f' ]; then
-  exec $0 $(ack -i "${1}" ${tmpf})
+if [ "$file_count_with_matches" = 1 ]; then
+  the_only_file_name_with_matches=$(ack -i "${1}" ${tmpf})
+  the_only_file_name_with_matches=${the_only_file_name_with_matches#./}
+fi
+
+if [ -n "$the_only_file_name_with_matches" ]; then
+  if [ "$2" = '-f' ]; then
+    exec $0 "$the_only_file_name_with_matches"
+  fi
 fi
 
 echo -e "${color}======================================${reset}"
@@ -83,4 +94,13 @@ if [ "$count" = 0 ]; then
   exit
 fi
 
+# show the matches within filenames
 ack -i "${1}" ${tmpf}
+
+if [ -n "$the_only_file_name_with_matches" ]; then
+  # count length of last message
+  len=$(ack -i "${1}" ${tmpf} | wc -c )
+  echo -en "\033[1A"      # move up one line
+  echo -en "\033[${len}C" # move out the length of last message
+  echo " (use -f option to view this one matching file)"
+fi
