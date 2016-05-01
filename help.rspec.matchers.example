@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd ~/usr/ruby/spec
+rspec rspec_matchers_example_spec.rb
