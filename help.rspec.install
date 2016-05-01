@@ -56,12 +56,12 @@ bundle
 show(%q{
 == Initialize =========================================
 rails generate rspec:install
+# if that rails command hangs, run "spring stop", then try again
 RAILS_ENV=test rake db:create db:migrate db:setup
 bundle exec spring binstub rspec
 
 guard init
-sed -i .bak 's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile
-rm Guardfile.bak
+sed -i '' 's|guard :rspec, cmd: "bundle exec rspec" do|guard :rspec, cmd: "bin/rspec" do|' Guardfile
 })
 
 show(%q{
