@@ -32,11 +32,20 @@ show(%q{
 show(%q{
 == Avoid Test::Unit ===================================
 # when generating rails app
-rails new <app> -T # -T skips Test::Unit
+app=TestApp
+rails new $app -T # -T skips Test::Unit
 })
 
 show(%q{
 == Add Rspec, Guard, Spring, Capybara to Gemfile ======
+cd $app
+
+# kill any spring process running for this app (left over from false starts)
+if [ "$(ps -ef | grep -v grep | grep 'spring .* | * '"${app}"' |')" != "" ]; then
+  spring stop
+fi
+
+cat >> Gemfile << EOF
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
@@ -49,13 +58,13 @@ group :development do
 end
 
 gem 'capybara', group: :test
-
+EOF
 bundle
 })
 
 show(%q{
 == Initialize =========================================
-rails generate rspec:install
+rails generate rspec:install # this will start spring background process
 # if that rails command hangs, run "spring stop", then try again
 RAILS_ENV=test rake db:create db:migrate db:setup
 bundle exec spring binstub rspec
