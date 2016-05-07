@@ -1,0 +1,3 @@
+cat $0 | tailplus 3 | less; exit
+
+echo ~/Library/Preferences/RubyMine60/
