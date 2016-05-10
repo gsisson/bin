@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+# like /usr/bin/cal, but the argument is interpreted as the number of the month, not
+# the year.   So, an arg of "2" prints out the calendar for February, not for year 2.
+
+class Calendar
+  def initialize
+    case ARGV.size
+    when 2
+      puts IO.popen(["/usr/bin/cal", ARGV[0].to_s, ARGV[1].to_s]) { |io| io.read }
+    when 1
+      if ARGV[0].to_i > 0 && ARGV[0].to_i < 13
+        puts IO.popen(["/usr/bin/cal", ARGV[0].to_s,Time.now.year.to_s]) { |io| io.read }
+      else
+        puts IO.popen(["/usr/bin/cal", ARGV[0].to_s]) { |io| io.read }
+      end
+    when 0
+      puts IO.popen(["/usr/bin/cal", Time.now.month.to_s,Time.now.year.to_s]) { |io| io.read }
+    else
+      raise "Invalid arguments"
+    end
+  end
+end
+
+c = Calendar.new
