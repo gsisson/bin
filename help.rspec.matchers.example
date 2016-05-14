@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
 
 cd ~/usr/ruby/spec
-rspec rspec_matchers_example_spec.rb
+
+f=$(basename $0)
+f=${f#help.}
+f=${f//./_}
+f=${f}_spec.rb
+
+if [ ! -f "$f" ]; then
+  echo "file not found: "
+  exit 1
+fi
+
+rspec "$f"
