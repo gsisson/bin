@@ -1,0 +1,24 @@
+cat $0 | tailplus 3 | less; exit
+
+# help:
+  exiftool
+# list all tags:
+  exiftool -a -u -g1 <files>
+# show the creation date tag:
+  exiftool -CreateDate
+# add 3hrs to creation date, or modify date
+  exiftool -CreateDate+=3 <files>
+  exiftool -modifydate+=3 <files>
+# add 3hrs to 'Date Taken' date
+  exiftool -DateTimeOriginal+=03:00:00 <files>
+# subtract 3 hrs, 5 min, 26 sec
+  exiftool '-CreateDate-=03:05:26' <files>
+# copy the create date from file1.jpg to other files
+  exiftool '-CreateDate<=file1.JPG' <files>
+
+
+# update to have a "file modify date-time" that is the same
+# as the photo's "taken at" date-time
+  exiftool '-DateTimeOriginal>FileModifyDate' "$@"
+# rename the files based on modify time
+  c:/bin/local/ModifyTimePrefix.exe <files>
