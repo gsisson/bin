@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+#if [ -f ~/.ssh/config ]; then
+#  mv ~/.ssh/config ~/.ssh/config_$(date "+%Y-%m-%d_%H:%M:%S")
+#fi
+
+cd ~/.ssh
+outf="config.LOCAL"
+echo "creating ${outf}..." 1>&2
+if [ `uname` = Darwin ]; then
+  files="config.LOCAL.mac config.LOCAL.common"
+else
+  files="config.LOCAL.pc config.LOCAL.common"
+fi
+for file in $files
+do
+  echo "  from  $file..." 1>&2
+  echo "#------------------------------------------------------------------------------"
+  echo "#  This portion of $outf is from file \"$file\""
+  echo "#------------------------------------------------------------------------------"
+  cat $file
+done > $outf
+
+script_dir=~/src/mashup_scripts/bin
+
+if [ -d "$script_dir" ]; then
+  cd ~/src/mashup_scripts/bin
+  ./ssh-config-rebuild.rb
+  cd - > /dev/null
+  rm $outf
+else
+  echo "ERROR: cannot find dir: $script_dir"
+  mv $outf ~/.ssh/config
+fi
