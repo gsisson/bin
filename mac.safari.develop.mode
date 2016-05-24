@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+defaults write com.apple.Safari IncludeDebugMenu 1
+echo 'now the Develop=>UserAgent menu lets you masquerade as other browser types'
