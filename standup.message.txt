@@ -1,0 +1,6 @@
+
+  Now, Select 'JabraPro 9470' as bluetooth source!
+
+        (keystroke: ^⇧\ )
+
+     control shift backslash
