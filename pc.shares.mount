@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+if [ $# != 1 ]; then
+  echo "usage: $(basename $0) SHARE"
+  echo "       (view shares with 'pc.shares')"
+  exit 1
+fi
+
+share="$1"
+
+mountdir=~/pc.shares/${share}
+
+if [ ! -d ${mountdir} ]; then
+  mkdir -p ${mountdir}
+fi
+
+mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+
+echo
+echo "to unmount:"
+echo "  umount \"${share}\""

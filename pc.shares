@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+smbutil view -a '//WORKGROUP;'${USER}'@'${PC} |
+  tail +3 | tail -r | tail +3 | sort | cut -f 1 -d ' ' | column
+
+echo
+echo "Now run pc.shares.mount SHARE"
