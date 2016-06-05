@@ -2,4 +2,12 @@
 . ~/.bashrc
 
 #start $downloads/c/Cygwin/setup-x86_64.exe
- start $downloads/c/Cygwin/setup-x86.exe
+ 
+cd $downloads/c/Cygwin/
+if [ -f setup-x86.exe ]; then
+  mv setup-x86.exe setup-x86.exe.bak
+fi
+
+wget www.cygwin.com/setup-x86.exe
+
+start ./setup-x86.exe
