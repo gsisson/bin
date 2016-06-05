@@ -1,0 +1,60 @@
+cat $0 | tailplus 3 | less; exit
+
+# some bits and pieces of code that uses optparse...
+
+require 'optparse'
+
+# handles all option parsing, and usage printing
+class ScriptOptionsParser
+  require 'colorize'
+  require 'optparse'
+  # the user may provide the shortest unambiguous environment
+  def self.usage err_msg=""
+    puts "#{err_msg}".red.bold if err_msg
+    puts (parse ['--help'])
+    abort
+  end
+  def self.parse(args)
+    options = {}
+    options[:test] = false
+    parser = OptionParser.new do |opts|
+      opts.set_summary_width 28
+      opts.banner = "Usage: #{File.basename(__FILE__)} [options]"
+      opts.separator "  options:"
+      opts.on('-n', '--name <gem name>',
+              'The name of the gem to be created') do |e|
+        options[:name] = e
+      end
+      opts.on('-t', '--test',
+              'show the commands that would be run') do |e|
+        options[:test] = true
+      end
+      opts.on('-s', '--sample_script>',
+              'Add a sample script to bin/, to be deployed with to the gem') do |e|
+        options[:sample_script] = e
+      end
+      opts.on_tail("-h", "--help", "Show this usage message") do
+        puts opts.help
+        puts "  example:"
+        puts "    #{File.basename(__FILE__)} -n my_gem"
+        abort
+      end
+    end
+    parser.parse! args
+    usage "ERROR: gem name must be specified!" unless options[:name]
+    unless options[:name] =~ /^[a-z][a-z0-9_]*$/
+      usage "ERROR: gem name must be lowercase letters, numbers and underscores only!"
+    end
+    usage "ERROR: unexpected arguments: #{ARGV.join(' ')}" if ARGV.length > 0
+    return options
+  end
+end
+
+begin
+  $options = ScriptOptionsParser.parse(ARGV)
+  ...
+  gem_name = $options[:name]
+  ...
+rescue OptionParser::ParseError => e
+  puts ScriptOptionsParser.usage "ERROR: #{e.message.split.map(&:capitalize).join(' ')}"
+end

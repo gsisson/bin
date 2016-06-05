@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/string_colorize'
+
+dirs=["#{ENV['HOME']}/usr/bin",
+      "#{ENV['HOME']}/usr/ruby/lib" ]
+
+dirs.each do |dir|
+  Dir.chdir(dir)
+  Dir.glob('*_diff').each do |f|
+    puts ('*' * 80).YELLOW
+    puts "Checking '#{dir}/#{f}'...".YELLOW
+    puts ('*' * 80).YELLOW
+    system "#{dir}/#{f}"
+  end
+end
