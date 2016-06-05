@@ -6,11 +6,19 @@ cat $0 | tailplus 3 | less; exit
   exiftool -a -u -g1 <files>
 # show the creation date tag:
   exiftool -CreateDate
+# show just the filename, and 'date taken' tag (and header)
+  exiftool -f -filename -DateTimeOriginal
+# rename the file, prefixiing it with the 'date taken' tag
+  exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<DateTimeOriginal'
 # add 3hrs to creation date, or modify date
   exiftool -CreateDate+=3 <files>
   exiftool -modifydate+=3 <files>
 # add 3hrs to 'Date Taken' date
   exiftool -DateTimeOriginal+=03:00:00 <files>
+# add 3hrs, 2min, 8sec to 'Date Take', CreateDate and ModifyDate
+  exiftool_fn_incrementDateTimesBySeconds 8
+  exiftool_fn_incrementDateTimesByMinutes 2
+  exiftool_fn_incrementDateTimesByHours   3
 # subtract 3 hrs, 5 min, 26 sec
   exiftool '-CreateDate-=03:05:26' <files>
 # copy the create date from file1.jpg to other files
