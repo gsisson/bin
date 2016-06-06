@@ -54,7 +54,7 @@ begin
     || network   && ![:wifi, :ether                                 ].include?(network)  \
     || operation && ![:on,   :off, :status, :toggle, :proxy, :proxy?].include?(operation)
     usage
-    exit
+    exit 1
   end
   operation = :status if operation == nil && network == nil
   puts net.details(network)  if operation == nil && network
