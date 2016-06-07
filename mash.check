@@ -2,15 +2,20 @@
 
 require_relative '../lib/string_colorize'
 
-dirs=["#{ENV['HOME']}/usr/bin",
-      "#{ENV['HOME']}/usr/ruby/lib" ]
+def check(f, d1, d2)
+  puts ('*' * 80).YELLOW
+  puts "Checking  '#{d1}/#{f}'...".YELLOW
+  puts "  against '#{d2}/#{f}'...".YELLOW
+  puts ('*' * 80).YELLOW
+  system "diff #{d1}/#{f} #{d2}/#{f}"
+  return if $?.exitstatus == 0
+  puts "# Fix with:"
+  puts "  f='#{f}'"
+  puts "  d1='#{d1}'"
+  puts "  d2='#{d2}'"
+  puts "  cp $d1/$f $d2/$f"
+end
 
-dirs.each do |dir|
-  Dir.chdir(dir)
-  Dir.glob('*_diff').each do |f|
-    puts ('*' * 80).YELLOW
-    puts "Checking '#{dir}/#{f}'...".YELLOW
-    puts ('*' * 80).YELLOW
-    system "#{dir}/#{f}"
-  end
+['mash_check1','mash_check2','mash_check3'].each do |var|
+  check *ENV[var].split(',').map { |i| i.strip.sub(/~\//,"#{ENV['HOME']}/") }
 end
