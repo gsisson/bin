@@ -57,13 +57,13 @@ begin
     exit 1
   end
   operation = :status if operation == nil && network == nil
-  puts net.details(network)  if operation == nil && network
-  puts net.status()          if operation == :status
-       net.turn_on(network)  if operation == :on
-  puts net.turn_off(network) if operation == :off
-       net.toggle()          if operation == :toggle
-  puts net.proxy_query()     if operation == :proxy?
-  puts net.proxy_set()       if operation == :proxy
+  net.details(network)  if operation == nil && network
+  net.status()          if operation == :status
+  net.turn_on(network)  if operation == :on
+  net.turn_off(network) if operation == :off
+  net.toggle()          if operation == :toggle
+  net.proxy_query()     if operation == :proxy?
+  net.proxy_set()       if operation == :proxy
 rescue SystemExit => e
   raise # re-raising passes the correct return code to the shell
 rescue Interrupt => e
