@@ -15,6 +15,18 @@ if [ ! -d ${mountdir} ]; then
 fi
 
 mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+res="$?"
+
+if [ $res != 0 ]; then
+  if [ $res = 64 ]; then
+    # okay, the share is already mounted
+    echo "Already mounted as /Volumes/$1"
+    echo " (and also in ~/pc.shares/$1"
+    exit 0
+  fi
+  echo $res
+  exit $res
+fi
 
 echo
 echo "to unmount:"
