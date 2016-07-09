@@ -1,7 +1,27 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
 
-smbutil view -a '//WORKGROUP;'${USER}'@'${PC} |
-  tail +3 | tail -r | tail +3 | sort | cut -f 1 -d ' ' | column
+shares_list = %Q{smbutil view -a '//WORKGROUP;'#{ENV['USER']}'@'#{ENV['PC']}}
+shares_list = `#{shares_list}`.split("\n")
+shares_list = shares_list[2..-3] # drop first two and last two lines
+shares_list.sort_by! { |word| word.downcase }
+#shares_list.sort!
+shares_list.map! do |i|
+  i.sub(/[\s].*/,'')
+end
+system_shares = shares_list.select do |i|
+  i if i =~ /\$/
+end
+under_shares = shares_list.select do |i|
+  i if i =~ /^_VIDEO/
+end
+other_shares = shares_list - system_shares - under_shares
+#puts shares_list
+puts "Video:"
+puts under_shares.map {|share| "  #{share}" }
+puts "System:"
+puts system_shares.map {|share| "  #{share}" }
+puts "Other:"
+puts other_shares.map {|share| "  #{share}" }
 
-echo
-echo "Now run pc.shares.mount SHARE"
+puts 
+puts "To mount one, Use 'pc.shares.mount SHARE' "
