@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ $# != 0 ]; then
+  echo "usage: $(basename $0)"
+  echo "       (view a list of all mounted shares)"
+  exit 1
+fi
+
+mount | grep //'WORKGROUP;'${USER}'@'${PC}/ | sed -e 's:.* on ::' -e 's: .*::' -e "s:${HOME}:~:"
