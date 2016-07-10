@@ -25,7 +25,11 @@ for p in "${@}"; do
     echo "$tgt version already exist!!"
     continue
   fi
-  'c:/Program Files/ImageMagick-6.9.0-Q16/convert' "${p}" "${j}"
+  convert=convert
+  if [ -f 'c:/Program Files/ImageMagick-6.9.0-Q16/convert' ]; then
+    convert='c:/Program Files/ImageMagick-6.9.0-Q16/convert'
+  fi
+  $convert "${p}" "${j}"
   if [ ! -f "$j" ]; then
     echo "$tgt version was NOT created successfully!"
     continue

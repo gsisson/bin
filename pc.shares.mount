@@ -14,20 +14,21 @@ if [ ! -d ${mountdir} ]; then
   mkdir -p ${mountdir}
 fi
 
+if [ -n "$(ls "$HOME/pc.shares/$1/")" ]; then
+  echo "Already mounted in in ~/pc.shares/$1"
+  echo 
+  echo "to unmount:"
+  echo "  umount ~/pc.shares/${share}"
+  exit 0
+fi
+
 mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
 res="$?"
 
 if [ $res != 0 ]; then
-  if [ $res = 64 ]; then
-    # okay, the share is already mounted
-    echo "Already mounted as /Volumes/$1"
-    echo " (and also in ~/pc.shares/$1"
-    exit 0
-  fi
-  echo $res
+  echo "ERROR!"
   exit $res
 fi
 
-echo
 echo "to unmount:"
-echo "  umount \"${share}\""
+echo "  umount ~/pc.shares/${share}"
