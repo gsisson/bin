@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+dir="/usr/local/bin"
+
+for exe in '' -compose -machine; do
+  if [ -f "$dir/docker$exe.brew" ]; then
+    rm -f $dir/docker$exe
+    cmd="cp -R $dir/docker$exe.brew $dir/docker$exe"
+    echo + $cmd
+    $cmd
+  fi
+done
+
+ls -l $dir/docker* | sed -e 's:.*[0-9] ::' | grep -v brew | sed -e "s:$HOME:~:"

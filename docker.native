@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# echo "running Docker.app (which will set symlinks for CLI tools)"
+# echo + open /Applications/Docker.app
+#        open /Applications/Docker.app
+
+dir="/usr/local/bin"
+
+for exe in '' -compose -machine; do
+  rm -f $dir/docker${exe}
+  echo + ln -s "$HOME/Library/Group Containers/group.com.docker/bin/docker${exe}" $dir/docker${exe}
+         ln -s "$HOME/Library/Group Containers/group.com.docker/bin/docker${exe}" $dir/docker${exe}
+done
+
+ls -l $dir/docker* | sed -e 's:.*[0-9] ::' | grep -v brew | sed -e "s:$HOME:~:"
