@@ -3,6 +3,12 @@
 shares_list = %Q{smbutil view -a '//WORKGROUP;'#{ENV['USER']}'@'#{ENV['PC']}}
 shares_list = `#{shares_list}`.split("\n")
 shares_list = shares_list[2..-3] # drop first two and last two lines
+if shares_list.nil?
+  STDERR.puts "No server connection to //WORKGROUP;#{ENV['USER']}"
+  STDERR.puts "Use Finder => Connect To Server (cmd-F) to establish the connection "
+  STDERR.puts "then try again"
+  abort
+end
 shares_list.sort_by! { |word| word.downcase }
 #shares_list.sort!
 shares_list.map! do |i|

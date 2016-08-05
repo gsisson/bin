@@ -10,6 +10,9 @@ fi
 app=$(basename $0)
 case "$app" in
   sql.pro) app='/Applications/Sequel Pro.app';;
+  code)    echo "run \"Install 'Code' command in path\" in side VS Code, to add it to PATH"
+           echo 'run "code -d FILE-OR-DIR" to open a file/dir'
+           exit 0;;
   mine)    app='/Applications/RubyMine.app/Contents/MacOS/rubymine';;
   hipchat) app='/Applications/HipChat.app';;
   lync)    app='/Applications/Microsoft Lync.app'

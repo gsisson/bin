@@ -14,6 +14,11 @@ if [ ! -d ${mountdir} ]; then
   mkdir -p ${mountdir}
 fi
 
+if [ "$1" = E -o "$1" = 'E$' ]; then
+  echo 'Just use /Volumes/E'
+  exit
+fi
+
 if [ -n "$(ls "$HOME/pc.shares/$1/")" ]; then
   echo "Already mounted in in ~/pc.shares/$1"
   echo 
@@ -22,7 +27,11 @@ if [ -n "$(ls "$HOME/pc.shares/$1/")" ]; then
   exit 0
 fi
 
-mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+# mount_exfat
+
+echo mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+     mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+
 res="$?"
 
 if [ $res != 0 ]; then
