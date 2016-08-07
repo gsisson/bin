@@ -8,9 +8,9 @@
 require 'date'
 require 'pp'
 require 'open3'
-require '~/usr/bin/ruby/String.color'
-require '~/usr/bin/ruby/Dir2'
-require '~/usr/bin/ruby/Image'
+require '~/usr/ruby/lib/string_colorize'
+require '~/usr/ruby/lib/dir2'
+require '~/usr/ruby/lib/image'
 
 SENTINAL="SENTINAL_multiple_dates_ok(EXIF.FIX.RB).txt"
 
@@ -441,7 +441,7 @@ def ppp(seconds)
 end
 
 def load_files_and_data()
-  files = Dir2.globi_jpgs_cr2s
+  files = Dir2.glob_i_jpgs_cr2s
   # gather data on .jpgs and .cr2s
   return [[],[]] if files.count == 0
   $most_freq_dto_from_local_files     = most_freq_dto_from_local_files(files)
@@ -468,7 +468,7 @@ def load_files_and_data()
       :date_time_file_prefix => datetime_from_filename(filename),
       :date_file_prefix      => date_from_filename(filename),
       :proposed_new_dto_filename => nil,
-      :filename_less_prefix  => Date2.guess_and_remove_date_time_prefix(filename),
+      :filename_less_prefix  => Date2.guess_and_remove_date_time_prefix_PRIVATE(filename),
       :ddis                  => 0,
     }
     #pp(hash)
@@ -525,7 +525,7 @@ end
 ### check for _original
 ################################################################################
 
-if Dir2.globi("*original").count > 0
+if Dir2.glob_i("*original").count > 0
   puts "# "+("WARNING!! NO SOLUTION! ".red.bold)+"Found _original files!  Aborting!"
   exit 1
 end
@@ -534,7 +534,7 @@ end
 ### check for "Copy of" files
 ################################################################################
 
-if Dir2.globi("*Copy of*").count > 0
+if Dir2.glob_i("*Copy of*").count > 0
   puts "# "+("WARNING!! NO SOLUTION! ".red.bold)+"Found 'Copy of' files!  Aborting!"
   exit 1
 end
@@ -543,11 +543,11 @@ end
 ### check for files with only a date time prefix and an extension (no other file name)
 ################################################################################
 
-files = Dir2.globi("*").select { |f| ! Dir.exist? f }
+files = Dir2.glob_i("*").select { |f| ! Dir.exist? f }
 if files.count > 0
   failures = []
   files.each do |f|
-    base=Date2.guess_and_remove_date_time_prefix(f)
+    base=Date2.guess_and_remove_date_time_prefix_PRIVATE(f)
     next if base !~ /image\..../
     # "file has a date/time prefix, but nothing else!
     tgt="#{Date2.corrected_prefix_for_file_x(f)}_#{base}"
@@ -574,14 +574,14 @@ end
 ### check for non-jpg files with no date-time prefix
 ################################################################################
 
-files = Dir2.globi_images_and_text.select { |f| ! Dir.exist? f }
+files = Dir2.glob_i_images_movies_and_text.select { |f| ! Dir.exist? f }
 if files.count > 0
   failures = []
   prefix=Date2.prefix_for_file(File.basename(Dir2.pwd))
   files.each do |f|
     next if f =~ /jpe?g$/i
     next if f == SENTINAL
-    next if f != Date2.guess_and_remove_date_time_prefix(f)
+    next if f != Date2.guess_and_remove_date_time_prefix_PRIVATE(f)
     # no prefix
     # so, add the date-time from current dir
     # (unless the file has a matching .jpg here too)
@@ -626,13 +626,13 @@ end
 ###   2008-10-11_00.00.00_file.jpg
 ################################################################################
 
-files = Dir2.globi("*").select { |f| ! Dir.exist? f }
+files = Dir2.glob_i("*").select { |f| ! Dir.exist? f }
 if files.count > 0
   failures = []
   files.each do |f|
-    prefix=Date2.guess_and_return_date_time_prefix(f)
+    prefix=Date2.guess_and_return_date_time_prefix_PRIVATE(f)
     #puts "prefix: #{prefix}"
-    base=Date2.guess_and_remove_date_time_prefix(f)
+    base=Date2.guess_and_remove_date_time_prefix_PRIVATE(f)
     #puts "base: #{base}"
     if prefix && base
       if ! Date2.valid_date?(prefix) && ! Date2.valid_date_time?(prefix)
@@ -672,7 +672,7 @@ end
 ### check for .pngs, and convert them
 ################################################################################
 
-files = Dir2.globi("*.{png}").select { |f| ! Dir.exist? f }
+files = Dir2.glob_i("*.{png}").select { |f| ! Dir.exist? f }
 if files.count > 0
   failures = []
   files.each do |f|
@@ -698,7 +698,7 @@ end
 ### check for .gifs, and convert them
 ################################################################################
 
-files = Dir2.globi("*.{gif}").select { |f| ! Dir.exist? f }
+files = Dir2.glob_i("*.{gif}").select { |f| ! Dir.exist? f }
 if files.count > 0
   failures = []
   files.each do |f|
