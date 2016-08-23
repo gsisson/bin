@@ -1,0 +1,7 @@
+#cat $0 | tailplus 3 | less; exit
+ cat $0 | tailplus 3       ; exit
+
+  [START-BUTTON]: cmd
+
+  C:> manage-bde -lock <drive>:
+
