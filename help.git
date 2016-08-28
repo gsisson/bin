@@ -1,0 +1,4 @@
+cat $0 | tailplus 3 | less; exit
+
+undo commit:
+  git reset --soft HEAD^

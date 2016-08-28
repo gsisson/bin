@@ -2,13 +2,21 @@
 
 dir="/usr/local/bin"
 
-for exe in '' -compose -machine; do
-  if [ -f "$dir/docker$exe.brew" ]; then
-    rm -f $dir/docker$exe
-    cmd="cp -R $dir/docker$exe.brew $dir/docker$exe"
-    echo + $cmd
-    $cmd
-  fi
-done
+rm -f $dir/docker
+rm -f $dir/docker-machine
+rm -f $dir/docker-compose
 
+ver=$(\ls -1t /usr/local/Cellar/docker | head -1)
+echo ln -s ../Cellar/docker/$ver/bin/docker $dir/docker
+     ln -s ../Cellar/docker/$ver/bin/docker $dir/docker
+
+ver=$(\ls -1t /usr/local/Cellar/docker-machine | head -1)
+echo ln -s ../Cellar/docker-machine/$ver/bin/docker-machine $dir/docker-machine
+     ln -s ../Cellar/docker-machine/$ver/bin/docker-machine $dir/docker-machine
+
+ver=$(\ls -1t /usr/local/Cellar/docker-compose | head -1)
+echo ln -s ../Cellar/docker-compose/$ver/bin/docker-compose $dir/docker-compose
+     ln -s ../Cellar/docker-compose/$ver/bin/docker-compose $dir/docker-compose
+
+echo
 ls -l $dir/docker* | sed -e 's:.*[0-9] ::' | grep -v brew | sed -e "s:$HOME:~:"
