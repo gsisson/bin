@@ -18,9 +18,9 @@ do
 done
 cp "$progcs/VideoMarker/bin/Debug/VideoMarker.exe" ${dir}video.marker${n}.exe
 
-#if [ "$1" = '-g' ]
-#then
+if [ "$1" = '-g' ]
+then
   ${dir}video.marker${n}.exe "$@"
-#else
-#  $HOME/usr/bin/browser.bat ${n} "$@"
-#fi
+else
+  $HOME/usr/bin/video.marker.bat ${n} "$@"
+fi
