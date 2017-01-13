@@ -1,0 +1,26 @@
+#!/bin/sh
+. ~/.bashrc
+
+dir="$HOME/usr/local/"
+
+mkdir -p $dir
+
+n=0
+rm -f ${dir}video.marker*.exe 2>/dev/null
+while :
+do
+  if [ -f "${dir}video.marker${n}.exe" ]
+  then
+    let "n=n+1"
+  else
+    break
+  fi
+done
+cp "$progcs/VideoMarker/bin/Debug/VideoMarker.exe" ${dir}video.marker${n}.exe
+
+#if [ "$1" = '-g' ]
+#then
+  ${dir}video.marker${n}.exe "$@"
+#else
+#  $HOME/usr/bin/browser.bat ${n} "$@"
+#fi
