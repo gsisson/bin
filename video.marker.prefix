@@ -1,0 +1,6 @@
+#!/bin/sh
+. ~/.bashrc
+
+cd ~/Sites/video.marker.prefix
+./launch.sh
+
