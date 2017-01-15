@@ -1,36 +1,54 @@
 #!/usr/bin/env bash
 
-if [ $# != 1 ]; then
+usage() {
   echo "usage: $(basename $0) SHARE"
-  echo "       (view shares with 'pc.shares')"
+  echo "       SHARE: A|B"
+  echo "       SHARE: C$|P$|V$|W$|X$|Y$|Z$"
+  echo
+}
+
+if [ $# != 1 ]; then
+  usage
+  pc.shares
   exit 1
 fi
 
 share="$1"
 
-mountdir=~/pc.shares/${share}
+case $share in
+  A|B)                  mode=mount_exfat
+                        echo 'NOTE: you will have to mount manually with finder :-('
+                        exit 1
+                        ;;
+  C$|P$|V$|W$|X$|Y$|Z$) mode=mount_smbfs;;
+  *) usage; exit 1;;
+esac
 
-if [ ! -d ${mountdir} ]; then
-  mkdir -p ${mountdir}
-fi
+mountdir="$HOME/pc.shares/${share}"
 
-if [ "$1" = E -o "$1" = 'E$' ]; then
-  echo 'Just use /Volumes/E'
-  exit
+if [ ! -d "${mountdir}" ]; then
+  echo mkdir -p ${mountdir}
+       mkdir -p ${mountdir}
 fi
 
 if [ -n "$(ls "$HOME/pc.shares/$1/")" ]; then
-  echo "Already mounted in in ~/pc.shares/$1"
+  echo "Already mounted in in ~/pc.shares/$share"
   echo 
   echo "to unmount:"
-  echo "  umount ~/pc.shares/${share}"
+  echo "  umount $HOME/pc.shares/${share}"
   exit 0
 fi
 
-# mount_exfat
+case "$share" in
+  A) echo $mode //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+          $mode //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+          ;;
+  *) echo $mode //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+          $mode //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+          ;;
+esac
 
-echo mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
-     mount_smbfs //'WORKGROUP;'${USER}'@'${PC}/${share} ${mountdir}
+exit
 
 res="$?"
 

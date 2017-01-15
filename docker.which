@@ -12,3 +12,5 @@ if [ $? = 0 ]; then
   echo Brew
 fi
 
+echo
+ls -l $dir/docker* | sed -e 's:.*[0-9] ::' | grep -v brew | sed -e "s:$HOME:~:"
