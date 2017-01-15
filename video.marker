@@ -1,6 +1,16 @@
 #!/bin/sh
 . ~/.bashrc
 
+cd ~/usr/bin0/video.marker/
+./launch.sh
+
+exit
+
+========================================================================
+
+#!/bin/sh
+. ~/.bashrc
+
 dir="$HOME/usr/local/"
 
 mkdir -p $dir
