@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo '+ env | grep DOCK'
+env | grep DOCK
+
+echo '# run this repeatedly, until you get a "Usage" message'
+echo 
+echo '+ docker rmi -f $\(docker images | grep "^<none>" | awk '{print $3}')'
+echo 
+
+docker rmi -f $(docker images | grep "^<none>" | awk '{print $3}')
