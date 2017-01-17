@@ -1,5 +1,0 @@
-#!/bin/sh
-. ~/.bashrc
-
-cd ~/usr/bin0/video.marker.prefix/
-./launch.sh
