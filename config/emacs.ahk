@@ -1,4 +1,8 @@
 ;;
+;; From: https://github.com/usi3/emacs.ahk
+;;
+
+;;
 ;; An autohotkey script that provides emacs-like keybinding on Windows
 ;;
 #InstallKeybdHook
@@ -16,29 +20,69 @@ is_pre_spc = 0
 ; (Please comment out applications you don't use)
 is_target()
 {
+  WinGetTitle, TheTitle, A
+  WinGetClass, TheClass, A
   IfWinActive,ahk_class ConsoleWindowClass ; Cygwin
-    Return 1 
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
+    Return 1
+  }
+  IfWinActive,ahk_class Chrome_WidgetWin_1 ; Chrome, Atom (and other electron apps)
+  {
+    FileAppend, WinGetTitle is "%TheTitle%" WinGetClass "%TheClass%"`n, C:\_\autoHotKey.emacs.ahk.txt
+    FileAppend, %TheClass% detected...`n, C:\_\autoHotKey.emacs.ahk.txt
+    SetTitleMatchMode RegEx
+    IfInString TheTitle, Atom
+    {
+      FileAppend, Atom detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
+      Return 1
+    }
+  }
   IfWinActive,ahk_class MEADOW ; Meadow
-    Return 1 
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
+    Return 1
+  }
   IfWinActive,ahk_class cygwin/x X rl-xterm-XTerm-0
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
     Return 1
+  }
+  IfWinActive,ahk_class mintty
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
+    Return 1
+  }
   IfWinActive,ahk_class MozillaUIWindowClass ; keysnail on Firefox
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
     Return 1
+  }
   ; Avoid VMwareUnity with AutoHotkey
-  IfWinActive,ahk_class VMwareUnityHostWndClass
-    Return 1
+; IfWinActive,ahk_class VMwareUnityHostWndClass
+;   Return 1
   IfWinActive,ahk_class Vim ; GVIM
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
     Return 1
-;  IfWinActive,ahk_class SWT_Window0 ; Eclipse
+  }
+; IfWinActive,ahk_class SWT_Window0 ; Eclipse
+;   Return 1
+;  IfWinActive,ahk_class Xming X
 ;    Return 1
-;   IfWinActive,ahk_class Xming X
-;     Return 1
-;   IfWinActive,ahk_class SunAwtFrame
-;     Return 1
-;   IfWinActive,ahk_class Emacs ; NTEmacs
-;     Return 1  
-;   IfWinActive,ahk_class XEmacs ; XEmacs on Cygwin
-;     Return 1
+;  IfWinActive,ahk_class SunAwtFrame
+;    Return 1
+  IfWinActive,ahk_class Emacs ; NTEmacs
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
+    Return 1
+  }
+  IfWinActive,ahk_class XEmacs ; XEmacs on Cygwin
+  {
+    FileAppend, %TheClass% detected... Returning`n, C:\_\autoHotKey.emacs.ahk.txt
+    Return 1
+  }
+  FileAppend, WinGetTitle is "%TheTitle%" WinGetClass "%TheClass%"`n, C:\_\autoHotKey.emacs.ahk.txt
   Return 0
 }
 
@@ -196,7 +240,7 @@ backward_char()
 {
   global
   if is_pre_spc
-    Send +{Left} 
+    Send +{Left}
   Else
     Send {Left}
   Return
@@ -226,7 +270,7 @@ scroll_down()
     Send %A_ThisHotkey%
   Else
     is_pre_x = 1
-  Return 
+  Return
 ^f::
   If is_target()
     Send %A_ThisHotkey%
@@ -237,7 +281,7 @@ scroll_down()
     Else
       forward_char()
   }
-  Return  
+  Return
 ^c::
   If is_target()
     Send %A_ThisHotkey%
@@ -246,7 +290,7 @@ scroll_down()
     If is_pre_x
       kill_emacs()
   }
-  Return  
+  Return
 ^d::
   If is_target()
     Send %A_ThisHotkey%
@@ -335,8 +379,8 @@ scroll_down()
     Send %A_ThisHotkey%
   Else
     undo()
-  Return  
-  
+  Return
+
 ;$^{Space}::
 ^vk20sc039::
   If is_target()
