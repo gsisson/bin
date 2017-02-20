@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
   
-files=`ls -t1r Untitled*.avi Sequence*.mp4`
+files=`ls -t1r Untitled*.avi Sequence*.mp4 2>/dev/null`
 abort "no files found to process!" if files.empty?
 
 files.each_line do |f|

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+echo
+echo "usage: play <movie> /startpos 'hh:mm:ss'"
+echo
+
+movie="$1"
+pos="$2"
+
+echo "+ C:/Program Files (x86)/K-Lite Codec Pack/MPC-HC64/mpc-hc64.exe" "$movie" /new /startpos "$pos" "&"
+       "C:/Program Files (x86)/K-Lite Codec Pack/MPC-HC64/mpc-hc64.exe" "$movie" /new /startpos "$pos"  &
