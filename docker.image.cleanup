@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-cmd='docker volume rm $(docker volume ls -qf dangling=true)'
-echo "+ $cmd"
-eval $cmd

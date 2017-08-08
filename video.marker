@@ -1,5 +1,4 @@
 #!/bin/sh
-. ~/.bashrc
 
 cd ~/usr/bin0/video.marker/
 ./launch.sh

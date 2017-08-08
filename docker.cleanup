@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+echo "removing unused containers..."
+echo + 'docker rm $(docker ps -q -f "status=exited")'
+        docker rm $(docker ps -q -f "status=exited") 2>/dev/null
+
+echo "removing dangling images..."
+echo + 'docker rmi $(docker images -q -f "dangling=true")'
+        docker rmi $(docker images -q -f "dangling=true") 2>/dev/null
+
+echo "removing dangling volumes..."
+echo + 'docker volume rm $(docker volume ls -qf dangling=true)'
+        docker volume rm $(docker volume ls -qf dangling=true)
+
+
