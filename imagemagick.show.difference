@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ $# != 2 ]; then
+  echo "usage: $(basename $0) <file1> <file2>"
+  exit 1
+fi
+
+src="$1"; shift
+tgt="$1"; shift
+
+composite=composite
+if [ -f 'c:/Program Files/ImageMagick/composite.exe' ]; then
+  composite='c:/Program Files/ImageMagick/composite.exe'
+fi
+
+echo + "$composite" "${src}" "${tgt}" -compose difference difference.jpg
+       "$composite" "${src}" "${tgt}" -compose difference difference.jpg

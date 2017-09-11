@@ -6,8 +6,8 @@ if [ $# = 0 ]; then
 fi
 
 convert=convert
-if [ -f 'c:/Program Files/ImageMagick-6.9.0-Q16/convert' ]; then
-  convert='c:/Program Files/ImageMagick-6.9.0-Q16/convert'
+if [ -f 'c:/Program Files/ImageMagick/convert' ]; then
+  convert='c:/Program Files/ImageMagick/convert'
 fi
 
 if [ ! -d 270 ]; then

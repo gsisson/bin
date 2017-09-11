@@ -73,18 +73,26 @@ else {
 }
 return
 
-;IfWinExist _PicPick.CAPTURE
 ^!+p::
-IfWinExist PicPick Editor
-{
+IfWinExist Password Safe
   WinActivate
-} else {
-  Run C:\Program Files (x86)\PicPick\picpick.exe
-  WinWait PicPick Editor
+else {
+  Run %USERPROFILE%\usr\bin0\pc\lnk\PwSafe_Ctrl_Alt_Shift_P.lnk
 }
-Run %USERPROFILE%\Documents\MyPictures\_ToRotate
-WinWait _ToRotate
 return
+
+;;IfWinExist _PicPick.CAPTURE
+;^!+p::
+;IfWinExist PicPick Editor
+;{
+;  WinActivate
+;} else {
+;  Run C:\Program Files (x86)\PicPick\picpick.exe
+;  WinWait PicPick Editor
+;}
+;Run %USERPROFILE%\Documents\MyPictures\_ToRotate
+;WinWait _ToRotate
+;return
 
 ^+u::
 SetTitleMatchMode 2 ;match anywhere in title

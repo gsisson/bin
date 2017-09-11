@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+echo "ffmpeg -i input.flv -c copy -copyts output.mp4"
+
+exit
+
 src=$(basename $0)
 src=${src#convert.}
 src=${src%.sh}
@@ -28,12 +32,6 @@ for p in "${@}"; do
   convert=convert
   if [ -f 'c:/Program Files/ImageMagick/convert' ]; then
     convert='c:/Program Files/ImageMagick/convert'
-  fi
-  if [ !-f $convert ]; then
-    echo "ERROR: Cannot find 'convert' program!"
-    echo "       Maybe when ImageMagick was installed you forgot to"
-    echo "       check the 'install legacy programs?' checkbox?"
-    exit 1
   fi
   "$convert" "${p}" "${j}"
   if [ ! -f "$j" ]; then
