@@ -22,15 +22,15 @@ if [ ! -d "$outdir" ]; then
 fi
 outdir=${outdir%/}
 
-for f in ${@}; do
+for f in "${@}"; do
   case "$f" in
     *.avi) ;;
     *)     echo ; echo "ERROR: \"$f\" is not an AVI file!";usage;;
   esac
 done
 
-for f in ${@}; do
-  f=${f%.avi}
+for f in "${@}"; do
+  f="${f%.avi}"
   echo + ffmpeg -deinterlace -i "$f.avi" "$outdir/$f.mp4"
          ffmpeg -deinterlace -i "$f.avi" "$outdir/$f.mp4"
 done
