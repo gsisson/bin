@@ -3,12 +3,17 @@
 cd ~/usr/
 
 usage() {
-  echo "$(basename $0): <search-string> [-f]"
+  echo "$(basename $0): [-f] <search-string>"
   echo "  -f: will show/run the file if there is a single match"
   exit 1
 }
 
-if [ "$1" = '-h' -o "$1" = '-?' -o "$1" = '--help' ]; then
+if [ "${1}" = '-f' ]; then
+  shift
+  dump="true"
+fi
+
+if [ "${1}" = '-h' -o "${1}" = '-?' -o "${1}" = '--help' ]; then
   usage
 fi
 
@@ -21,15 +26,37 @@ tmpf=$HOME/_notes.help.filenames.txt
 rm -f ${tmpf}
 trap "rm -f ${tmpf}" INT TERM EXIT
 
+file="${1}"
+term="${1}"
+shift
+
+if [ "${1}" = '-f' ]; then
+  shift
+  dump="true"
+fi
+
 prog="$(basename $0)"
 case $prog in
   notes)
-    dir="usr/notes"
+    dir="$HOME/usr/notes"
+    cd "${dir}"
     prefix=''
+#   prefix='notes'
+    case "${file}" in
+      *.org) ;;
+      "")     eval ls ${prefix}*;exit;;
+      *)     file="${file}.org";;
+    esac
     ;;
   help)
-    dir="usr/bin"
+    dir="$HOME/usr/bin"
+    cd "${dir}"
     prefix='help.'
+    case "${file}" in
+      help.*) ;;
+      "")     eval ls ${prefix}*;exit;;
+      *)      file="help.${file}";;
+    esac
     ;;
   *)
     echo "unexpected option \"$prog\"!"
@@ -37,22 +64,24 @@ case $prog in
     ;;
 esac
 
-cd "$HOME/$dir"
+# eval echo ${dir}/${prefix}*
+echo -e "${color}looking for \"${term}\" in $dir/${prefix}* files...${reset}"
 
-if [ -f "${1}" ];then
+if [ -f "${file}" ];then
   case $prog in
     notes)
       # SHOW it
-      less ./"${1}"
+      echo -e "${color}==> ${file} <==${reset}"
+      cat ./"${file}"
       ;;
     help)
       # RUN it
-      if [ ! -x ./"${1}" ]; then
-        echo ./"${1}" is not executable
+      if [ ! -x ./"${file}" ]; then
+        echo ./"${file}" is not executable
         exit 1
       fi
-      echo -e "${color}executing ${1}${reset}"
-      exec ./"${1}"
+      echo -e "${color}executing ${file}${reset}"
+      exec ./"${file}"
       ;;
   esac
   exit $?
@@ -60,47 +89,55 @@ fi
 
 # list files that match the glob (even it just one file matches)
 
-if [ -n "${1}" ]; then
-  # some arg was passed, so search for it in the files
-  file_count_with_matches=$(ack -icl "${1}" ${prefix}* | wc -l)
-  if [ $file_count_with_matches = 1 ]; then
-    the_only_file_name_with_matches=$(ack -icl "${1}" ${prefix}* | sed -e 's/:.*//')
-  fi
-  ack -i "${1}" ${prefix}*
-else
-  # no arg passed, so set it to '.' for upcoming search of filenames
-  set -- .
-fi
+# if [ -n "${1}" ]; then
+#   # some arg was passed, so search for it in the files
+#   file_count_with_matches=$(ack -icl "${1}" ${prefix}* | wc -l)
+#   if [ $file_count_with_matches = 1 ]; then
+#     the_only_file_name_with_matches=$(ack -icl "${1}" ${prefix}* | sed -e 's/:.*//')
+#   fi
+#   ack -i "${1}" ${prefix}*
+# else
+#   # no arg passed, so set it to '.' for upcoming search of filenames
+#   set -- .
+# fi
 
-find . -type f | grep "${prefix}" > ${tmpf}
+# find . -type f | grep "${prefix}" > ${tmpf}
+case $prog in
+  notes) find . -type f
+    ;;
+  help)  find . -type f | grep help
+    ;;
+esac > ${tmpf}
 
-file_count_with_matches=$(ack -i "${1}" ${tmpf} | wc -l | sed -e 's/ *//g')
+file_count_with_matches=$(ack -i "${term}" ${tmpf} | wc -l | sed -e 's/ *//g')
 
 if [ "$file_count_with_matches" = 1 ]; then
-  the_only_file_name_with_matches=$(ack -i "${1}" ${tmpf})
+  the_only_file_name_with_matches=$(ack -i "${term}" ${tmpf})
   the_only_file_name_with_matches=${the_only_file_name_with_matches#./}
 fi
 
 if [ -n "$the_only_file_name_with_matches" ]; then
-  if [ "$2" = '-f' ]; then
-    exec $0 "$the_only_file_name_with_matches"
+  if [ "$dump" = 'true' ]; then
+    echo -e "${color}==> ${the_only_file_name_with_matches} <==${reset}"
+    cat "$the_only_file_name_with_matches"
+    exit $?
   fi
 fi
 
-echo -e "${color}======================================${reset}"
+#echo -e "${color}========================================================${reset}"
 
 if [ "$count" = 0 ]; then
-  echo "no match for \"${1}\" in any filename in ${dir}."
+  echo "no match for \"${term}\" in any filename in ${dir}."
   exit
 fi
 
 # show the matches within filenames
-ack -i "${1}" ${tmpf}
+ack -i "${term}" ${tmpf}
 
 if [ -n "$the_only_file_name_with_matches" ]; then
   # count length of last message
-  len=$(ack -i "${1}" ${tmpf} | wc -c )
-  echo -en "\033[1A"      # move up one line
-  echo -en "\033[${len}C" # move out the length of last message
-  echo " (use -f option to view this one matching file)"
+  len=$(ack -i "${term}" ${tmpf} | wc -c )
+# echo -en "\033[1A"      # move up one line
+# echo -en "\033[${len}C" # move out the length of last message
+  echo -e "${color} (use -f option to view this one matching file)${reset}"
 fi
