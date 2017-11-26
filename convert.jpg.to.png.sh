@@ -29,7 +29,7 @@ for p in "${@}"; do
   if [ -f 'c:/Program Files/ImageMagick/convert' ]; then
     convert='c:/Program Files/ImageMagick/convert'
   fi
-  if [ !-f $convert ]; then
+  if [ !-f "$convert" ]; then
     echo "ERROR: Cannot find 'convert' program!"
     echo "       Maybe when ImageMagick was installed you forgot to"
     echo "       check the 'install legacy programs?' checkbox?"

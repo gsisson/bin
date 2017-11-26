@@ -10,13 +10,14 @@ if [ -f 'c:/Program Files/ImageMagick/convert' ]; then
   convert='c:/Program Files/ImageMagick/convert'
 fi
 
-if [ ! -d 270 ]; then
-  echo "directory 270/ DNE!"
+if [ ! -d out ]; then
+  echo "directory out/ DNE!"
   exit 1
 fi
 
 for p in "${@}"; do
   # convert "$file" -rotate 90 "$file"_rotated.JPG
-  echo + "$convert" "${p}" -rotate 270 out/"${p}"
-         "$convert" "${p}" -rotate 270 out/"${p}"
+  echo + "$convert" "${p}" -background 'rgba(0,0,0,0)' -rotate 270 out/"${p}"
+         "$convert" "${p}" -background 'rgba(0,0,0,0)' -rotate 270 out/"${p}"
 done
+
