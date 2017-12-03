@@ -1,0 +1,3 @@
+. ~/.bashrc
+
+open "$HOME/Desktop/Audio Fix/"
