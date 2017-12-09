@@ -4,3 +4,6 @@ echo '3) run:'
 echo '   takeown /F "Enter the complete path of the "ENTERTAINMENT" folder" /a /r /d y'
 echo '4) run:'
 echo '   icacls "Enter the complete path of the "ENTERTAINMENT" folder" /grant administrators:F /t'
+echo
+echo "FROM THIS SOURCE:"
+echo "  https://answers.microsoft.com/en-us/windows/forum/windows_7-security/access-is-denied-unable-to-display-current-owner/24394120-b9d3-4d06-b84d-3cc5b001c7e1"
