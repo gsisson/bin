@@ -1,0 +1,6 @@
+echo '1) Run from a "Run as Admin" CMD shell'
+echo '2) chdir to parent folder of problem folder'
+echo '3) run:'
+echo '   takeown /F "Enter the complete path of the "ENTERTAINMENT" folder" /a /r /d y'
+echo '4) run:'
+echo '   icacls "Enter the complete path of the "ENTERTAINMENT" folder" /grant administrators:F /t'
