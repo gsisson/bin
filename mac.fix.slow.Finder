@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -x
+cd ~/Library/Caches/CloudKit
+d=$HOME/Desktop/CloudKitMetadata_$(date +%Y-%m-%d_%H.%M.%S)
+mkdir $d
+mv CloudKitMetadata* $d/
+echo $0 > $d/_README.txt

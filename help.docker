@@ -1,0 +1,4 @@
+cat $0 | tailplus 3 | less; exit
+
+# quick examples list of most common docker commands with typical arguments
+open https://docs.docker.com/get-started/part2/#recap-and-cheat-sheet-optional
