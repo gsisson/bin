@@ -29,13 +29,16 @@ for p in "${@}"; do
   if [ -f 'c:/Program Files/ImageMagick/convert' ]; then
     convert='c:/Program Files/ImageMagick/convert'
   fi
-  if [ !-f "$convert" ]; then
+  if [ ! -f "$convert" ]; then
     echo "ERROR: Cannot find 'convert' program!"
     echo "       Maybe when ImageMagick was installed you forgot to"
     echo "       check the 'install legacy programs?' checkbox?"
     exit 1
   fi
+  echo "starting..."
+  echo + "$convert" "${p}" "${j}"
   "$convert" "${p}" "${j}"
+  echo "done..."
   if [ ! -f "$j" ]; then
     echo "$tgt version was NOT created successfully!"
     continue

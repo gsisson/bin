@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+open "P:/My_Pictures_ToRotate/"
