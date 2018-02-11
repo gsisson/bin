@@ -1,0 +1,10 @@
+cat << _EOF_
+Get these packages from cygwin:
+- Shells/bash
+- Base/cygutils
+- Utils/cygutils-extra (getclip)
+- Utils/dos2unix
+- Devel/git
+- Web/wget
+- Net/curl
+_EOF_

@@ -1,0 +1,5 @@
+#!/bin/sh
+. ~/.bashrc
+
+echo + cygcheck -p "$@"
+cygcheck -p "$@"

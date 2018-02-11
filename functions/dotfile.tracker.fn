@@ -6,7 +6,9 @@
 #   _leave_dot_file
 
 _do_something() {
-  : # output something here, to help figure out where in the dot file loading, something happens
+  : # To help figure out where in the dot files something is loading,
+  : # touch "$HOME/.dotfiles_debug_sentinal", and then output something here,
+  : # for example, if the LESS variable is getting set somewhere, and you want to find out where:
   # echo $LESS |wc
 }
 
@@ -55,5 +57,22 @@ _source_dot_file() {
     source "$1"
   else
     echo "    $caller (CANNOT FIND FILE: $1)"
+  fi
+}
+
+_say_something() {
+  _do_something
+  local sentinal="$HOME/.dotfiles_debug_sentinal"
+  local file="$1"
+  if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
+  if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
+  caller=${caller#?:}
+  caller=${caller#/cygdrive/?}
+  caller=${caller#/[uU]sers/[a-zA-Z]*/}
+  file=${file#?:}                     # strip c:
+  file=${file#/cygdrive/[a-zA-Z]}     # strip /cygdrive/c
+  file=${file#/[uU]sers/[a-zA-Z]*/}   # string /users/name/
+  if [ -f $sentinal ]; then
+    echo "    $caller (Note: $@)"
   fi
 }
