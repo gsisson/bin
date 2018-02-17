@@ -36,7 +36,6 @@
 ;  }
 ;Return
 
-
 ;WheelUp::
 ;Send {WheelDown}
 ;Return
@@ -44,6 +43,26 @@
 ;WheelDown::
 ;Send {WheelUp}
 ;Return
+
+;; reload this script
+;^+f::
+;Reload
+;return
+
+;; move to left side of screen
+;^+d::
+;WinMove,A,,-12,-10,980,1080
+;return
+
+;; move to right side of screen
+;^+g::
+;WinMove,A,,948,-10,980,1080
+;return
+
+; Control-Shift-Z to minimize current window
+^+Z::
+WinMinimize, A
+return
 
 ^!+Enter::
 Send {Backspace}{Return}{Down}
@@ -97,9 +116,12 @@ return
 ^+u::
 SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_1_Ctrl_Shift_U
+{
   WinActivate
-else
+; Restore, Mintty_1_Ctrl_Shift_U
+} else {
   Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
+}
 return
 
 ^+j::

@@ -1,10 +1,13 @@
 cat << _EOF_
-Get these packages from cygwin:
-- Shells/bash
-- Base/cygutils
-- Utils/cygutils-extra (getclip)
-- Utils/dos2unix
-- Devel/git
-- Web/wget
-- Net/curl
+* Get these packages from cygwin:
+* (and be sure you are running setup as Admin)
+  - Base/cygutils
+  - Devel/binutils (strings)
+  - Devel/git
+  - Net/curl
+  - Ruby/ruby
+  - Shells/bash
+  - Utils/cygutils-extra (getclip)
+  - Utils/dos2unix
+  - Web/wget
 _EOF_

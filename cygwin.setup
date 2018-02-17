@@ -1,13 +1,75 @@
 #!/bin/sh
 . ~/.bashrc
 
-#start $downloads/c/Cygwin/setup-x86_64.exe
- 
-cd $downloads/c/Cygwin/
-if [ -f setup-x86.exe ]; then
-  mv setup-x86.exe setup-x86.exe.bak
+cd "$HOME/Downloads/c/Cygwin/"
+
+f="setup-x86_64.exe"
+
+stop_for_administrator() {
+  echo "STOPPING..."
+  echo "  newly downloaded \"${f}\" file must be changed to run \"as administrator\""
+  echo "  after editting that property on the .exe, re-run this script to use it."
+  echo "  (start \"$HOME/downloads/c/Cygwin/\")"
+  exit 1
+}
+
+for file in $f ${f}.downloaded ${f}.bak
+do
+  if [ -f "$file" ]; then
+    echo "# exist: $file"
+  else
+    echo "# DNE:   $file"
+  fi
+done
+
+older_than_7_days=0
+if [ -f $f ]; then
+  older_than_7_days=$(find ${f} -ctime +7 -exec ls {} \; | wc -l)
+  if [ "$older_then_7_days" = 1 ]; then
+    echo "# existing $f is older than 7 days"
+  fi
 fi
 
-wget www.cygwin.com/setup-x86.exe
+if [ ! -f $f -o "$older_then_7_days" = 1 ]; then
+  echo "# running wget..."
+  echo wget --output-document=${f}.download www.cygwin.com/${f}
+  wget --output-document=${f}.download www.cygwin.com/${f} > /dev/null 2>&1
+  if [ $? != 0 ]; then
+    echo "#   wget failed!"
+    if [ ! -f $f ]; then
+      echo "ERROR: cannot download latest cygwin $f file"
+      exit 1
+    else
+      echo "WARNING: cannot download latest cygwin $f file"
+      echo "         continuing using existing one..."
+    fi
+  else
+    echo "# wget success"
+  fi
+  if [ ! -f $f -a -f ${f}.download ]; then
+    echo + mv ${f}.download ${f}
+           mv ${f}.download ${f}
+    stop_for_administrator
+  fi
+fi
 
-start ./setup-x86.exe
+if [ -f $f -a -f ${f}.download ]; then
+  if cmp ${f} ${f}.download > /dev/null
+  then
+    echo "# no problem, the downloaded file is the same"
+    # touch it so it will be good for another 7 days
+    touch -amc ${f}.download
+  else
+    echo "# the downloaded file is newer, so we'll use it"
+    echo rm -f            ${f}.bak
+         rm -f            ${f}.bak
+    echo mv ${f}          ${f}.bak
+         mv ${f}          ${f}.bak
+    echo mv ${f}.download ${f}
+         mv ${f}.download ${f}
+    stop_for_administrator
+  fi
+fi
+
+echo + start ./${f}
+start ./${f}

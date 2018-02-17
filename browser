@@ -2,25 +2,61 @@
 . ~/.bashrc
 
 dir="$HOME/usr/local/"
+prog="$progcs/Browser/bin/Debug/browser.exe"
+brow="${dir}browser_.exe"
 
-mkdir -p $dir
-
-n=0
-rm -f ${dir}browser*.exe 2>/dev/null
-while :
+for item in "$dir" "$prog"
 do
-  if [ -f "${dir}browser${n}.exe" ]
-  then
-    let "n=n+1"
-  else
-    break
+  if [ ! -f "$item" -a ! -d "$item" ]; then
+    echo "ERROR!: File/Dir Missing: \"$item\""
+    exit 1
   fi
 done
-cp "$progcs/Browser/bin/Debug/browser.exe" ${dir}browser${n}.exe
+
+if [ -f "${brow}" ]; then
+  cmp "$prog" "${brow}" > /dev/null
+  if [ $? != 0 ]; then
+    echo + rm -f "${brow}"
+           rm -f "${brow}"
+    if [ $? != 0 ]; then
+      echo "ERROR!: unable to remove \"${brow}\""
+      exit 1
+    fi
+  fi
+fi
+
+if [ ! -f "${brow}" ]; then
+  echo "+ cp $prog \ "
+  echo "     ${brow}"
+          cp "$prog" "${brow}"
+  echo + rm -f ${dir}browser[0-9].exe
+         rm -f ${dir}browser[0-9].exe 2>/dev/null
+fi
+
+# find the first browserN.exe copy of browser_.exe that is the same, and run it
+n=0
+while :
+do
+  if [ ! -f "${dir}browser${n}.exe" ]
+  then
+    echo + cp "${brow}" "${dir}browser${n}.exe"
+           cp "${brow}" "${dir}browser${n}.exe"
+    break
+  else
+    cmp "${brow}" "${dir}browser${n}.exe" > /dev/null
+    if [ $? = 0 ]; then
+      # echo "using existing ${dir}browser${n}.exe"
+      break
+    fi
+    let "n=n+1"
+  fi
+done
 
 if [ "$1" = '-g' ]
 then
-  ${dir}browser${n}.exe "$@"
+# echo + ${dir}browser${n}.exe "$@"
+         ${dir}browser${n}.exe "$@" > /dev/null
 else
-  $HOME/usr/bin/browser.bat ${n} "$@"
+# echo + $HOME/usr/bin/browser.bat ${n} "$@"
+         $HOME/usr/bin/browser.bat ${n} "$@" > /dev/null
 fi

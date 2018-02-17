@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+prog=$(basename $0)
+
+if [ "$prog" = folder ]; then
+  prog="$@"
+fi
+
+# these can be find in the registry in
+#   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{****-****}
+
+explorer_exe() { # skipme
+  echo + explorer.exe shell:$@
+         explorer.exe shell:$@
+}
+
+case "$prog" in
+  computer)    explorer_exe MyComputerFolder;; # computer
+  control*)    explorer_exe ControlPanelFolder;; # control* (control panel)
+  desk2)       explorer_exe ThisPCDesktopFolder;; # desk2
+  desktopp)    explorer_exe Common Desktop;; # desktopp (public/shared desktop)
+  desktop)     explorer_exe Desktop;; # desktop
+  documents)   explorer_exe Documents;; # documents
+  documentsl)  explorer_exe Local Documents;; # documentsl (local)
+  documentsp)  explorer_exe Common Documents;; # documentsp (public/shared)
+  downloads)   explorer_exe Downloads;; # downloads
+  librar*)     explorer_exe Libraries;; # librar* (library, libraries)
+  music)       explorer_exe My Music;; # music
+  picturesl)   explorer_exe Pictures Library;; # picturesl (local)
+  pictures)    explorer_exe My Pictures;; # pictures
+  pinned)      explorer_exe User Pinned;; # pinned
+  playlists)   explorer_exe Playlists;; # playlists
+  printers)    explorer_exe PrintersFolder;; # printers
+  quick*)      explorer_exe Quick Launch;; # quick* (quicklaunch)
+  recycle*)    explorer_exe RecycleBinFolder;; # recycle*
+  screenshot*) explorer_exe ScreenShots;; # screenshot*
+  sendto)      explorer_exe SendTo;; # sendto
+  startmenup*) explorer_exe Common Start Menu;; # startmenup (public/shared)
+  startmenu*)  explorer_exe Start Menu;; # startmenu
+  startupp*)   explorer_exe Common Startup;; # startupp (public/shared)
+  startup*)    explorer_exe Startup;; # startup
+  *) echo "Unknown: \"$prog\""
+     echo " Valid:"
+     cat $0 | grep explorer_exe | grep -v 'skipme' | sed -e 's|.*_exe ||' -e 's|;;||' -e 's:^:  :'
+esac
