@@ -8,6 +8,7 @@ case $(uname) in
 esac
 
 cmd='C:/Program Files/Adobe/Adobe Photoshop CS6 (64 Bit)/Photoshop.exe'
+cmd='C:/Program Files/Adobe/Photoshop/Photoshop.exe'
 if [ ! -f "$cmd" ]; then
   echo "unable to find file: \"$cmd\""
   exit 1

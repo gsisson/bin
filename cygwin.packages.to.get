@@ -1,7 +1,8 @@
 cat << _EOF_
 * Get these packages from cygwin:
-* (and be sure you are running setup as Admin)
+* (and be sure you are running setup as Admin!)
   - Base/cygutils
+  - Base/vim-minimal
   - Devel/binutils (strings)
   - Devel/git
   - Net/curl
@@ -10,4 +11,8 @@ cat << _EOF_
   - Utils/cygutils-extra (getclip)
   - Utils/dos2unix
   - Web/wget
+* For testing
+  - Editors/gvim
+* Get these direct from developer:
+  - Graphics/ImageMagick
 _EOF_

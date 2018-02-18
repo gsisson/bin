@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-prog=$(basename $0)
-
-if [ "$prog" = folder ]; then
-  prog="$@"
-fi
-
 # these can be find in the registry in
 #   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{****-****}
 
@@ -14,7 +8,9 @@ explorer_exe() { # skipme
          explorer.exe shell:$@
 }
 
-case "$prog" in
+set -- "${1,,}"
+
+case "$1" in
   computer)    explorer_exe MyComputerFolder;; # computer
   control*)    explorer_exe ControlPanelFolder;; # control* (control panel)
   desk2)       explorer_exe ThisPCDesktopFolder;; # desk2

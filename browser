@@ -43,7 +43,8 @@ do
            cp "${brow}" "${dir}browser${n}.exe"
     break
   else
-    cmp "${brow}" "${dir}browser${n}.exe" > /dev/null
+    #echo + cmp "${brow}" "${dir}browser${n}.exe"
+            cmp "${brow}" "${dir}browser${n}.exe" > /dev/null
     if [ $? = 0 ]; then
       # echo "using existing ${dir}browser${n}.exe"
       break
