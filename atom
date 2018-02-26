@@ -1,3 +1,0 @@
-. ~/.bashrc 
-
-$HOME/AppData/Local/atom/atom.exe "`cygdrivePathFix $PWD`" >/dev/null 2>&1 &
