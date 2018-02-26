@@ -6,10 +6,12 @@
 #   _leave_dot_file
 
 _do_something() {
-  : # To help figure out where in the dot files something is loading,
-  : # touch "$HOME/.dotfiles_debug_sentinal", and then output something here,
-  : # for example, if the LESS variable is getting set somewhere, and you want to find out where:
-  # echo $LESS |wc
+  :
+  # To help figure out where in the dot files something is loading,
+  # touch "$HOME/.dotfiles_debug_sentinal", and then output something here,
+  # for exaple, watch PATH, to see where new items get added
+  #  echo $PATH | tr : '
+  #'| wc
 }
 
 _enter_dot_file() {

@@ -1,0 +1,8 @@
+cat $0 | tailplus 3 | less; exit
+
+esc-O d  default
+esc-O b  bold
+esc-O i  italic
+esc-O l  bold-italic
+esc-O u  underline
+esc-O ^h see full list
