@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# these can be find in the registry in
+#   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{****-****}
+
+set -- "${1,,}"
+
+case "$1" in
+  auto_hot_key)     explore $HOME/usr/bin/config/;;
+  links)            explore $HOME/usr/bin0/pc/lnk/;;
+  rotate)           explore p:/My_Pictures_ToRotate;;
+  scan)             explore p:/My_Pictures_Scan_In;;
+  sysinternals)     explore $HOME/usr/bin0/pc/SysInternals/;;
+  computer)         explorer.exe shell:MyComputerFolder;;
+  control.panel)    explorer.exe shell:ControlPanelFolder;;
+# desktop.folder)   explorer.exe shell:ThisPCDesktopFolder;;
+  desktop)          explorer.exe shell:Desktop;;
+  desktop.common)   explorer.exe shell:Common Desktop;;
+  documents)        explorer.exe shell:Documents;;
+# documents.local)  explorer.exe shell:Local Documents;;
+  documents.common) explorer.exe shell:Common Documents;;
+  downloads)        explorer.exe shell:Downloads;;
+  libraries)        explorer.exe shell:Libraries;;
+  music)            explorer.exe shell:My Music;;
+  pictures)         explorer.exe shell:My Pictures;;
+  photos)           explore P:/;;
+  photos.pc)        explorer.exe shell:My Pictures;;
+  pinned)           explorer.exe shell:User Pinned;;
+  playlists)        explorer.exe shell:Playlists;;
+  printers)         explorer.exe shell:PrintersFolder;;
+  quick.launch)     explorer.exe shell:Quick Launch;;
+  recycle)          explorer.exe shell:RecycleBinFolder;;
+# screenshots)      explorer.exe shell:ScreenShots;;
+  screensaver)      control desk.cpl,,@screensaver;;
+  sendto)           explorer.exe shell:SendTo;;
+  startmenu.common) explorer.exe shell:Common Start Menu;;
+  startmenu)        explorer.exe shell:Start Menu;;
+  startup.common)   explorer.exe shell:Common Startup;;
+  startup)          explorer.exe shell:Startup;;
+  video)            explore V:/;;
+  -?)               cat $0 | grep -v '^#' | grep '[a-z])' |
+                    sed -e 's:).*::' -e 's:^  ::' | egrep -v -- '(\*|\-\?)' | column;;
+  *) echo "Unknown option: \"$prog\""
+     echo "Try one of these:"
+     $0 -? | expand | sed -e 's:^:  :'
+esac
