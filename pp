@@ -1,7 +1,7 @@
 #!/bin/sh
 . ~/.bashrc
 
-# MERGE WITH usr/bin/pp !!!
+# MERGE WITH usr/bin/adobe !!!
 
 case $(uname) in
   CYGWIN*) ;;
@@ -9,8 +9,7 @@ case $(uname) in
 	   exit 1;;
 esac
 
-cmd='C:/Program Files/Adobe/Photoshop/Photoshop.exe' # Creative Cloud
-cmd='C:/Program Files/Adobe/Adobe Photoshop CS6 (64 Bit)/Photoshop.exe' # Creative Suite
+cmd='C:/Program Files/Adobe/Adobe Premiere Pro CS6/Adobe Premiere Pro.exe'
 if [ ! -f "$cmd" ]; then
   echo "unable to find file: \"$cmd\""
   exit 1

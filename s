@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
+. ~/.bashrc
 
-set -- "${1,,}"
+#set -- "${1,,}"
+cmd="$1"
+shift
 
-case "$1" in
-  auto_hot_key)     efile $HOME/usr/bin/config/AutoHotkey.ahk;;
+case "$cmd" in
+  photoshop)        $HOME/usr/bin/adobe "$@";;
+  premiere.pro)     $HOME/usr/bin/pp    "$@";;
   -?)               cat $0 | grep -v '^#' | grep '[a-z])' |
                     sed -e 's:).*::' -e 's:^  ::' | egrep -v -- '(\*|\-\?)' | column;;
   *) echo "Unknown option: \"$prog\""
