@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+parents={}
+procnames={}
+ps=`ps`
+ps.split("\n").each do |process|
+  details=process.split(" ")
+  pid=details[0]
+  ppid=details[1]
+  name=details[7]
+  next if pid == "PID"
+  parents[pid] = ppid
+  procnames[pid] = name
+end
+me=Process.pid.to_s
+while me && parents[me] do
+  if procnames[me] =~ /mintty$/
+    # puts 'not superuser'
+    exit 1
+  end
+  if procnames[me] =~ /mintty_admin$/
+    # puts 'SUPERUSER'
+    exit 0
+  end
+  me = parents[me]
+end

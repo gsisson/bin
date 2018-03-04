@@ -5,39 +5,54 @@
 
 set -- "${1,,}"
 
+open_it() {
+  if [ "${1#shell}" != "$1" ]; then
+    echo + explorer "$1"
+           explorer "$1"
+  else
+    echo + explore "$1"
+           explore "$1"
+  fi
+}
+
 case "$1" in
-  auto_hot_key)     explore $HOME/usr/bin/config/;;
-  links)            explore $HOME/usr/bin0/pc/lnk/;;
-  rotate)           explore p:/My_Pictures_ToRotate;;
-  scan)             explore p:/My_Pictures_Scan_In;;
-  sysinternals)     explore $HOME/usr/bin0/pc/SysInternals/;;
-  computer)         explorer.exe shell:MyComputerFolder;;
-  control.panel)    explorer.exe shell:ControlPanelFolder;;
-# desktop.folder)   explorer.exe shell:ThisPCDesktopFolder;;
-  desktop)          explorer.exe shell:Desktop;;
-  desktop.common)   explorer.exe shell:Common Desktop;;
-  documents)        explorer.exe shell:Documents;;
-# documents.local)  explorer.exe shell:Local Documents;;
-  documents.common) explorer.exe shell:Common Documents;;
-  downloads)        explorer.exe shell:Downloads;;
-  libraries)        explorer.exe shell:Libraries;;
-  music)            explorer.exe shell:My Music;;
-  pictures)         explorer.exe shell:My Pictures;;
-  photos)           explore P:/;;
-  photos.pc)        explorer.exe shell:My Pictures;;
-  pinned)           explorer.exe shell:User Pinned;;
-  playlists)        explorer.exe shell:Playlists;;
-  printers)         explorer.exe shell:PrintersFolder;;
-  quick.launch)     explorer.exe shell:Quick Launch;;
-  recycle)          explorer.exe shell:RecycleBinFolder;;
-# screenshots)      explorer.exe shell:ScreenShots;;
-  screensaver)      control desk.cpl,,@screensaver;;
-  sendto)           explorer.exe shell:SendTo;;
-  startmenu.common) explorer.exe shell:Common Start Menu;;
-  startmenu)        explorer.exe shell:Start Menu;;
-  startup.common)   explorer.exe shell:Common Startup;;
-  startup)          explorer.exe shell:Startup;;
-  video)            explore V:/;;
+  room)             open_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
+  tapes)            open_it "P:/My_Pictures_ToRotate/Video.Tape.Captures";;
+  screensaver)      control "desk.cpl,,@screensaver";;
+  home)             open_it "$HOME";;
+  auto_hot_key)     open_it "$HOME/usr/bin/config/";;
+  cloud)            open_it "$HOME/Documents/Cloud";;
+  links)            open_it "$HOME/usr/bin0/pc/lnk/";;
+  movies)           open_it "C:/_MOVIES_C/";;
+  rotate)           open_it "p:/My_Pictures_ToRotate";;
+  scan)             open_it "p:/My_Pictures_Scan_In";;
+  sysinternals)     open_it "$HOME/usr/bin0/pc/SysInternals/";;
+  video)            open_it "V:/";;
+  photos)           open_it "P:/";;
+  photos.pc)        open_it "shell:My Pictures";;
+  computer)         open_it "shell:MyComputerFolder";;
+  control.panel)    open_it "shell:ControlPanelFolder";;
+# desktop.folder)   open_it "shell:ThisPCDesktopFolder";;
+  desktop)          open_it "shell:Desktop";;
+  desktop.common)   open_it "shell:Common Desktop";;
+  documents)        open_it "shell:Documents";;
+# documents.local)  open_it "shell:Local Documents";;
+  documents.common) open_it "shell:Common Documents";;
+  downloads)        open_it "shell:Downloads";;
+  libraries)        open_it "shell:Libraries";;
+  music)            open_it "shell:My Music";;
+  pictures)         open_it "shell:My Pictures";;
+  pinned)           open_it "shell:User Pinned";;
+  playlists)        open_it "shell:Playlists";;
+  printers)         open_it "shell:PrintersFolder";;
+  quick.launch)     open_it "shell:Quick Launch";;
+  recycle)          open_it "shell:RecycleBinFolder";;
+# screenshots)      open_it "shell:ScreenShots";;
+  sendto)           open_it "shell:SendTo";;
+  startmenu.common) open_it "shell:Common Start Menu";;
+  startmenu)        open_it "shell:Start Menu";;
+  startup.common)   open_it "shell:Common Startup";;
+  startup)          open_it "shell:Startup";;
   -?)               cat $0 | grep -v '^#' | grep '[a-z])' |
                     sed -e 's:).*::' -e 's:^  ::' | egrep -v -- '(\*|\-\?)' | column;;
   *) echo "Unknown option: \"$prog\""
