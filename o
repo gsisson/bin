@@ -3,21 +3,44 @@
 # these can be find in the registry in
 #   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{****-****}
 
-set -- "${1,,}"
+# set -- "${1,,}"
+
+cmd=$(basename $0)
 
 open_it() {
-  if [ "${1#shell}" != "$1" ]; then
-    echo + explorer "$1"
-           explorer "$1"
+  if [ "${1#shell}" != "$@" ]; then
+    case "$cmd" in
+      o) echo + explorer "$@" 1>&2 # filter me out
+         explorer "$@";;
+      g) echo "cannot 'g' to '$@'" 1>&2 #filter me out
+	 echo "running 'o' instead..." 1>&2 #filter me out
+         echo + explorer "$@" 1>&2 # filter me out
+         explorer "$@"
+	 echo "";;
+    esac
   else
-    echo + explore "$1"
-           explore "$1"
+    # directories
+    if [ ! -d "$*" ]; then
+      if [ -z "$*" ]; then
+        echo "usage g <directory>" 1>&2
+        return;
+      fi
+      echo "ERROR: Directory does not exist: '$@'" 1>&2
+      exit 1
+    fi
+    case "$cmd" in
+      o) dirfix=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) # filter me out
+         echo + explorer $dirfix 1>&2
+         explorer $dirfix
+         ;;
+      g) echo "cd $*";; # filter me out
+    esac
   fi
 }
 
-case "$1" in
+case "$@" in
   room)             open_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
-  tapes)            open_it "P:/My_Pictures_ToRotate/Video.Tape.Captures";;
+  tapes)            open_it "V:/_VIDEO.CAPTURE.WORK_";;
   screensaver)      control "desk.cpl,,@screensaver";;
   home)             open_it "$HOME";;
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
@@ -53,9 +76,7 @@ case "$1" in
   startmenu)        open_it "shell:Start Menu";;
   startup.common)   open_it "shell:Common Startup";;
   startup)          open_it "shell:Startup";;
-  -?)               cat $0 | grep -v '^#' | grep '[a-z])' |
-                    sed -e 's:).*::' -e 's:^  ::' | egrep -v -- '(\*|\-\?)' | column;;
-  *) echo "Unknown option: \"$prog\""
-     echo "Try one of these:"
-     $0 -? | expand | sed -e 's:^:  :'
+  -?)               cat $0 | grep -v '#' | grep '[a-z])' |
+                    sed -e 's:).*::' -e 's:^  ::' | column;;
+  *)                open_it "$*";; #filter me out
 esac
