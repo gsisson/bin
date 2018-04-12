@@ -4,7 +4,7 @@ echo
 echo "use ffmpeg with the following options:"
 echo 
 echo "ffmpeg -i INPUT.avi -ss HH:MM:SS.xxx -t HH:MM:SS.xxx -acodec copy -vcodec copy OUTPUT.avi"
-echo "ffmpeg -i INPUT.mkv -ss 00:05:12.912 -t 00:00:21.991 -c copy OUTPUT.mkv'
+echo "ffmpeg -i INPUT.mkv -ss 00:05:12.912 -t 00:00:21.991 -c copy OUTPUT.mkv"
 echo "  where -ss is the start time"
 echo "        -t  is the duration"
 echo
