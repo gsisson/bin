@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+. ~/.bashrc
 
 check() {
   $(ps -W | grep -i emacs.exe > /dev/null 2>&1)
@@ -18,5 +19,13 @@ if [ $retcode != 0 ]; then
     fi
   done
 fi
+
+args=("$@")
+for i in "${!args[@]}"; do
+  #printf "%s\t%s\n" "$i" "${args[$i]}"
+  args[$i]=`cygdrivePathFix "${args[$i]}"`
+  #printf "%s\t%s\n" "$i" "${args[$i]}"
+done
+set -- "${args[@]}"
 
 gnuclientw "${@}"

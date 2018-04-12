@@ -1,9 +1,9 @@
 . ~/.bashrc
 
 case $(basename $0) in
-  admin1)  start $HOME/usr/bin0/pc/lnk/admin/Mintty_1_Ctrl_Shift_U.lnk;;
-  admin2)  start $HOME/usr/bin0/pc/lnk/admin/Mintty_2_Ctrl_Shift_J.lnk;;
-  admin3)  start $HOME/usr/bin0/pc/lnk/admin/Mintty_3_Ctrl_Shift_N.lnk;;
+  admin1)  start $HOME/usr/bin0/pc/lnk/mintty_admin/Mintty_1_Ctrl_Shift_U.lnk;;
+  admin2)  start $HOME/usr/bin0/pc/lnk/mintty_admin/Mintty_2_Ctrl_Shift_J.lnk;;
+  admin3)  start $HOME/usr/bin0/pc/lnk/mintty_admin/Mintty_3_Ctrl_Shift_N.lnk;;
   *)       echo "ERROR: unknown argument to $(basename $0)" 1>&2; exit 1;;
 esac
 

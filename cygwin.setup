@@ -2,6 +2,7 @@
 . ~/.bashrc
 
 cd "$HOME/Downloads/c/Cygwin/"
+pwd
 
 f="setup-x86_64.exe"
 
@@ -10,6 +11,7 @@ stop_for_administrator() {
   echo "  newly downloaded \"${f}\" file must be changed to run \"as administrator\""
   echo "  after editting that property on the .exe, re-run this script to use it."
   echo "  (start \"$HOME/downloads/c/Cygwin/\")"
+  open .
   exit 1
 }
 
@@ -25,12 +27,13 @@ done
 older_than_7_days=0
 if [ -f $f ]; then
   older_than_7_days=$(find ${f} -ctime +7 -exec ls {} \; | wc -l)
-  if [ "$older_then_7_days" = 1 ]; then
+  older_than_7_days=$(find ${f} -type f -mtime +7 -exec ls {} \; | wc -l)
+  if [ "$older_than_7_days" = 1 ]; then
     echo "# existing $f is older than 7 days"
   fi
 fi
 
-if [ ! -f $f -o "$older_then_7_days" = 1 ]; then
+if [ ! -f $f -o "$older_than_7_days" = 1 ]; then
   echo "# running wget..."
   echo wget --output-document=${f}.download www.cygwin.com/${f}
   wget --output-document=${f}.download www.cygwin.com/${f} > /dev/null 2>&1
@@ -49,6 +52,8 @@ if [ ! -f $f -o "$older_then_7_days" = 1 ]; then
   if [ ! -f $f -a -f ${f}.download ]; then
     echo + mv ${f}.download ${f}
            mv ${f}.download ${f}
+    # set the date to today's date, so we can age it properly
+    touch ${f}
     stop_for_administrator
   fi
 fi

@@ -15,4 +15,6 @@ cat << _EOF_
   - Editors/gvim
 * Get these direct from developer:
   - Graphics/ImageMagick
+* And these packages are NOT from cygwin
+  - nodejs (get it from https://nodejs.org/en/)
 _EOF_

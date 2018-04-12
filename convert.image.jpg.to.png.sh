@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 src=$(basename $0)
-src=${src#convert.}
+
+src=${src#convert.image.}
 src=${src%.sh}
 src=${src%.dto}
 src=${src%.set}
@@ -21,6 +22,7 @@ fi
 for p in "${@}"; do
   j=${p%.$src}.$tgt
   echo "doing file: ${p}..."
+
   if [ -f "$j" ]; then
     echo "$tgt version already exist!!"
     continue

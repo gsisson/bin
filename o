@@ -8,62 +8,96 @@
 cmd=$(basename $0)
 
 open_it() {
-  if [ "${1#shell}" != "$@" ]; then
-    case "$cmd" in
-      o) echo + explorer "$@" 1>&2 # filter me out
-         explorer "$@";;
-      g) echo "cannot 'g' to '$@'" 1>&2 #filter me out
-	 echo "running 'o' instead..." 1>&2 #filter me out
-         echo + explorer "$@" 1>&2 # filter me out
-         explorer "$@"
-	 echo "";;
-    esac
-  else
-    # directories
-    if [ ! -d "$*" ]; then
-      if [ -z "$*" ]; then
-        echo "usage g <directory>" 1>&2
-        return;
-      fi
-      echo "ERROR: Directory does not exist: '$@'" 1>&2
-      exit 1
+  local clipboard=$( getclip|d2u )
+  if [ "${1#shell}" != "$@" -o "${1#Microsoft}" != "$@"  ]; then
+    # not handling a directory, but a 'shell:' type, or 'Microsoft' type
+    if [ "$cmd" = 'g' ]; then
+      echo "cannot 'g' to '$@'" 1>&2
+      echo "running 'o' instead..." 1>&2
+      cmd='o'
+      # caller of 'g' is expecting some text to be returned, so echo a blank line
+      echo
     fi
-    case "$cmd" in
-      o) dirfix=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) # filter me out
-         echo + explorer $dirfix 1>&2
-         explorer $dirfix
-         ;;
-      g) echo "cd $*";; # filter me out
+    case "$1" in
+      shell*)     echo + explorer "$@" 1>&2
+                         explorer "$@"
+                  ;;
+      Microsoft*) echo + control /name "$@" 1>&2
+                         control /name "$@"
+                  ;;
     esac
+    return
   fi
+  # handling a directory directories
+  if [ -z "$*" ]; then
+    # no argument passed, so maybe a directory is on the clipboard
+    clipboard=$( getclip|d2u )
+    if [ -d "$clipboard" ]; then
+      set -- "$clipboard"
+    else
+      # let the user know we looked for a dir on the clipboard
+      echo "# clipboard does not hold a directory" 1>&2
+    fi
+  fi
+  if [ -z "$*" ]; then
+    # if no directory was passed, nor on the clipboard, that is a usage error
+    echo "usage $cmd <directory>" 1>&2
+    exit 1
+  fi
+  if [ ! -d "$*" ]; then
+    # if the argument passed was not a directoy, that is an error
+    echo "ERROR: Directory does not exist: '$@'" 1>&2
+    exit 1
+  fi
+  # now we have a real directory to work with
+  case "$cmd" in
+    o) # filter this line out, when run with '-?'
+       # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
+       windir=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) 
+       echo + explorer $windir 1>&2
+       explorer $windir
+       ;;
+    g) echo "cd '$*'";; # filter this line out, when run with '-?'
+  esac
 }
 
 case "$@" in
-  room)             open_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
-  tapes)            open_it "V:/_VIDEO.CAPTURE.WORK_";;
-  screensaver)      control "desk.cpl,,@screensaver";;
-  home)             open_it "$HOME";;
+  # executables
+  blinds)           "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
+  photoshop)        shift; $HOME/usr/bin/adobe "$@";;
+  premiere.pro)     shift; $HOME/usr/bin/pp    "$@";;
+  # web pages
+  tix)              cmd /c "c:/_movies_c/_tix/tix.url";;
+  # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
   cloud)            open_it "$HOME/Documents/Cloud";;
+  diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
+  downloads)        open_it "$HOME/Downloads";;
+  home)             open_it "$HOME";;
   links)            open_it "$HOME/usr/bin0/pc/lnk/";;
   movies)           open_it "C:/_MOVIES_C/";;
+  photos)           open_it "P:/";;
+  room)             open_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
   rotate)           open_it "p:/My_Pictures_ToRotate";;
   scan)             open_it "p:/My_Pictures_Scan_In";;
+  screensaver)      control "desk.cpl,,@screensaver";;
   sysinternals)     open_it "$HOME/usr/bin0/pc/SysInternals/";;
+  tapes)            open_it "V:/_VIDEO.CAPTURE.WORK_";;
   video)            open_it "V:/";;
-  photos)           open_it "P:/";;
-  photos.pc)        open_it "shell:My Pictures";;
+  video.marker)     open_it $HOME/usr/bin0/video.marker/;;
+  # places
+  bitlocker)        open_it Microsoft.BitLockerDriveEncryption;;
   computer)         open_it "shell:MyComputerFolder";;
   control.panel)    open_it "shell:ControlPanelFolder";;
-# desktop.folder)   open_it "shell:ThisPCDesktopFolder";;
   desktop)          open_it "shell:Desktop";;
   desktop.common)   open_it "shell:Common Desktop";;
+# desktop.folder)   open_it "shell:ThisPCDesktopFolder";;
   documents)        open_it "shell:Documents";;
 # documents.local)  open_it "shell:Local Documents";;
   documents.common) open_it "shell:Common Documents";;
-  downloads)        open_it "shell:Downloads";;
   libraries)        open_it "shell:Libraries";;
   music)            open_it "shell:My Music";;
+  photos.pc)        open_it "shell:My Pictures";;
   pictures)         open_it "shell:My Pictures";;
   pinned)           open_it "shell:User Pinned";;
   playlists)        open_it "shell:Playlists";;
@@ -72,11 +106,11 @@ case "$@" in
   recycle)          open_it "shell:RecycleBinFolder";;
 # screenshots)      open_it "shell:ScreenShots";;
   sendto)           open_it "shell:SendTo";;
-  startmenu.common) open_it "shell:Common Start Menu";;
   startmenu)        open_it "shell:Start Menu";;
-  startup.common)   open_it "shell:Common Startup";;
+  startmenu.common) open_it "shell:Common Start Menu";;
   startup)          open_it "shell:Startup";;
+  startup.common)   open_it "shell:Common Startup";;
   -?)               cat $0 | grep -v '#' | grep '[a-z])' |
                     sed -e 's:).*::' -e 's:^  ::' | column;;
-  *)                open_it "$*";; #filter me out
+  *)                open_it "$*";; # filter this line out, when run with '-?'
 esac

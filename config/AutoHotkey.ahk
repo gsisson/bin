@@ -64,6 +64,11 @@
 WinMinimize, A
 return
 
+; Control-Shift-Space to maximize current window
+^+Space::
+WinMaximize, A
+return
+
 ^!+Enter::
 Send {Backspace}{Return}{Down}
 return
