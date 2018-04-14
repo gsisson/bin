@@ -6,6 +6,7 @@ cat << _EOF_
   - Devel/binutils (strings)
   - Devel/git
   - Net/curl
+  - Math/bc
   - Ruby/ruby
   - Shells/bash
   - Utils/cygutils-extra (getclip)

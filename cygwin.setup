@@ -54,6 +54,7 @@ if [ ! -f $f -o "$older_than_7_days" = 1 ]; then
            mv ${f}.download ${f}
     # set the date to today's date, so we can age it properly
     touch ${f}
+    chmod +x ${f}
     stop_for_administrator
   fi
 fi
