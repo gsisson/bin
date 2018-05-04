@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+f="c:/Program Files/Adobe/Adobe Photoshop CS6 (64 Bit)/Required/Plug-Ins/Automate/ScriptListener.8li"
+if [ -f "$f" ]; then
+  echo + rm "$f"
+  rm "$f"
+else
+  echo "already disabled"
+fi

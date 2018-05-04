@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+src="$HONE/usr/bin0/pc/adobe_scripts/ScriptListener.8li"
+set -x
+cp $src 'c:/Program Files/Adobe/Adobe Photoshop CS6 (64 Bit)/Required/Plug-Ins/Automate/'
+echo
+echo ENABLED
+echo
+echo "javascript log file of phototoshop activity will end on desktop"

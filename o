@@ -71,6 +71,7 @@ case "$@" in
   # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
   cloud)            open_it "$HOME/Documents/Cloud";;
+  dropbox)          open_it "$HOME/Documents/Cloud/Dropbox";;
   diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
   downloads)        open_it "$HOME/Downloads";;
   home)             open_it "$HOME";;
