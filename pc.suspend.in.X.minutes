@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+usage() {
+  echo "usage: $(basename $0) <time in minutes>"
+  exit 1
+}
+
+suspend="rundll32.exe powrprof.dll,SetSuspendState 0,1,1"
+sleep="Rundll32.exe Powrprof.dll,SetSuspendState Sleep"
+cmd="$sleep"
+
+if [ $# != 1 ]; then
+  usage
+fi
+
+time="$1"
+if ! let "time = time * 60" 2> /dev/null; then
+  usage
+fi
+
+case $time in
+  -*) usage;esac
+
+echo "will run '"$cmd"'"
+echo "after sleeping for $time seconds"
+echo "+ sleep $time"
+
+sleep $time
+eval $cmd
+
