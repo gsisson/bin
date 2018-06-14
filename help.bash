@@ -6,6 +6,10 @@ SHELL (http://www.tldp.org/LDP/Bash-Beginners-Guide/html)
   BASH_SOURCE[] - call stack of files
   funcfiletrace[] - ZSH: call stack of files (see also funcsourcetrace, funcstack functrace)
 
+  history
+    asterisk in history means it was editted
+      ^_ while navigating back through history will show the original command, then
+         you can then execute it
   braces to group block of code (in the CURRENT shell)
     { date; ls; } > logfile
   brace expression with comma {,}

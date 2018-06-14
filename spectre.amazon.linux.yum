@@ -1,0 +1,10 @@
+cat $0 | tailplus 3 ; exit
+
+cd /tmp/
+echo "set -e"                > yum-update.sh
+echo "yum update kernel"    >> yum-update.sh
+echo "echo '------------'"  >> yum-update.sh
+echo "echo 'if the kernel updated, use AWS Console to reboot'"  >> yum-update.sh
+echo "echo '------------'"  >> yum-update.sh
+chmod +x ./yum-update.sh
+sudo ./yum-update.sh

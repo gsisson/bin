@@ -1,0 +1,5 @@
+cat $0 | tailplus 3 | less; exit
+
+see google doc: 'AWS IAM User Sharing'
+
+https://docs.google.com/document/d/1ILXuMOe3OrTJHtaiMWuN6AqbsOBypkpSkk8LrbgZGM8/edit

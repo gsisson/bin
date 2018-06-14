@@ -1,0 +1,12 @@
+cat $0 | tailplus 3 ; exit
+
+cd /tmp/
+echo "set -e"               > apt-get-update.sh
+echo "apt-get update"       >> apt-get-update.sh
+echo "echo '------------'"  >> apt-get-update.sh
+echo "apt-get dist-upgrade" >> apt-get-update.sh
+echo "echo '------------'"  >> apt-get-update.sh
+echo "checkrestart"         >> apt-get-update.sh
+echo "echo '------------'"  >> apt-get-update.sh
+chmod +x ./apt-get-update.sh
+sudo ./apt-get-update.sh

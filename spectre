@@ -1,0 +1,7 @@
+cat $0 | tailplus 3 ; exit
+
+cd /tmp/
+rm -f ./spectre-meltdown-checker.sh
+wget https://raw.githubusercontent.com/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh
+chmod +x ./spectre-meltdown-checker.sh
+sudo ./spectre-meltdown-checker.sh

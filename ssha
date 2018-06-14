@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+ssh=$(p | sed -e 's:" root@:" ec2-user@:' -e 's:" ec2-user@: ec2-user@:' -e 's:-i ":-i ~/.ssh/:' )
+case "$ssh" in
+  *ssh*ec2-user*compute*amazonaws*com*)
+     echo               1>&2
+     echo + $ssh "${@}" 1>&2
+     echo               1>&2
+     eval $ssh "${@}"
+     echo               1>&2
+     echo + $ssh "${@}" 1>&2
+     echo               1>&2
+     ;;
+  *) echo 'clipboard does not contain amazon ssh connect string'
+     ;;
+esac
