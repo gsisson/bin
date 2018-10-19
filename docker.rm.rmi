@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+echo "removing exited (unused) containers..."
+if [ `docker ps -q -f "status=exited" | wc -l` = "0" ]; then
+  echo "  none found"
+else
+  echo + 'docker rm $(docker ps -q -f "status=exited")'
+          docker rm $(docker ps -q -f "status=exited") 2>/dev/null
+fi
+
+echo "removing dangling images..."
+if [ `docker images -q -f "dangling=true" | wc -l ` = 0 ]; then
+  echo "  none found"
+else
+  echo + 'docker rmi $(docker images -q -f "dangling=true")'
+          docker rmi $(docker images -q -f "dangling=true") 2>/dev/null
+fi
+
+echo "removing dangling volumes..."
+if [ `docker volume ls -qf "dangling=true" | wc -l` = 0 ]; then
+  echo "  none found"
+else
+  echo + 'docker volume rm $(docker volume ls -qf "dangling=true")'
+          docker volume rm $(docker volume ls -qf "dangling=true")
+fi

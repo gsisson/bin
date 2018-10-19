@@ -3,7 +3,7 @@ cat $0 | tailplus 3 | less; exit
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !! Note, to change password try this (rather than the command way down below):
 # !! 
-# !!  $ mysqladmin -u root password
+# !!  $ mysqladmin password -u root -p
 # !! 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

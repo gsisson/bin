@@ -2,14 +2,16 @@
 
 dir="/usr/local/bin"
 
-ls -l $dir/docker | grep Library > /dev/null
-if [ $? = 0 ]; then
-  echo Native
-fi
+#ls -l $dir/docker | grep Library > /dev/null
+#if [ $? = 0 ]; then
+#  echo Native
+#fi
 
 ls -l $dir/docker | grep Cellar > /dev/null
 if [ $? = 0 ]; then
   echo Brew
+else
+  echo Native
 fi
 
 echo

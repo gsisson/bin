@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo "stopping all running containers..."
+if [ `docker ps -q -f "status=running" | wc -l` = 0 ]; then
+  echo "  none found"
+else
+  echo + 'docker stop $(docker ps -q -f "status=running")'
+          docker stop $(docker ps -q -f "status=running") 2>/dev/null
+fi
+
+echo "stopping all exited containers..."
+if [ `docker ps -q -f "status=exited" | wc -l` = 0 ]; then
+  echo "  none found"
+else
+  echo + 'docker rm $(docker ps -q -f "status=exited")'
+          docker rm $(docker ps -q -f "status=exited") 2>/dev/null
+fi
