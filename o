@@ -67,7 +67,21 @@ case "$@" in
   photoshop)        shift; $HOME/usr/bin/adobe "$@";;
   premiere.pro)     shift; $HOME/usr/bin/pp    "$@";;
   # web pages
-  tix)              cmd /c "c:/_movies_c/_tix/tix.url";;
+  tix)              cmd /c "start https://tpb.cool/";;
+                    #tpb.cool
+                    #piratebay.icu
+                    #thepiratebay.icu
+                    #proxybay.live
+                    #pirateproxy.wtf
+                    #piratebay.life
+                    #thepiratebay.fail
+                    #thepiratebay.fyi
+                    #piratebay.tech
+                    #thepirate.live
+                    #thepirate.fun
+                    #thepirate.host
+                    #thepiratebay.org/search/The%20Fourth%20Estate/0/99/0
+  tix2)             cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
   # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
   cloud)            open_it "$HOME/Documents/Cloud";;
@@ -100,6 +114,7 @@ case "$@" in
   music)            open_it "shell:My Music";;
   photos.pc)        open_it "shell:My Pictures";;
   pictures)         open_it "shell:My Pictures";;
+  pictures.desktop) open_it "c:/Users/gsisson/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets";;
   pinned)           open_it "shell:User Pinned";;
   playlists)        open_it "shell:Playlists";;
   printers)         open_it "shell:PrintersFolder";;
