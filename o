@@ -7,8 +7,14 @@
 
 cmd=$(basename $0)
 
+OS=$(uname)
+
 open_it() {
-  local clipboard=$( getclip|d2u )
+  if [ $OS = Darwin ]; then
+    local clipboard=$( pbpaste )
+  else
+    local clipboard=$( getclip|d2u )
+  fi
   if [ "${1#shell}" != "$@" -o "${1#Microsoft}" != "$@"  ]; then
     # not handling a directory, but a 'shell:' type, or 'Microsoft' type
     if [ "$cmd" = 'g' ]; then
@@ -53,9 +59,14 @@ open_it() {
   case "$cmd" in
     o) # filter this line out, when run with '-?'
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
-       windir=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) 
-       echo + explorer $windir 1>&2
-       explorer $windir
+       if [ $OS = Darwin ]; then
+         echo + open $windir $@ 1>&2
+         open $windir $@
+       else
+         windir=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) 
+         echo + explorer $windir 1>&2
+         explorer $windir
+       fi
        ;;
     g) echo "cd '$*'";; # filter this line out, when run with '-?'
   esac
@@ -84,7 +95,12 @@ case "$@" in
   tix2)             cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
   # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
-  cloud)            open_it "$HOME/Documents/Cloud";;
+  cloud)            if [ $OS = Darwin ]; then
+                      open_it "$HOME/Dropbox/"
+                    else
+                      open_it "$HOME/Documents/Cloud"
+                    fi
+                    ;;
   dropbox)          open_it "$HOME/Documents/Cloud/Dropbox";;
   diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
   downloads)        open_it "$HOME/Downloads";;
