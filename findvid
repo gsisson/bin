@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+dir="t:/RECYCLABLE/v/"
+cd $dir || o bitlocker || exit 1
+
+find . -type f > find.txt
+
+if [ "$1" = "-" ]; then
+  p| sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' | c
+  set -- $(p)
+fi
+
+if [ "$1" = "" ]; then
+  echo "usage: $(basename $0) <SEARCH_NUMBER>"
+  exit
+fi
+
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+  num="$1"
+  shift
+  one="$( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' )"
+  set -- $( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' ) ${@}
+fi
+
+echo ==========================
+echo searching for: $@...
+# echo + grep -i "$1" find.txt
+  cat find.txt | egrep -v '(jpg$|lnk$|txt$)'> tmpf1
+  while [ $# -gt 0 ]; do
+    cat tmpf1 | grep -i "$1" > tmpf2
+    mv tmpf2 tmpf1
+    if [ $# = 1 ]; then
+      break
+    fi
+    shift
+  done
+  old_d=""
+  cat tmpf1 | sort |
+   sed -e 's|^./|'$dir'|' |
+   while read line; do
+     f=${line##*/}
+     d=${line%$f}
+     if [ "$d" != "$old_d" ]; then
+       echo '===================================================================='
+       echo $d:
+       old_d="$d"
+     fi
+     echo "  $f"
+   done | egrep -i --color "$1|$"
+echo 
+exit
+
+echo ==========================
+cat tmpf1 | sed -e 's|\(.*\)/.*|\1|' -e 's|^..|'"$dir"'|' | f2b
+echo ==========================

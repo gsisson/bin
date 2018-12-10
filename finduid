@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+usage() {
+  echo "$(basename $0) does not take any arguments" 1>&2
+  exit 1
+}
+
+if [ "$#" != 0 ]; then
+  usage
+fi
+
+cd t:/recyclable/v || o bitlocker || exit 1
+find . -type f > find.txt
+
+while true; do
+  set -- $(r)
+  cat find.txt | grep -i "$1" > /dev/null 2>&1
+  if [ $? != 0 ]; then
+    ruby -e "print '$1'"
+    ruby -e "print '$1'" | c
+    break
+  fi
+done
