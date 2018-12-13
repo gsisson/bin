@@ -78,7 +78,8 @@ case "$@" in
   photoshop)        shift; $HOME/usr/bin/adobe "$@";;
   premiere.pro)     shift; $HOME/usr/bin/pp    "$@";;
   # web pages
-  tix)              cmd /c "start https://tpb.cool/";;
+  tix)              echo 'no';;
+                    #cmd /c "start https://tpb.cool/";;
                     #tpb.cool
                     #piratebay.icu
                     #thepiratebay.icu
@@ -92,7 +93,8 @@ case "$@" in
                     #thepirate.fun
                     #thepirate.host
                     #thepiratebay.org/search/The%20Fourth%20Estate/0/99/0
-  tix2)             cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
+  tix2)             echo 'no';;
+                    #cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
   # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
   cloud)            if [ $OS = Darwin ]; then

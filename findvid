@@ -6,51 +6,78 @@ cd $dir || o bitlocker || exit 1
 
 find . -type f > find.txt
 
-if [ "$1" = "-" ]; then
-  p| sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' | c
-  set -- $(p)
+usage() {
+  echo "usage: $(basename $0) [-d] -"
+  echo "   or: $(basename $0) [-d] UID"
+  echo "   or: $(basename $0) [-d] <SEARCH_STRING>..."
+  echo "       -d: separate results by directory"
+  echo "       -:  clipboard will hold a 'uid' number to look for"
+  exit 1
+}
+
+if [ "$1" = "-d" ]; then
+  separated=true
+  shift
 fi
 
 if [ "$1" = "" ]; then
-  echo "usage: $(basename $0) <SEARCH_NUMBER>"
-  exit
+  usage
 fi
 
-if [[ "$1" =~ ^[0-9]+$ ]]; then
+if [ "$1" = '-' ]; then
+  shift
+  if [ $# != 0 ]; then
+    usage
+  fi
+  set -- $(p)
+  if [ $# != 1 ]; then
+    echo "ERROR: clipboard contains more than one number"
+    exit 1
+  fi
+  num=true
+else
+  if [ $# = 1 ]; then
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+      num=true
+    fi
+  fi
+fi
+
+if [ "$num" = true ]; then
+  if [ $# != 1 ]; then
+    echo "INTERNAL ERROR: should only be one arg!"
+    exit 1
+  fi
   num="$1"
   shift
-  one="$( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' )"
+  thing="$( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' )"
   set -- $( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' ) ${@}
 fi
 
-echo ==========================
-echo searching for: $@...
-# echo + grep -i "$1" find.txt
-  cat find.txt | egrep -v '(jpg$|lnk$|txt$)'> tmpf1
-  while [ $# -gt 0 ]; do
-    cat tmpf1 | grep -i "$1" > tmpf2
-    mv tmpf2 tmpf1
-    if [ $# = 1 ]; then
-      break
-    fi
-    shift
-  done
-  old_d=""
-  cat tmpf1 | sort |
-   sed -e 's|^./|'$dir'|' |
-   while read line; do
-     f=${line##*/}
-     d=${line%$f}
-     if [ "$d" != "$old_d" ]; then
-       echo '===================================================================='
-       echo $d:
-       old_d="$d"
-     fi
-     echo "  $f"
-   done | egrep -i --color "$1|$"
-echo 
-exit
+#echo ========================== 1>&2
+#echo searching for: $@...       1>&2
 
-echo ==========================
-cat tmpf1 | sed -e 's|\(.*\)/.*|\1|' -e 's|^..|'"$dir"'|' | f2b
-echo ==========================
+args=''
+for arg in "$@"; do
+  args="${args}(?=.*$arg)"
+done
+
+old_d=""
+
+if [ "$separated" != true ]; then
+  cat find.txt | egrep -v '(jpg$|lnk$|txt$|xmp$)' | grep -iP "$args" 
+  exit
+else
+  cat find.txt | egrep -v '(jpg$|lnk$|txt$)|xmp$' | grep -iP "$args" | sort |
+  sed -e 's|^./|'$dir'|' |
+  while read line; do
+    f=${line##*/}
+    d=${line%$f}
+    if [ "$d" != "$old_d" ]; then
+      echo '===================================================================='
+      echo $d:
+      old_d="$d"
+    fi
+    echo "  $f"
+  done | egrep -i --color "$1|$"
+fi
