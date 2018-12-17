@@ -5,12 +5,9 @@
 
 # set -- "${1,,}"
 
-cmd=$(basename $0)
-
-OS=$(uname)
-
 open_it() {
-  if [ $OS = Darwin ]; then
+  cmd=$(basename $0)
+  if [ "${CYGWIN}" = "" ]; then
     local clipboard=$( pbpaste )
   else
     local clipboard=$( getclip|d2u )
@@ -59,7 +56,7 @@ open_it() {
   case "$cmd" in
     o) # filter this line out, when run with '-?'
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
-       if [ $OS = Darwin ]; then
+       if [ "${CYGWIN}" = "" ]; then
          echo + open $windir $@ 1>&2
          open $windir $@
        else
@@ -78,8 +75,8 @@ case "$@" in
   photoshop)        shift; $HOME/usr/bin/adobe "$@";;
   premiere.pro)     shift; $HOME/usr/bin/pp    "$@";;
   # web pages
-  tix)              echo 'no';;
-                    #cmd /c "start https://tpb.cool/";;
+  tix1)             echo 'no';;
+                    #cmd /c "start https://tpb.cool/"
                     #tpb.cool
                     #piratebay.icu
                     #thepiratebay.icu
@@ -94,10 +91,10 @@ case "$@" in
                     #thepirate.host
                     #thepiratebay.org/search/The%20Fourth%20Estate/0/99/0
   tix2)             echo 'no';;
-                    #cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
+                    #cmd /c "start https://zooqle.com/search?q=the+clinton+affair"
   # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
-  cloud)            if [ $OS = Darwin ]; then
+  cloud)            if [ "${CYGWIN}" = "" ]; then
                       open_it "$HOME/Dropbox/"
                     else
                       open_it "$HOME/Documents/Cloud"

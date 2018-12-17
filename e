@@ -8,5 +8,5 @@ case "$1" in
                     sed -e 's:).*::' -e 's:^  ::' | egrep -v -- '(\*|\-\?)' | column;;
   *) echo "Unknown option: \"$prog\""
      echo "Try one of these:"
-     $0 -? | expand | sed -e 's:^:  :'
+     $0 -? | expand | sed -e 's:^:  :';;
 esac
