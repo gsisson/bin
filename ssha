@@ -1,9 +1,26 @@
 #!/usr/bin/env bash
 . ~/.bashrc
 
-ssh=$(p | sed -e 's:" root@:" ec2-user@:' -e 's:" ec2-user@: ec2-user@:' -e 's:-i ":-i ~/.ssh/:' )
+keyfile=$(p|sed -e 's:" .*::' -e 's:.* "::')
+server=$(p|sed -e 's:.*" ::' -e 's:"root@:"ec2-user@:')
+
+if [ ! -f ~/.ssh/$keyfile ]; then
+  if [ -f ~/.ssh/${keyfile}.pem ]; then
+    keyfile=~/.ssh/${keyfile}.pem
+  else
+    if [ -f ~/.ssh/${keyfile%.pem} ]; then
+      keyfile=~/.ssh/${keyfile%.pem}
+    fi
+  fi
+fi
+
+server=$(echo $server | sed -e 's:" root@:" ec2-user@:')
+ssh="ssh -i '$keyfile' $server"
+echo ssh:$ssh
+
 case "$ssh" in
-  *ssh*ec2-user*compute*amazonaws*com*)
+# *ssh*ec2-user*compute*amazonaws*com*|*ssh*ubuntu*compute*amazonaws*com*)
+  *ssh*ec2-user*)
      echo               1>&2
      echo + $ssh "${@}" 1>&2
      echo               1>&2

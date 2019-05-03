@@ -1,0 +1,5 @@
+cd ~/Music/iTunes/iTunes\ Media/Music
+outf=~/Dropbox/__TO_MOVE_TO_MBP______MUSIC/MUSIC.mac.find.txt
+find . -type f | grep -Ei '(mp3$|mp[a4]$|m4[ap]$)' > $outf
+ls -l $outf
+

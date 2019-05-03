@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+echo 'rename the iTerm2 tab'
+echo '  echo -ne "\033]0;"TAB NAME"\007"'
+echo 'for tabs where PS1 is already overridden to set tab name:'
+echo '  PS1="${PS1}\033]0;TAB NAME\007"'
+echo
+echo 'examples:'
+echo '    PS1="${PS1}\033]0;jenkins old\007"'
+echo '    PS1="${PS1}\033]0;J HOST\007"'
+echo '    echo -ne "\033]0;"J root"\007"'
+echo '    PS1="${PS1}\033]0;J jenkins\007"'
+echo 
+echo 'LS_COLORS="no=00:fi=01;97;40:di=01;96;40:ln=01;07;97;40:pi=30;43:so=01;95:do=95:bd=01;93;43:cd=01;93;43:or=05;01;91;40:mi=05;30;101:su=07;01;31;107:sg=07;01;35;107:tw=30;103:ow=07;91;107:st=01;97;43:ex=01;92;40:*.set_guid=07;01;35;107:*.set_uid=07;01;31;107:*.sticky_other_writable=30;103:*.other_writable=07;91;107:*.sticky=01;97;43:*.socket=01;95:*.named_pipe=30;43:*.block_device=01;93;43::*.char_device=01;93;43"'
