@@ -103,6 +103,7 @@ case "$@" in
   screensaver)      control "desk.cpl,,@screensaver";;
   bitlocker)        handle_it Microsoft.BitLockerDriveEncryption;;
   # folder shorthands that can be 'opened'
+  completion)       handle_it "$HOME/usr/completion/";;
   auto_hot_key)     handle_it "$HOME/usr/bin/config/";;
   cloud)            if [ "${CYGWIN}" = "" ]; then
                       handle_it "$HOME/Dropbox/"
