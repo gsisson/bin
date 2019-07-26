@@ -6,13 +6,14 @@ server=$(p|sed -e 's:.*" ::' -e 's:"root@:"ec2-user@:')
 
 if [ ! -f ~/.ssh/$keyfile ]; then
   if [ -f ~/.ssh/${keyfile}.pem ]; then
-    keyfile=~/.ssh/${keyfile}.pem
+    keyfile=${keyfile}.pem
   else
     if [ -f ~/.ssh/${keyfile%.pem} ]; then
-      keyfile=~/.ssh/${keyfile%.pem}
+      keyfile=${keyfile%.pem}
     fi
   fi
 fi
+keyfile=~/.ssh/${keyfile}
 
 server=$(echo $server | sed -e 's:" root@:" ec2-user@:')
 ssh="ssh -i '$keyfile' $server"

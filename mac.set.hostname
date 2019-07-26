@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ $# != 1 ]; then
+  echo "usage: `basename $0` HOSTNAME"
+  exit 1
+fi
+
+sudo scutil --set HostName "$@"
+sudo scutil --set LocalHostName "$@"
+sudo scutil --set ComputerName "$@"
+dscacheutil -flushcache

@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 
-set -x
-#defaults write com.apple.screencapture location $HOME/Desktop
- defaults write com.apple.screencapture location $HOME/Dropbox/work/Screenshots
- killall SystemUIServer
- set +x
- echo 'wait a bit, and then screen shots should go to that folder...'
+ss_dir="Dropbox/work/Screenshots"
+ss_dir="Desktop"
+
+echo
+echo "# setting location of screenshots to: ${ss_dir}..."
+echo "+ defaults write com.apple.screencapture location $HOME/$ss_dir"
+        defaults write com.apple.screencapture location $HOME/$ss_dir
+echo '# getting rid of screenshot filename prefixes...'
+echo '+ defaults write com.apple.screencapture name ""'
+        defaults write com.apple.screencapture name ""
+echo '# restarting screenshot mgmt system'
+echo '+ killall SystemUIServer'
+        killall SystemUIServer
+echo
+
+echo '# wait a short bit, for screenshot mgmt system to restart'
+echo

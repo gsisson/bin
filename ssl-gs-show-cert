@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ $# != 1 ]; then
+  echo "usage: `basename $0` CERTIFICATE_FILE"
+  exit
+fi
+
+echo + openssl x509 -text -in "$1"
+       openssl x509 -text -in "$1"
