@@ -5,19 +5,24 @@
 #   _source_dot_file  ~/.some_other_dot_file
 #   _leave_dot_file
 
-_do_something() {
-  :
-  # To help figure out where in the dot files something is loading,
-  # touch "$HOME/.dotfiles_debug_sentinal", and then output something here,
-  # for exaple, watch PATH, to see where new items get added
-  #  echo $PATH | tr : '
-  #'| wc
-}
+# this next function is obsolete... instead, just put code in the
+# ~/.dotfiles_debug_sentinal file and it will be run
+# (ie. calls to '_do_something()' have been replaced below with '. $sentinal')
+#
+# _do_something() {
+#   :
+#   # To help figure out where in the dot files something is loading,
+#   # touch "$HOME/.dotfiles_debug_sentinal", and then output something here,
+#   # for exaple, watch PATH, to see where new items get added
+#   #  echo $PATH | tr : '
+#   #'| wc
+# }
 
 _enter_dot_file() {
-  _do_something
+  #_do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   if [ -f $sentinal ]; then
+    . $sentinal
     if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
     if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
     caller=${caller#?:}
@@ -28,9 +33,10 @@ _enter_dot_file() {
 }
 
 _leave_dot_file() {
-  _do_something
+  #_do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   if [ -f $sentinal ]; then
+    . $sentinal
     if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
     if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
     caller=${caller#?:}
@@ -41,7 +47,7 @@ _leave_dot_file() {
 }
 
 _source_dot_file() {
-  _do_something
+  #_do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   local file="$1"
   if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
@@ -54,6 +60,7 @@ _source_dot_file() {
   file=${file#/[uU]sers/[a-zA-Z]*/}   # string /users/name/
   if [ -f "$1" ]; then
     if [ -f $sentinal ]; then
+      . $sentinal
       echo "    $caller (now loading $file)"
     fi
     source "$1"
@@ -63,7 +70,7 @@ _source_dot_file() {
 }
 
 _say_something() {
-  _do_something
+  #_do_something
   local sentinal="$HOME/.dotfiles_debug_sentinal"
   local file="$1"
   if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
@@ -75,6 +82,7 @@ _say_something() {
   file=${file#/cygdrive/[a-zA-Z]}     # strip /cygdrive/c
   file=${file#/[uU]sers/[a-zA-Z]*/}   # string /users/name/
   if [ -f $sentinal ]; then
+    . $sentinal
     echo "    $caller (Note: $@)"
   fi
 }

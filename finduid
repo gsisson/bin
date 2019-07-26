@@ -2,20 +2,83 @@
 . ~/.bashrc
 
 usage() {
-  echo "$(basename $0) does not take any arguments" 1>&2
+  if [ -n "$@" ]; then
+    echo "$@" 1>&2
+  fi
+  echo "usage: $(basename $0) [NUMBER|-|+[+]..]" 1>&2
+  echo "   ex  $(basename $0)   023672"   1>&2
+  echo "   ex  $(basename $0) '#023672#'" 1>&2
+  echo "   ex  $(basename $0) -          # gets number from clipboard" 1>&2
+  echo "   ex  $(basename $0) +          # gets number from clipboard, and increments" 1>&2
+  echo "   ex  $(basename $0) ++         # gets number from clipboard, and increments twice" 1>&2
   exit 1
 }
 
-if [ "$#" != 0 ]; then
-  usage
+cleann() {
+  # echo "in: cleann $1"  1>&2
+  n=${1#\#}
+  # echo "n|$n|"  1>&2
+  n=${n%\#}
+  # echo "n|$n|"  1>&2
+  case "$n" in
+    [0-9][0-9]*);;
+    *)          usage "ERROR: '$n' is not a number";;
+  esac
+  # echo "out: $n" 1>&2
+  echo $n
+}
+
+n=""
+if [ "$#" -gt 0 ]; then
+  if [ "$1" = '-' ]; then
+    shift
+    n=`p`
+    if [ "$#" != 0 ]; then
+      usage
+    fi
+  else
+    if [ "$1" = '+' ]; then
+      while [ "$1" = '+' ]; do
+        # echo shift 1>&2
+        shift
+        case "$n" in
+          [0-9][0-9]*);;
+          *)          n=`p`;;
+        esac
+        cleann "$n" > /dev/null
+        n=`cleann "$n"`
+        let "n=$((10#$n+1))"
+      done
+      if [ "$#" != 0 ]; then
+        usage
+      fi
+    else
+      if [ "$#" != 1 ]; then
+        usage
+      fi
+      n="$1"
+    fi
+  fi
+  # echo n::$n::
+  cleann "$n" > /dev/null
+  # echo n:$n:
+  n=`cleann "$n"`
+  # echo n:$n:
+  n=$(printf "%06d" $((10#$n)))
+  # echo n::$n::
+  echo + findvid $n
+  findvid $n
+  exit $?
 fi
 
-cd t:/recyclable/v || o bitlocker || exit 1
+cd t:/Premiere.Pro.Work || o bitlocker || exit 1
+\ls ./\#* > find 2>/dev/null
+cd t:/recyclable/v      || o bitlocker || exit 1
 find . -type f > find.txt
 
 while true; do
   set -- $(r)
-  cat find.txt | grep -i "$1" > /dev/null 2>&1
+  cat find.txt t:/Premiere.Pro.Work/find | grep -i "$1" > /dev/null 2>&1
   if [ $? != 0 ]; then
     ruby -e "print '$1'"
     ruby -e "print '$1'" | c

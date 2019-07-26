@@ -75,8 +75,8 @@ case "$@" in
   photoshop)        shift; $HOME/usr/bin/adobe "$@";;
   premiere.pro)     shift; $HOME/usr/bin/pp    "$@";;
   # web pages
-  tix1)             echo 'no';;
-                    #cmd /c "start https://tpb.cool/"
+  tix1)             #echo 'no';;
+                    cmd /c "start https://tpb.cool/";;
                     #tpb.cool
                     #piratebay.icu
                     #thepiratebay.icu
@@ -90,8 +90,8 @@ case "$@" in
                     #thepirate.fun
                     #thepirate.host
                     #thepiratebay.org/search/The%20Fourth%20Estate/0/99/0
-  tix2)             echo 'no';;
-                    #cmd /c "start https://zooqle.com/search?q=the+clinton+affair"
+  tix2)             #echo 'no';;
+                    cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
   # folders
   auto_hot_key)     open_it "$HOME/usr/bin/config/";;
   cloud)            if [ "${CYGWIN}" = "" ]; then
@@ -103,6 +103,7 @@ case "$@" in
   dropbox)          open_it "$HOME/Documents/Cloud/Dropbox";;
   diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
   downloads)        open_it "$HOME/Downloads";;
+  firefox)          cmd /c "C:/Program Files/Mozilla Firefox/firefox.exe";;
   home)             open_it "$HOME";;
   links)            open_it "$HOME/usr/bin0/pc/lnk/";;
   movies)           open_it "C:/_MOVIES_C/";;

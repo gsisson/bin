@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 . ~/.bashrc
 
+cd t:/Premiere.Pro.Work || o bitlocker || exit 1
+\ls ./\#* > find 2>/dev/null
 dir="t:/RECYCLABLE/v/"
 cd $dir || o bitlocker || exit 1
 
@@ -65,19 +67,20 @@ done
 old_d=""
 
 if [ "$separated" != true ]; then
-  cat find.txt | egrep -v '(jpg$|lnk$|txt$|xmp$)' | grep -iP "$args" 
+  cat find.txt t:/Premiere.Pro.Work/find | egrep -v '(jpg$|txt$|xmp$)' | grep -iP "$args" | grep '.*/' |
+    sed -e 's|^\.|t:/RECYCLABLE/v|'
   exit
 else
-  cat find.txt | egrep -v '(jpg$|lnk$|txt$)|xmp$' | grep -iP "$args" | sort |
+  cat find.txt t:/Premiere.Pro.Work/find | egrep -v '(jpg$|txt$)|xmp$' | grep -iP "$args" | sort |
   sed -e 's|^./|'$dir'|' |
   while read line; do
     f=${line##*/}
     d=${line%$f}
     if [ "$d" != "$old_d" ]; then
       echo '===================================================================='
-      echo $d:
+      echo dd=\"$d\"
       old_d="$d"
     fi
-    echo "  $f"
+    echo '  start "${dd}/'$f'"'
   done | egrep -i --color "$1|$"
 fi
