@@ -1,24 +1,37 @@
 #!/usr/bin/env bash
 
-# these can be find in the registry in
-#   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{****-****}
+# This script is symlinked and can be entered as 'o' or 'g':
+#   ~/usr/bin/o
+#   ~/usr/bin/g
+#
+# It provides command completion when used in conjuction
+#   with ~/usr/completion/[og]
+#
+# Pass an argument and when runs as
+#   'o' it will 'open' the passed argument (a folder or supported program name)
+#   'g' will output a 'cd' command for passed arguement (must be a folder)
+#       Note: if 'g' gets a non-directory target it will just open it as though called with 'o'
+#
+# - If no argument is passed in, the clipboard is used as the argument
 
-# set -- "${1,,}"
-
-open_it() {
+#
+# the function that does the actual work
+#
+handle_it() {
   cmd=$(basename $0)
   if [ "${CYGWIN}" = "" ]; then
     local clipboard=$( pbpaste )
   else
     local clipboard=$( getclip|d2u )
   fi
+  # handle arguments 
   if [ "${1#shell}" != "$@" -o "${1#Microsoft}" != "$@"  ]; then
     # not handling a directory, but a 'shell:' type, or 'Microsoft' type
     if [ "$cmd" = 'g' ]; then
-      echo "cannot 'g' to '$@'" 1>&2
+      echo "cannot 'g' to '$@'"     1>&2
       echo "running 'o' instead..." 1>&2
       cmd='o'
-      # caller of 'g' is expecting some text to be returned, so echo a blank line
+      # caller of 'g' is expecting some text to be returned, so echo back a blank line
       echo
     fi
     case "$1" in
@@ -34,7 +47,7 @@ open_it() {
   # handling a directory directories
   if [ -z "$*" ]; then
     # no argument passed, so maybe a directory is on the clipboard
-    clipboard=$( getclip|d2u )
+    #clipboard=$( getclip|d2u )
     if [ -d "$clipboard" ]; then
       set -- "$clipboard"
     else
@@ -54,7 +67,7 @@ open_it() {
   fi
   # now we have a real directory to work with
   case "$cmd" in
-    o) # filter this line out, when run with '-?'
+    o) # filter this line out when run with '-?'
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
        if [ "${CYGWIN}" = "" ]; then
          echo + open $windir $@ 1>&2
@@ -65,84 +78,90 @@ open_it() {
          explorer $windir
        fi
        ;;
-    g) echo "cd '$*'";; # filter this line out, when run with '-?'
+    g) echo "cd '$*'";; # filter this line out when run with '-?'
   esac
 }
 
+# - Here we translate supported 'shorthand' arguements for real directories or programs
+#   that are hard to remember
+# - Add more entries to the 'case' to handle new shorthands
+# - Any argument that isn't a shorthand is handed by the final '*' case (specific directories
+#   or something passed in on the clipboard
+
+desktop_pictures_locn="c:/Users/gsisson/AppData/Local/Packages/Microsoft.Windows."
+desktop_pictures_locn="${desktop_pictures_locn}ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
+
 case "$@" in
-  # executables
+  # '-?' provides help by returning a list of supported shorthands.
+  # This argument is used by ~/usr/completion/[og] to get command completion for shortcuts
+  -?)               cat $0 | grep -v '#' | grep '[a-z])' | sed -e 's:).*::' -e 's:^  ::' | column;;
+  # executable shorthands that can be 'opened'
   blinds)           "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
   photoshop)        shift; $HOME/usr/bin/adobe "$@";;
   premiere.pro)     shift; $HOME/usr/bin/pp    "$@";;
-  # web pages
-  tix1)             #echo 'no';;
-                    cmd /c "start https://tpb.cool/";;
-                    #tpb.cool
-                    #piratebay.icu
-                    #thepiratebay.icu
-                    #proxybay.live
-                    #pirateproxy.wtf
-                    #piratebay.life
-                    #thepiratebay.fail
-                    #thepiratebay.fyi
-                    #piratebay.tech
-                    #thepirate.live
-                    #thepirate.fun
-                    #thepirate.host
-                    #thepiratebay.org/search/The%20Fourth%20Estate/0/99/0
-  tix2)             #echo 'no';;
-                    cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
-  # folders
-  auto_hot_key)     open_it "$HOME/usr/bin/config/";;
-  cloud)            if [ "${CYGWIN}" = "" ]; then
-                      open_it "$HOME/Dropbox/"
-                    else
-                      open_it "$HOME/Documents/Cloud"
-                    fi
-                    ;;
-  dropbox)          open_it "$HOME/Documents/Cloud/Dropbox";;
-  diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
-  downloads)        open_it "$HOME/Downloads";;
   firefox)          cmd /c "C:/Program Files/Mozilla Firefox/firefox.exe";;
-  home)             open_it "$HOME";;
-  links)            open_it "$HOME/usr/bin0/pc/lnk/";;
-  movies)           open_it "C:/_MOVIES_C/";;
-  photos)           open_it "P:/";;
-  room)             open_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
-  rotate)           open_it "p:/My_Pictures_ToRotate";;
-  scan)             open_it "p:/My_Pictures_Scan_In";;
   screensaver)      control "desk.cpl,,@screensaver";;
-  sysinternals)     open_it "$HOME/usr/bin0/pc/SysInternals/";;
-  tapes)            open_it "V:/_VIDEO.CAPTURE.WORK_";;
-  video)            open_it "V:/";;
-  video.marker)     open_it $HOME/usr/bin0/video.marker/;;
-  # places
-  bitlocker)        open_it Microsoft.BitLockerDriveEncryption;;
-  computer)         open_it "shell:MyComputerFolder";;
-  control.panel)    open_it "shell:ControlPanelFolder";;
-  desktop)          open_it "shell:Desktop";;
-  desktop.common)   open_it "shell:Common Desktop";;
-# desktop.folder)   open_it "shell:ThisPCDesktopFolder";;
-  documents)        open_it "shell:Documents";;
-# documents.local)  open_it "shell:Local Documents";;
-  documents.common) open_it "shell:Common Documents";;
-  libraries)        open_it "shell:Libraries";;
-  music)            open_it "shell:My Music";;
-  photos.pc)        open_it "shell:My Pictures";;
-  pictures)         open_it "shell:My Pictures";;
-  pictures.desktop) open_it "c:/Users/gsisson/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets";;
-  pinned)           open_it "shell:User Pinned";;
-  playlists)        open_it "shell:Playlists";;
-  printers)         open_it "shell:PrintersFolder";;
-  quick.launch)     open_it "shell:Quick Launch";;
-  recycle)          open_it "shell:RecycleBinFolder";;
-# screenshots)      open_it "shell:ScreenShots";;
-  sendto)           open_it "shell:SendTo";;
-  startmenu)        open_it "shell:Start Menu";;
-  startmenu.common) open_it "shell:Common Start Menu";;
-  startup)          open_it "shell:Startup";;
-  startup.common)   open_it "shell:Common Startup";;
-  -?)               cat $0 | grep -v '#' | grep '[a-z])' |
-                    sed -e 's:).*::' -e 's:^  ::' | column;;
-  *)                open_it "$*";; # filter this line out, when run with '-?'
+  bitlocker)        handle_it Microsoft.BitLockerDriveEncryption;;
+  # folder shorthands that can be 'opened'
+  auto_hot_key)     handle_it "$HOME/usr/bin/config/";;
+  cloud)            if [ "${CYGWIN}" = "" ]; then
+                      handle_it "$HOME/Dropbox/"
+                    else
+                      handle_it "$HOME/Documents/Cloud"
+                    fi;;
+  dropbox)          handle_it "$HOME/Documents/Cloud/Dropbox";;
+  downloads)        handle_it "$HOME/Downloads";;
+  home)             handle_it "$HOME";;
+  links)            handle_it "$HOME/usr/bin0/pc/lnk/";;
+  movies)           handle_it "C:/_MOVIES_C/";;
+  photos)           handle_it "P:/";;
+  room)             handle_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
+  rotate)           handle_it "p:/My_Pictures_ToRotate";;
+  scan)             handle_it "p:/My_Pictures_Scan_In";;
+  sysinternals)     handle_it "$HOME/usr/bin0/pc/SysInternals/";;
+  video)            handle_it "V:/";;
+  video.marker)     handle_it $HOME/usr/bin0/video.marker/;;
+  # places (executables that are kind of like folders)
+  diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
+  computer)         handle_it "shell:MyComputerFolder";;
+  control.panel)    handle_it "shell:ControlPanelFolder";;
+  desktop)          handle_it "shell:Desktop";;
+  desktop.common)   handle_it "shell:Common Desktop";;
+  #desktop.folder)  handle_it "shell:ThisPCDesktopFolder";;
+  documents)        handle_it "shell:Documents";;
+  #documents.local) handle_it "shell:Local Documents";; #same place as 'documents' actually
+  documents.common) handle_it "shell:Common Documents";;
+  libraries)        handle_it "shell:Libraries";;
+  music)            handle_it "shell:My Music";;
+  photos.pc)        handle_it "shell:My Pictures";;
+  pictures)         handle_it "shell:My Pictures";;
+  pictures.desktop) handle_it "$desktop_pictures_locn";;
+  pinned)           handle_it "shell:User Pinned";;
+  playlists)        handle_it "shell:Playlists";;
+  printers)         handle_it "shell:PrintersFolder";;
+  quick.launch)     handle_it "shell:Quick Launch";;
+  recycle)          handle_it "shell:RecycleBinFolder";;
+  screenshots)      handle_it "shell:ScreenShots";;
+  sendto)           handle_it "shell:SendTo";;
+  startmenu)        handle_it "shell:Start Menu";;
+  startmenu.common) handle_it "shell:Common Start Menu";;
+  startup)          handle_it "shell:Startup";;
+  startup.common)   handle_it "shell:Common Startup";;
+  # web pages
+  tix)              cmd /c "start https://tpb.cool/";;
+                                         #tpb.cool
+                                         #piratebay.icu
+                                         #thepiratebay.icu
+                                         #proxybay.live
+                                         #pirateproxy.wtf
+                                         #piratebay.life
+                                         #thepiratebay.fail
+                                         #thepiratebay.fyi
+                                         #piratebay.tech
+                                         #thepirate.live
+                                         #thepirate.fun
+                                         #thepirate.host
+                                         #thepiratebay.org/search/The%20Fourth%20Estate/0/99/0
+  tix2)             cmd /c "start https://zooqle.com/search?q=the+clinton+affair";;
+  *)                handle_it "$*";;
 esac
