@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 
 usage() {
-  echo "usage: $(basename $0) [simple|full]"
+  echo "usage: $(basename $0) [simple|full|256]"
   exit 1
 }
 
-print_notes () {
+print_notes() {
   echo "# Notes:"
   echo "#   in bash: must use 'echo -e'"
   echo "#   in bash: must use '\033' for escape (not '\e' nor '^[')"
   echo "#            (but, zsh can use '\e')"
   echo "#   reset/terminate with \"\033[0m\""
-  echo "#   examples:"
+}
+
+print_examples() {
+  echo "# Examples:"
   one=" underlined italic 'green' "
   two=" no formatting here "
   three=" bold blinking 'yellow' on 'red' "
@@ -27,11 +30,22 @@ print_notes () {
   echo -e         "#       --> \033[03;46;30m${five}\033[0m <--"
 }
 
+color256() {
+  n=255
+  while [ $n -gt -1 ]; do
+      echo -n 'echo -e "\033[38;05;'$n'm"'
+      echo -en         '\033[38;05;'$n'm' TEST STRING'  \033[0m'
+      echo -n '  "\033[0m"'
+      echo
+    let "n=n-1"
+  done
+}
+
 color() {
   local n=$1            # ex: "0;31"
   local color_name="$2" # ex: "plain red"
   echo -n  'echo -e "\033['$n'm"  '
-  echo -en '\033['$n'm'${color_name}'  \033[0m'
+  echo -en          '\033['$n'm'${color_name}'  \033[0m'
   echo -n  '  "\033[0m"  '
   if [ -z "$3" ];then
     echo
@@ -52,15 +66,6 @@ do_color() {
 }
 
 simple() {
-  echo "# Foreground Colors: "
-  do_color 31 red 
-  do_color 32 green
-  do_color 33 yellow
-  do_color 34 blue
-  do_color 35 magenta
-  do_color 36 cyan
-  do_color 37 grey_white
-  echo
   echo "# Background Colors: "
   do_color 41 red_background 
   do_color 42 green_background
@@ -69,6 +74,15 @@ simple() {
   do_color 45 magenta_background
   do_color 46 cyan_background
   do_color 47 grey_white_background
+  echo
+  echo "# Foreground Colors: "
+  do_color 31 red 
+  do_color 32 green
+  do_color 33 yellow
+  do_color 34 blue
+  do_color 35 magenta
+  do_color 36 cyan
+  do_color 37 grey_white
 }
 
 mode_legend() {
@@ -98,7 +112,8 @@ full() {
       fi
       for attr in 0 1 2 3 4 5 53 7 ; do
   	#Print the result
-  	echo -en "\033[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m${pad} \033[0m"
+# 	echo -en "\033[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m${pad} \033[0m"
+  	echo -en "\033[${attr};${clbg};${clfg}m "'\\033'"[${attr};${clbg};${clfg}m${pad} \033[0m"
       done
       echo #Newline
     done
@@ -112,12 +127,20 @@ fi
 
 if [ $1 = simple ]; then
   simple
+  print_examples
+  print_notes
+  exit 0
+fi
+
+if [ $1 = 256 ]; then
+  color256
   print_notes
   exit 0
 fi
 
 if [ $1 = full ]; then
   full
+  print_examples
   print_notes
   exit 0
 fi

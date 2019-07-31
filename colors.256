@@ -1,7 +1,0 @@
-for code in {0..255}; do
-  echo  'echo -e "\033[38;05;'${code}'m Test String:"'
-  #                    ^^             38: means what?
-  #                       ^^          05: means what?
-  #                             ^^^^  code: the foreground color
-  echo  "  [38;05;${code}m Test String"
-done
