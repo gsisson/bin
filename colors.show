@@ -20,6 +20,10 @@ print_examples() {
   three=" bold blinking 'yellow' on 'red' "
   four=" overlined dim 'white' on 'grey' "
   five=" italic 'black' on 'cyan' "
+  echo -e "#     \033[7;107;90m     White on grey   \033[0m"
+  echo -e "#     \033[7;42;90m     dim green on grey   \033[0m"
+  echo -e "#     \033[7;102;90m     green on grey   \033[0m"
+  echo -e "#     \033[7;106;90m     cyan on grey   \033[0m"
   echo    "#     echo -e \"-->\033[03;04;32m${one}\033[0m${two} <--\""
   echo -e         "#       -->\033[03;04;32m${one}\033[0m${two} <--"
   echo    "#     echo -e \"--> \033[01;05;93;41;m${three}\033[0m <--\""
@@ -86,14 +90,14 @@ simple() {
 }
 
 mode_legend() {
-  echo -n "    normal   "
-  echo -n "     bold    "
-  echo -n "      dim    "
-  echo -n "    italic   "
-  echo -n "   underline "
-  echo -n "     blink   "
-  echo -n "   overline  "
-  echo -n "   reverse   "
+  echo -n "     normal     "
+  echo -n "     bold       "
+  echo -n "      dim       "
+  echo -n "     italic     "
+  echo -n "   underline    "
+  echo -n "      blink     "
+  echo -n "    overline    "
+  echo -n "    reverse     "
   echo
 }
 
