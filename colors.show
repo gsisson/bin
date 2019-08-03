@@ -21,7 +21,6 @@ print_examples() {
   four=" overlined dim 'white' on 'grey' "
   five=" italic 'black' on 'cyan' "
   echo -e "#     \033[7;107;90m     White on grey   \033[0m"
-  echo -e "#     \033[7;42;90m     dim green on grey   \033[0m"
   echo -e "#     \033[7;102;90m     green on grey   \033[0m"
   echo -e "#     \033[7;106;90m     cyan on grey   \033[0m"
   echo    "#     echo -e \"-->\033[03;04;32m${one}\033[0m${two} <--\""
@@ -60,13 +59,20 @@ color() {
 
 do_color() {
   local n="$1"
-  local c="$2"
-  color "0;$n" "plain $c"
-  color "1;$n" "bold $c"
+  local color_name="$2"
+  if [ "$3" = "fav" ]; then
+    color "$n" "  $color_name (favorite)"
+    return
+  fi
+  color "0;$n" "  plain $color_name"
+  color "1;$n" "  bold $color_name"
   # show the additional iTerm2 colors
+  if [ "${n}" != "${n#*;}" ]; then
+    return
+  fi
   ((n=n+60))
-  color "0;$n" "highlight $c"      "(9X: only iterm2)"
-  color "1;$n" "bold+highlight $c" "(9X: only iterm2)"
+  color "0;$n" "  highlight $color_name"      "(9X: only iterm2)"
+  color "1;$n" "  bold+highlight $color_name" "(9X: only iterm2)"
 }
 
 simple() {
@@ -87,6 +93,20 @@ simple() {
   do_color 35 magenta
   do_color 36 cyan
   do_color 37 grey_white
+  echo
+  echo "# Favorite Colors: "
+  do_color '1;91' "bold+highlight red" fav
+  do_color '1;93' "bold+highlight yellow" fav
+  do_color '1;96' "bold+highlight cyan" fav
+  do_color '38;05;141' "purple" fav
+  do_color '38;05;214' "orange" fav
+  do_color '7;102;90' "green on grey" fav
+  do_color '7;103;90' "yellow on grey" fav
+  do_color '7;106;90' "cyan on grey" fav
+  do_color '7;107;90' "white on grey" fav
+  do_color '7;108;90' "black on grey" fav
+  do_color '7;102;40' "black on white" fav
+exit
 }
 
 mode_legend() {
