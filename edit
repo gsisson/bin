@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+no_dir_editor() {
+  echo 'cannot find "'$ED'" editor for directories! ($EDITOR_FOR_DIRS = "'$ED'")' 1>&2
+  exit 1
+}
+
+no_file_editor() {
+  echo 'cannot find "'$EF'" editor for files! ($EDITOR_FOR_FILES = "'$EF'")' 1>&2
+  exit 1
+}
+
+ED="$EDITOR_FOR_DIRS"
+if [ -d "$1" ]; then
+  [ -z "$ED" ] && no_dir_editor
+  which "$ED" > /dev/null 2>&1 || no_dir_editor
+  exec $ED "$1"
+  exit 1
+fi
+
+EF="$EDITOR_FOR_FILES"
+EF="emacsclient -n"
+EF="emacsclient"
+[ -z "$EF" ] && no_file_editor
+which "$EF" > /dev/null 2>&1 || no_file_editor
+if [ "$EF" = emacsclient ]; then
+  EF="emacsclient -n" # -n means "don't wait for editor to return"
+fi
+exec $EF "${@}"
+exit 1
