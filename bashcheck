@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://raw.githubusercontent.com/hannob/bashcheck/master/bashcheck
 # last commit: 93a088c5f6a8e407f669f9ed4176ce515a3ec84c
-
-#!/bin/bash
 
 warn() {
 	if [ "$scary" == "1" ]; then

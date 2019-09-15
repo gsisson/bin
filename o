@@ -110,6 +110,7 @@ case "$@" in
                     else
                       handle_it "$HOME/Documents/Cloud"
                     fi;;
+  data)             handle_it "$HOME/Documents/HOME/DATA";;
   dropbox)          handle_it "$HOME/Documents/Cloud/Dropbox";;
   downloads)        handle_it "$HOME/Downloads";;
   home)             handle_it "$HOME";;

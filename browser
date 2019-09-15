@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 . ~/.bashrc
 
 dir="$HOME/usr/local/"

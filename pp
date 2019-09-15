@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 . ~/.bashrc
 
 # MERGE WITH usr/bin/adobe !!!

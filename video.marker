@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 cd ~/usr/bin0/video.marker/
 ./launch.sh

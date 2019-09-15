@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 . ~/.bashrc
 
 cd "$HOME/Downloads/c/Cygwin/"

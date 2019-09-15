@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 . ~/.bashrc
 
 echo + cygcheck -p "$@"
