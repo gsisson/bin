@@ -7,6 +7,11 @@ echo "ffmpeg -i INPUT.avi -ss HH:MM:SS.xxx -t HH:MM:SS.xxx -acodec copy -vcodec 
 echo "ffmpeg -i INPUT.mkv -ss 00:05:12.912 -t 00:00:21.991 -c copy OUTPUT.mkv"
 echo "  where -ss is the start time"
 echo "        -t  is the duration"
+echo "or"
+echo ""
+echo "ffmpeg -i INPUT.mkv -ss 00:05:12.912 -to 00:15:12.991 -c copy OUTPUT.mkv"
+echo "  where -ss is the start time"
+echo "        -to is the end time"
 echo
 echo "example: ffmpeg -i INPUT.avi -ss 1:20 -t 22:10.3 -acodec copy -vcodec copy OUTPUT.avi"
 echo "  where the clip starts at 1 min 20 seconds,"
