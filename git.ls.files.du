@@ -1,0 +1,8 @@
+echo "size of all files in this git repo,"
+echo "  in this folder and subdirs"
+echo "(run at git root to see size"
+echo " of all files in the whole repo)"
+echo "---------------------------------"
+files=$(git ls-files | wc -l)
+echo "git files: $files"
+git ls-files | xargs -d \\n du -sk | awk '{total+=$1}END{print "git size: ", total, "KB"}'
