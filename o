@@ -135,6 +135,7 @@ case "$@" in
   documents.common) handle_it "shell:Common Documents";;
   libraries)        handle_it "shell:Libraries";;
   music)            handle_it "shell:My Music";;
+  music.to.get)     handle_it "P:/My_Pictures_ToRotate/_MUSIC_TO_GET";;
   photos.pc)        handle_it "shell:My Pictures";;
   pictures)         handle_it "shell:My Pictures";;
   pictures.desktop) handle_it "$desktop_pictures_locn";;

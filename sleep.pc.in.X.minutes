@@ -14,17 +14,22 @@ if [ $# != 1 ]; then
 fi
 
 time="$1"
-if ! let "time = time * 60" 2> /dev/null; then
-  usage
+if [ "$time" != 0 ]; then
+  if ! let "time = time * 60" 2> /dev/null; then
+    usage
+  fi
 fi
 
 case $time in
-  -*) usage;esac
+  -*) usage;
+esac
 
 echo "will run '"$cmd"'"
 echo "after sleeping for $time seconds"
-echo "+ sleep $time"
+echo
+echo "sleep $time..."
 
 sleep $time
+echo
 eval $cmd
 
