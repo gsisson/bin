@@ -116,12 +116,12 @@ case "$@" in
   home)             handle_it "$HOME";;
   links)            handle_it "$HOME/usr/bin0/pc/lnk/";;
   movies)           handle_it "C:/_MOVIES_C/";;
-  photos)           handle_it "P:/";;
+  photos)           handle_it "P:/Photos/";;
   room)             handle_it $HOME/Documents/HOME/Real\ Estate/2005*/Room.For.Rent;;
-  rotate)           handle_it "p:/My_Pictures_ToRotate";;
-  scan)             handle_it "p:/My_Pictures_Scan_In";;
+  rotate)           handle_it "P:/Photos/My_Pictures_ToRotate";;
+  scan)             handle_it "P:/Photos/My_Pictures_Scan_In";;
   sysinternals)     handle_it "$HOME/usr/bin0/pc/SysInternals/";;
-  video)            handle_it "V:/";;
+  video)            handle_it "P:/Videos/";;
   video.marker)     handle_it $HOME/usr/bin0/video.marker/;;
   # places (executables that are kind of like folders)
   diskmgmt)         cmd /c "C:/Windows/System32/diskmgmt.msc";;
@@ -135,7 +135,7 @@ case "$@" in
   documents.common) handle_it "shell:Common Documents";;
   libraries)        handle_it "shell:Libraries";;
   music)            handle_it "shell:My Music";;
-  music.to.get)     handle_it "P:/My_Pictures_ToRotate/_MUSIC_TO_GET";;
+  music.to.get)     handle_it "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
   photos.pc)        handle_it "shell:My Pictures";;
   pictures)         handle_it "shell:My Pictures";;
   pictures.desktop) handle_it "$desktop_pictures_locn";;
