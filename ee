@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-# this file is used by ~/usr/completion/e
+# this file is used by ~/usr/completion/ee
 
 set -- "${1,,}"
 
 # This script is
-#   ~/usr/bin/e
+#   ~/usr/bin/ee
 #
 # It provides command completion when used in conjuction
-#   with ~/usr/completion/e
+#   with ~/usr/completion/ee
 #
 # Pass an argument and when runs it will 'edit' the passed argument
 
