@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+cat << EOF
+  brew install coreutils # gets you gnu "ls" and others
+  brew install tmux tree watch wget zsh-completions
+  brew install grep jq git ack readline
+  brew install srm # GONE!! get at /Users/gsisson/Dropbox/data/Settings/bin/srm/usr=local=Cellar=srm
+  brew install openjdk # java
+  brew install terraform bash curl
+  brew cask install keycastr # https://github.com/keycastr/keycastr
+  brew install python # python@3.8
+ #brew install tesseract # command line OCR software
+  brew install awscli 
+ #brew install aws-elasticbeanstalk 
+  brew install dos2unix exiftool httping 
+  brew install imagemagick
+  brew install gnu-sed 
+  brew install go
+  brew install node
+  brew install ruby-build
+  brew install rbenv
+ #brew install kubernetes-cli
+ #brew install minikube # (comes with Docker on top toolbar?)
+  brew.install.emacs
+EOF
