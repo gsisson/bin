@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ss_dir="Dropbox/work/Screenshots"
-ss_dir="Desktop"
+ss_dir="Desktop/Screenshots"
 
 echo
 echo "# setting location of screenshots to: ${ss_dir}..."

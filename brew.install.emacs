@@ -9,7 +9,8 @@ cat << EOF
   #  1) from https://github.com/d12frosted/homebrew-emacs-plus
   #     brew tap d12frosted/emacs-plus
   #     brew install emacs-plus # very SLOW to build... maybe use some --without-* options
-  #     ln -s /usr/local/Cellar/emacs-plus/26.3/Emacs.app /Applications/Emacs.app
+  #     # brew linkapps emacs-plus # unsupported
+  #     ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications
   #
   #  2) This works too, by just injecting the old code that brew used to install
   #     echo '# to get emacs...'
