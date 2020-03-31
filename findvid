@@ -1,21 +1,48 @@
 #!/usr/bin/env bash
 . ~/.bashrc
 
+usage() {
+  (
+    if [ -n "$1" ]; then
+      echo "x${@}"
+    fi
+    echo "usage: $(basename $0) [-d] -"
+    echo "   or: $(basename $0) [-d] -n"
+    echo "   or: $(basename $0) [-d] UID"
+    echo "   or: $(basename $0) [-d] <SEARCH_STRING>..."
+    echo "       -d  separate results by directory"
+    echo "       -   clipboard will hold a string to look for"
+    echo "       -n  clipboard will hold a uid-prefix string, and only the uid will be searched for"
+  ) | cat 1>&2
+  exit 1
+}
+
+cleann() {
+  # examples that return '665572'
+  #cleann '#665572#yua.aomi_HALF_v.mp4'
+  #cleann '#665572#'
+  #cleann '#665572'
+  #cleann '665572'
+
+  #echo "in: cleann $1"  1>&2
+  n=${1#\#}
+  #echo "n|$n|"  1>&2
+  case "$n" in
+    [0-9][0-9][0-9][0-9][0-9][0-9]*);;
+    *)          usage "ERROR: '$n' is not a 6 digit number";;
+  esac
+  x=${n#??????}
+  n=${n%$x}
+  #echo "out: $n" 1>&2
+  echo $n
+}
+
 cd t:/Premiere.Pro.Work || o bitlocker || exit 1
 \ls ./\#* > find 2>/dev/null
 dir="t:/RECYCLABLE/v/"
 cd $dir || o bitlocker || exit 1
 
 find . -type f > find.txt
-
-usage() {
-  echo "usage: $(basename $0) [-d] -"
-  echo "   or: $(basename $0) [-d] UID"
-  echo "   or: $(basename $0) [-d] <SEARCH_STRING>..."
-  echo "       -d: separate results by directory"
-  echo "       -:  clipboard will hold a 'uid' number to look for"
-  exit 1
-}
 
 if [ "$1" = "-d" ]; then
   separated=true
@@ -26,38 +53,34 @@ if [ "$1" = "" ]; then
   usage
 fi
 
-if [ "$1" = '-' ]; then
+if [ "$1" = '-n' -o "$1" = '-' ]; then
+  if [ "$1" = '-n' ]; then
+    number_only='true'
+  fi
   shift
   if [ $# != 0 ]; then
-    usage
+    usage "ERROR: '-' or '-n' take no additional arguments"
   fi
   set -- $(p)
   if [ $# != 1 ]; then
-    echo "ERROR: clipboard contains more than one number"
-    exit 1
+    usage "ERROR: clipboard contains more than one string!"
   fi
-  num=true
-else
-  if [ $# = 1 ]; then
-    if [[ "$1" =~ ^[0-9]+$ ]]; then
-      num=true
+  if [[ ! "$1" =~ ^#?[0-9][0-9][0-9][0-9][0-9][0-9] ]]; then
+    if [ "$number_only" = 'true' ]; then
+      usage "ERROR: string does not start with a number!"
     fi
   fi
-fi
-
-if [ "$num" = true ]; then
-  if [ $# != 1 ]; then
-    echo "INTERNAL ERROR: should only be one arg!"
-    exit 1
+  if [ "$number_only" = 'true' ]; then
+    set -- `cleann "$1"`
   fi
-  num="$1"
-  shift
-  thing="$( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' )"
-  set -- $( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' ) ${@}
 fi
 
-#echo ========================== 1>&2
-#echo searching for: $@...       1>&2
+#thing="$( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' )"
+#set -- $( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' ) ${@}
+
+echo ========================== 1>&2
+echo "searching for: \"$@\""  1>&2
+echo ========================== 1>&2
 
 args=''
 for arg in "$@"; do

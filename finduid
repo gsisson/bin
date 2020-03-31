@@ -5,83 +5,97 @@ usage() {
   if [ -n "$@" ]; then
     echo "$@" 1>&2
   fi
-  echo "usage: $(basename $0) [NUMBER|-|+[+]..]" 1>&2
-  echo "   ex  $(basename $0)   023672"   1>&2
-  echo "   ex  $(basename $0) '#023672#'" 1>&2
-  echo "   ex  $(basename $0) -          # gets number from clipboard" 1>&2
-  echo "   ex  $(basename $0) +          # gets number from clipboard, and increments" 1>&2
-  echo "   ex  $(basename $0) ++         # gets number from clipboard, and increments twice" 1>&2
+  echo "usage: $(basename $0) [NUMBER|-] [+]..]" 1>&2
+  echo "   ex  $(basename $0)             # find a new unique number" 1>&2
+  echo "   ex  $(basename $0) -           # searches for number from clipboard" 1>&2
+  echo "   ex  $(basename $0) - +         # searches for number from clipboard, and successor" 1>&2
+  echo "   ex  $(basename $0) - +++       # searches for number from clipboard, and successors" 1>&2
+  echo "   ex  $(basename $0) '#023672#'  # searches for the number" 1>&2
+  echo "   ex  $(basename $0)   023672    # searches for the number" 1>&2
+  echo "   ex  $(basename $0)   023672 ++ # searches for the number, and successors" 1>&2
   exit 1
 }
 
 cleann() {
-  # echo "in: cleann $1"  1>&2
+  # examples that return '665572'
+  #cleann '#665572#yua.aomi_HALF_v.mp4'
+  #cleann '#665572#'
+  #cleann '#665572'
+  #cleann '665572'
+
+  #echo "in: cleann $1"  1>&2
   n=${1#\#}
-  # echo "n|$n|"  1>&2
-  n=${n%\#}
-  # echo "n|$n|"  1>&2
+  #echo "n|$n|"  1>&2
   case "$n" in
-    [0-9][0-9]*);;
-    *)          usage "ERROR: '$n' is not a number";;
+    [0-9][0-9][0-9][0-9][0-9][0-9]*);;
+    *)          usage "ERROR: '$n' is not a 6 digit number";;
   esac
-  # echo "out: $n" 1>&2
+  x=${n#??????}
+  n=${n%$x}
+  #echo "out: $n" 1>&2
   echo $n
 }
 
+valid_pluses() {
+  #echo -n "--$1-- "
+  [[ $1 =~ ^[+]+$ ]]
+}
+
+valid_number() {
+  # echo -n "--$1-- "
+  [[ $1 =~ ^#?[0-9]+#?$ ]]
+}
+
 n=""
-if [ "$#" -gt 0 ]; then
-  if [ "$1" = '-' ]; then
-    shift
-    n=`p`
-    if [ "$#" != 0 ]; then
-      usage
-    fi
-  else
-    if [ "$1" = '+' ]; then
-      while [ "$1" = '+' ]; do
-        # echo shift 1>&2
-        shift
-        case "$n" in
-          [0-9][0-9]*);;
-          *)          n=`p`;;
-        esac
-        cleann "$n" > /dev/null
-        n=`cleann "$n"`
-        let "n=$((10#$n+1))"
-      done
-      if [ "$#" != 0 ]; then
-        usage
-      fi
-    else
-      if [ "$#" != 1 ]; then
-        usage
-      fi
-      n="$1"
-    fi
+if [ "$1" = '-' ]; then
+  n=`p`
+  if ! valid_number "$n"; then
+    usage "clipboard does not have a valid number: '$n'"
   fi
-  # echo n::$n::
-  cleann "$n" > /dev/null
-  # echo n:$n:
   n=`cleann "$n"`
-  # echo n:$n:
-  n=$(printf "%06d" $((10#$n)))
-  # echo n::$n::
-  echo + findvid $n
-  findvid $n
-  exit $?
+  shift
+elif [ "$#" -gt 0 ]; then
+  n="$1"
+  if ! valid_number "$n"; then
+    usage "not a valid number: '$n'"
+  fi
+  n=`cleann "$n"`
+  shift
+else
+ cd t:/Premiere.Pro.Work || o bitlocker || exit 1
+ \ls ./\#* > find 2>/dev/null
+ cd t:/recyclable/v      || o bitlocker || exit 1
+ find . -type f > find.txt
+  while true; do
+    set -- $(r)
+    cat find.txt t:/Premiere.Pro.Work/find | grep -i "$1" > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      ruby -e "print '$1'"
+      ruby -e "print '$1'" | c
+      break
+    fi
+  done
+  exit 
 fi
 
-cd t:/Premiere.Pro.Work || o bitlocker || exit 1
-\ls ./\#* > find 2>/dev/null
-cd t:/recyclable/v      || o bitlocker || exit 1
-find . -type f > find.txt
-
-while true; do
-  set -- $(r)
-  cat find.txt t:/Premiere.Pro.Work/find | grep -i "$1" > /dev/null 2>&1
-  if [ $? != 0 ]; then
-    ruby -e "print '$1'"
-    ruby -e "print '$1'" | c
-    break
+if [ "$#" -gt 1 ]; then
+  usage "wrong number of arguments"
+fi
+if [ "$#" = 1 ]; then
+  if ! valid_pluses "$1"; then
+    usage "not a series of pluses: '$1'"
   fi
+fi
+
+echo + findvid $n
+       findvid $n
+
+while : ; do
+  if ! valid_pluses "$1"; then
+    exit
+  fi
+  let "n=$((10#$n+1))"  
+  echo + findvid $n
+         findvid $n
+  set -- ${1#?}
 done
