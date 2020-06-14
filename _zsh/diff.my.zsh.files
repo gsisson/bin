@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd ~/.oh-my-zsh/
+
+file=glenn.plugin.zsh
+sdir=../.zsh/plugins/glenn
+tdir=plugins/glenn
+echo + diff $sdir/$file $tdir/$file
+       diff $sdir/$file $tdir/$file
+
+file=glenn.zsh-theme
+sdir=../.zsh/themes
+tdir=themes
+echo + diff $sdir/$file $tdir/$file
+       diff $sdir/$file $tdir/$file

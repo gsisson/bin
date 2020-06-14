@@ -1,0 +1,35 @@
+# when loaded (sourced) into a shell, this function,
+# kept in ~/usr/completion/, will cause command
+# completion to be enabled for the command.
+
+_o() {
+  local cmd=o
+  # boilerplate
+  local cur prev opts
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  # call the program to get the options the program takes
+  opts=$($HOME/usr/bin0/$cmd -?)
+
+  # commands that take arguments
+  case "${prev}" in
+   cmd1)   local running=$(echo --one --two --three)
+           COMPREPLY=( $(compgen -W "${running}" -- ${cur}) )
+           return 0
+           ;;
+   cmd2)   if [[ ${cur} == -* ]] ; then
+              COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+              return 0
+           fi
+           ;;
+   *)      ;;
+  esac
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    return 0
+# fi
+}
+
+complete -F _o o

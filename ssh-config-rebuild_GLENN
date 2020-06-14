@@ -13,13 +13,15 @@ if [ `uname` = Darwin ]; then
 else
   files="config.LOCAL.pc config.LOCAL.common"
 fi
+
+dir="~/Dropbox/_CLI/_ssh"
 for file in $files
 do
   echo "  from  $file..." 1>&2
   echo "#------------------------------------------------------------------------------"
-  echo "#  This portion of $outf is from file \"$file\""
+  echo "#  This portion of $outf is from file \"${dir}/${file}\""
   echo "#------------------------------------------------------------------------------"
-  cat $file
+  cat "${dir}/${file}"
 done > $outf
 
 mv $outf ~/.ssh/config

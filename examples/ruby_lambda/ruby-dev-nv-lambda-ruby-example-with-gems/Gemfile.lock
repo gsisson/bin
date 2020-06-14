@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    fib (0.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  fib (~> 0.1.0)
+
+BUNDLED WITH
+   1.16.1

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd ~/.oh-my-zsh/
+
+mkdir -p plugins/glenn/
+
+copy() {
+  file=$1
+  sdir=$2
+  tdir=$3
+  rm -f $tdir/$file
+  echo + ln $sdir/$file $tdir/$file
+         ln $sdir/$file $tdir/$file
+}
+
+file=glenn.plugin.zsh
+sdir=../.zsh/plugins/glenn
+tdir=plugins/glenn
+copy $file $sdir $tdir
+
+file=glenn.zsh-theme
+sdir=../.zsh/themes
+tdir=themes
+copy $file $sdir $tdir
