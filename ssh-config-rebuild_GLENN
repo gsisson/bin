@@ -14,7 +14,7 @@ else
   files="config.LOCAL.pc config.LOCAL.common"
 fi
 
-dir="~/Dropbox/_CLI/_ssh"
+dir="$HOME/Dropbox/_CLI/_ssh"
 for file in $files
 do
   echo "  from  $file..." 1>&2
