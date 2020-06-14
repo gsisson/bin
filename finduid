@@ -18,7 +18,7 @@ usage() {
 
 cleann() {
   # examples that return '665572'
-  #cleann '#665572#yua.aomi_HALF_v.mp4'
+  #cleann '#665572#some.name.mp4'
   #cleann '#665572#'
   #cleann '#665572'
   #cleann '665572'
@@ -43,7 +43,8 @@ valid_pluses() {
 
 valid_number() {
   # echo -n "--$1-- "
-  [[ $1 =~ ^#?[0-9]+#?$ ]]
+  #[[ $1 =~ ^#?[0-9]+#?$ ]]
+   [[ $1 =~ ^#?[0-9]+#?.*$ ]]
 }
 
 n=""
