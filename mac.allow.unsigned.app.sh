@@ -9,4 +9,4 @@ if [[ $# == 0 ]]; then
 fi
 
 set -x
-xattr -d com.apple.quarantine "${@}"
+xattr -r -d com.apple.quarantine "${@}"
