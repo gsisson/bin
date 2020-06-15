@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+cd ~/usr
+for d in *; do
+  cd $d
+  echo ----------- $d
+  git status -s
+  cd - >/dev/null
+done
+
+echo --------------- HOME
+cd
+git status -s
+cd - >$nul
