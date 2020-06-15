@@ -4,7 +4,7 @@
 
 if [[ $# == 0 ]]; then
   echo "usage: $(basename $0) UNSIGNED_APPLICATION"
-  echo "   ex: $(basename $0) /Applications/LiveCode\ Indy\ 9.5.1.app"
+  echo "   ex: $(basename $0) /Applications/LiverFood/9.5.1.app"
   exit 1
 fi
 
