@@ -101,7 +101,7 @@ return
 IfWinExist Password Safe
   WinActivate
 else {
-  Run %USERPROFILE%\usr\bin0\pc\lnk\PwSafe_Ctrl_Alt_Shift_P.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\PwSafe_Ctrl_Alt_Shift_P.lnk
 }
 return
 
@@ -124,7 +124,7 @@ IfWinExist Mintty_1_Ctrl_Shift_U
 {
   WinActivate
 } else {
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
 }
 return
 
@@ -133,7 +133,7 @@ SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_2_Ctrl_Shift_J
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
 return
 
 ^+n::
@@ -141,7 +141,7 @@ SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_3_Ctrl_Shift_N
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
 return
 
 ;; Picasa must be full screen
@@ -165,7 +165,7 @@ return
 ;IfWinExist Mozilla Firefox
 ;  WinActivate
 ;else
-;  Run %USERPROFILE%\usr\bin0\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
+;  Run %USERPROFILE%\usr\local\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
 ;return
 
 ^+i::
@@ -173,14 +173,14 @@ SetTitleMatchMode 2 ;match "Chrome" anywhere in title
 IfWinExist Chrome
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
 return
 
 ^+p::
 IfWinExist emacs@%HOSTNAME%
   WinActivate
 else
-  Run %USERPROFILE%\usr\bin0\pc\lnk\Emacs_Ctrl_Alt_Shift_P.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\Emacs_Ctrl_Alt_Shift_P.lnk
 return
 
 ^+_::

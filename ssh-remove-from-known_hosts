@@ -1,2 +1,85 @@
-#!/usr/bin/env bash
-~/src/mashup_scripts/bin/ssh-remove-from-known_hosts "$@"
+#!/usr/bin/env ruby
+
+class String
+  def colorize(color_code); "\e[#{color_code}m#{self}\e[0m"; end
+  def red;     colorize(31); end
+  def green;   colorize(32); end
+  def cyan;    colorize(36); end
+end
+
+def usage_exit
+  puts "usage:"
+  puts "  #{File.basename(__FILE__)}: <ip address>|<server name>"
+  puts
+  puts "description:"
+  puts "  Removes named server entries from ~/.ssh/known_hosts.  Only removes exact"
+  puts "  matches.  If no exact matches are found, then partial matches are printed out"
+  puts "  to assist the user in finding the server to be removed."
+  abort
+end
+
+begin
+  ip=ARGV[0]
+  usage_exit unless ip
+  hosts="#{ENV['HOME']}/.ssh/known_hosts"
+
+  search_pattern=/^([^ ]*,)?(#{ip} )(.*)/          # exact matches
+  search_pattern_alt=/^([^ ]*)(#{ip})([^ ]* )(.*)/ # looser search, to show near-matches
+  matches=[]
+  File.open(hosts).read.each_line do |line|
+    if line =~ search_pattern
+      matches << line.sub(ip,ip.green)
+    end
+  end
+  if matches.size == 0
+    puts "\"#{ip}\" not found in #{hosts}".red
+    # try a looser search, and print out partial matches
+    search_pattern = search_pattern_alt
+    File.open(hosts).read.each_line do |line|
+      md = search_pattern.match(line)
+      matches << "#{md[1]}#{md[2].green}#{md[3].red}#{md[4]}" if md
+    end
+    abort if matches.size == 0
+    puts "But here are some close matches:".cyan
+    matches.each { |line| puts line }
+    abort
+  end
+  if ! system("cp #{hosts} #{hosts}.bak")
+    abort "Failed to make backup copy of #{hosts}".red
+  end
+  if matches.count == 1
+    puts "removing this #{matches.count} line from #{hosts}:".cyan
+  else
+    puts "removing these #{matches.count} lines from #{hosts}:".cyan
+  end
+  puts matches
+  lines_to_keep=[]
+  File.open(hosts).read.each_line do |line|
+    lines_to_keep << line unless line =~ search_pattern
+  end
+  File.open("#{hosts}", "w+") do |f|
+    f.puts(lines_to_keep)
+  end
+  # look for matches again, just in case we failed to clean them
+  matches=[]
+  File.open(hosts).read.each_line do |line|
+    if line =~ search_pattern
+      matches << line.sub(ip,ip.red)
+    end
+  end
+  if matches.size == 0
+    puts "IP \"#{ip}\" successfully removed from #{hosts}".green
+  else
+    puts "ERROR: failed to remove IP \"#{ip}\" from #{hosts}!".red
+  end
+rescue SystemExit => e
+  raise # re-raising passes the correct return code to the shell
+rescue Interrupt => e
+  puts "\nCancelled by user."
+rescue Exception => e
+  puts "ERROR: Unexpected Exception:"
+  puts "       (#{e.class}) #{e.message}"
+  puts "       backtrace: "
+  e.backtrace.each { |i| puts "      #{i}" }
+  abort
+end

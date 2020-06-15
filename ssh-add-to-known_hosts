@@ -1,2 +1,39 @@
-#!/usr/bin/env bash
-~/src/mashup_scripts/bin/ssh-add-to-known_hosts "$@"
+#!/usr/bin/env ruby
+
+class String
+  def colorize(color_code); "\e[#{color_code}m#{self}\e[0m"; end
+  def red;     colorize(31); end
+  def green;   colorize(32); end
+  def cyan;    colorize(36); end
+end
+
+def usage_exit
+  puts "usage:"
+  puts "  #{File.basename(__FILE__)}: <ip address>|<server name>"
+  puts
+  puts "description:"
+  puts "  Adds public key for named server entry to ~/.ssh/known_hosts."
+  abort
+end
+
+begin
+  ip=ARGV[0]
+  usage_exit unless ip
+  hosts="#{ENV['HOME']}/.ssh/known_hosts"
+
+  puts "ssh-keyscan -t rsa #{ip} >> #{hosts}".cyan
+  if ! system "ssh-keyscan -t rsa #{ip} >> #{hosts}"
+    abort "ERROR: failed to add public key for #{ip}".red
+  end
+  puts "public key for \"#{ip}\" added to #{hosts}".green
+rescue SystemExit => e
+  raise # re-raising passes the correct return code to the shell
+rescue Interrupt => e
+  puts "\nCancelled by user."
+rescue Exception => e
+  puts "ERROR: Unexpected Exception:"
+  puts "       (#{e.class}) #{e.message}"
+  puts "       backtrace: "
+  e.backtrace.each { |i| puts "      #{i}" }
+  abort
+end
