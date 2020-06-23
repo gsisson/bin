@@ -40,8 +40,9 @@ case "$(uname)" in
 	    ;;
 esac
 
-rm file.missing
+\rm file.missing
 
+echo LS_COLORS=\"$LS_COLORS\"
 alias ls
 ls -d * /dev/stderr
 echo
@@ -50,4 +51,4 @@ alias ll
 ll -d * /dev/stderr
 echo
 
-rm -rf $TMPDIR 
+\rm -rf $TMPDIR 
