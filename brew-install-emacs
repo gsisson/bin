@@ -1,0 +1,6 @@
+cat << EOF
+# steps:
+  brew tap d12frosted/emacs-plus
+  brew install emacs-plus    --HEAD --with-spacemacs-icon # fail after uninstall
+  brew install emacs-plus@27 --HEAD --with-spacemacs-icon
+EOF

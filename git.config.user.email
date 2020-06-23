@@ -1,0 +1,3 @@
+cmd="git config user.email `grep gmail ~/.gitconfig|sed -e 's:#email *= *::'`"
+echo + $cmd
+eval $cmd
