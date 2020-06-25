@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+showlink() {
+  gls -Gl terraform.d/plugins | sed -e 's:.*terraform.d/plugins:# terraform.d/plugins:'
+}
+
+if [ -z `ls *.tf 2>/dev/null` ]; then
+  echo "ERROR: are you in a terraform directory?"
+  exit 1
+fi
+
+if [ -h terraform.d/plugins ]; then
+  echo "INFO: symlink already exits"
+  showlink
+  exit
+fi
+
+if [ -d terraform.d/plugins ]; then
+  echo "WARNING: no action;:dir exists 'terraform.d/plugins'"
+  echo "         (maybe update the script?)"
+  exit
+fi
+
+if [ ! -d terraform.d ]; then
+  cmd="mkdir terraform.d"
+  echo + $cmd ; eval $cmd 
+fi
+
+cmd="ln -s ~/.terraform/plugins terraform.d/plugins"
+echo + $cmd ; eval $cmd 
+showlink
+
+if [ -d .terraform/plugins/ ]; then
+  echo "copying any new provider versions..."
+  cmd="cp -rp .terraform/plugins/ ~/.terraform/plugins/"
+  echo + $cmd ; eval $cmd   
+  cmd="rmtrash ~/.terraform/plugins/*/lock.json"
+  echo + $cmd ; eval $cmd   
+  cmd="rmtrash .terraform/plugins"
+  echo + $cmd ; eval $cmd   
+  exit
+fi

@@ -1,3 +1,9 @@
-cmd="git config user.email `grep gmail ~/.gitconfig|sed -e 's:#email *= *::'`"
+personal=`grep gmail ~/.gitconfig|sed -e 's:#email *= *::'`
+if [ -z "$personal" ]; then
+  echo "ERROR: missing gmail entry in ~/.gitconfig" 1>&2
+  exit 1
+fi
+
+cmd="git config user.email $personal"
 echo + $cmd
 eval $cmd
