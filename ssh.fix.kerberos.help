@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+cat << EOF
+# Use When:
+#   git operations using ssh are producing
+#   'Kerberos authentication failed' messages
+#   and password ends up being required
+# This Fixes It:
+#   Add these entries to ~/.ssh/config for all/some hosts:
+#     GSSAPIAuthentication yes
+#     GSSAPIDelegateCredentials yes
+# Another suggestion was this (not tried):
+#   Add these entries to ~/.ssh/config for all/some hosts:
+#     host git.automaton.com
+#       GSSAPIAuthentication yes
+#       RSAAuthentication no
+#       ForwardX11 no
+#       Port 2222
+# Or, accomplish this via an app:
+#   Run 'Self Service'
+#   Search 'Kerberos'
+#   Run 'Enable SSH Kerberos'
+# Or, have keychain manage it via CLI (not yet tested):
+#   security add-generic-password \
+#     -a “<username>" -l "ANT.AUTOMATON.COM (username)" \
+#     -s "ANT.AUTOMATON.COM" -c "aapl" -T "/usr/bin/kinit" -w
+EOF
