@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -- $(ps -ef | grep -v grep | grep /Applications/ScreenBrush.app/ )
+if [ -z "$2" ]; then
+  echo "ScreenBrush not running."
+  exit 0
+fi
+
+echo $@ | grep --color=always /Applications/ScreenBrush.app/
+
+echo killing $2 in 5 seconds
+sleep 5
+echo + kill $2
+       kill $2

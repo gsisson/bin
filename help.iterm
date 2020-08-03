@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cat << EOF
+# shortcuts:
+#   Command-Option-B: show "instant replay"#!/usr/bin/env bash
+EOF
+
