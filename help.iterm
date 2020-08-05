@@ -2,6 +2,7 @@
 
 cat << EOF
 # shortcuts:
-#   Command-Option-B: show "instant replay"#!/usr/bin/env bash
+#   Instant Replay on/off: Cmd-Opt-B
+#   Navigate 'marks' (command prompts): Cmd-Shift-Up/Dn"
 EOF
 
