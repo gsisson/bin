@@ -1,0 +1,61 @@
+--  Note: to edit this content run 'spark.keys.edit'
+--  Note: then run 'spark.keys.edit.done' to write it to Spark (necessary?)
+--  ⌘⌥^⇧←↑→↓   ⎋⏎⌫
+-- Note: additional glyphs/shortcuts: http://bit.ly/gs-shortcuts
+display dialog "
+              Note: to edit this content run 'spark.keys.edit'
+  ⌘⇧3    screenshot to desktop (clipboard: add ^)
+  ⌘⇧4    selection snap to  \"      (clipboard: add ^)
+Ruby Mine
+  ⌘⇧O    Find source file by name
+  ⌘⌥L     Reformat Code
+  ⌘^G     select all occurances of word (Subl too)
+  ⌥↑/↓     smart selection expansion (words, line, blocks)
+  ⌘⇧+/-  FULLY expand/collapse definitions 
+  ⌘+/-     expand/collapse definition
+  ⌘⌥+/-  recursively expand/collapse definitions
+Atom + Sublime:
+    ⌘⇧D  dup line
+    ⌘P      Find File
+  ^⇧↑/↓  multi-line cursor
+    ⌘⇧L   multi-selection (all selected lines)
+    ⌘D     extend selection (with matching words)
+ ⌥⌘[/]   expand/collapse definition
+Sublime
+  ⌘^G      select ALL occurances of selected word (RM too)
+  ^⇧W     wrap selection w/html tag
+  ⌘KB     Hide/Show Sidebar
+  ⌘K1/J    FULLY expand/collapse definitions
+Atom
+  ⌥⌘⇧[/]  FULLY expand/collapse definitions
+  ⌘\\       Hide/Show Sidebar
+  ⌘⇧P     Run Command
+  ⌘k→/← Move window to other pane
+  ⌥G-G    Goto line
+Code
+ ⌘d after selecting text, extends 'multi-cursor' selection to other matches
+ ⌘k after selecting text, skips 'multi-cursor' selection on current match
+Google Docs
+  ⌘/      show Gdoc common kbd shortcuts
+  ⌘↑/↓     beginning/end of page
+  ^⇧↑/↓   move sel'd lines up/dn (RubyMine too)
+  ⌘K      add a link
+Finder
+  ⌘O   open selected folder   ⌘↑ up to parent folder
+  ⌘⇧N  new folder                 ⌘⇧G  go to folder
+Chrome (these are toggles)             
+  ⌘⌥I   Developer Tools    ⌘⌥J Javascript Console
+  ⌘⇧F   toggle full-screen mode
+Atom overrides from other packages (may interfere with emacs)
+  ⌘⇧V   'clipboard plus' took this keybinding
+  ^⌘C   'compare-files' took this keybinding
+  ⌥M   PREFIX key!! 'merge conflictr' took this key
+Mac  [Can't scroll down :-(]
+  Fn↑/↓       page up/dn
+  ⌘h      hide app (⌘⇥ to show)
+  ⌘→/←      ^e/^a
+  ⌘⇧←/→   select to beg/end of line
+  ⌥␣         scroll-down (up with ⇧)
+  ⌘+   ⌘-   ⌘Ø     [zoom in / out / reset)
+
+" buttons {"OK"} default button 1
