@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cmd="git pull --rebase --all"
+echo + $cmd
+eval $cmd

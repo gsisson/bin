@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+case "$1" in
+  on)
+    /usr/bin/osascript -e 'display notification "Enabling DND" with title "Do not disturb"'
+    /usr/bin/defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturb -boolean true
+    /usr/bin/defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturbDate -date "$(date -u +'%Y-%m-%d %H:%M:%S +0000')"
+    sleep 5
+    /usr/bin/killall NotificationCenter
+    ;;
+  off)
+    /usr/bin/defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturb -boolean false
+    /usr/bin/killall NotificationCenter
+    /usr/bin/osascript -e 'display notification "DND disabled" with title "Do not disturb"'
+    ;;
+  *) echo "usage: $(basename $0) on|off"; exit 1;;
+esac

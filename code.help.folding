@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+cat << EOF
+  all/none
+    Fold All (⌘K ⌘0) folds all regions in the editor.
+    Unfold All (⌘K ⌘J) unfolds all regions in the editor.
+  other
+    Fold (⌥⌘[) folds the innermost uncollapsed region at the cursor.
+    Unfold (⌥⌘]) unfolds the collapsed region at the cursor.
+    Toggle Fold (⌘K ⌘L) folds or unfolds the region at the cursor.
+    Fold Recursively (⌘K ⌘[) folds the innermost uncollapsed region at the cursor and all regions inside that region.
+    Unfold Recursively (⌘K ⌘]) unfolds the region at the cursor and all regions inside that region.
+    Fold Level X (⌘K ⌘2 for level 2) folds all regions of level X, except the region at the current cursor position.
+    Fold All Block Comments (⌘K ⌘/) folds all regions that start with a block comment token.
+EOF    

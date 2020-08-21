@@ -25,6 +25,7 @@ EF="emacsclient"
 which "$EF" > /dev/null 2>&1 || no_file_editor
 if [ "$EF" = emacsclient ]; then
   EF="emacsclient -n" # -n means "don't wait for editor to return"
+  EF="emacsclient"
 fi
 exec $EF "${@}"
 exit 1

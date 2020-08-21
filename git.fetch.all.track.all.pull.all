@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# https://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
+
+git branch -r |
+  grep -v '\->' |
+    while read remote; do
+      cmd="git branch --track \"${remote#origin/}\" \"$remote\""
+      echo + $cmd
+      eval $cmd
+    done
+  cmd="git pull --rebase --all"
+  echo + $cmd
+  eval $cmd
