@@ -1,8 +1,14 @@
 cat $0 | tailplus 3 | less; exit
 
-# undo commit:               git reset --soft HEAD^
+# undo commit:                git reset --soft HEAD^
 
-# delete branch locally:     git branch -d localBranchName
-# delete branch remotely:    git push origin --delete remoteBranchName
+# delete branch locally:      git branch -d localBranchName
+# delete branch remotely:     git push origin --delete remoteBranchName
 
-# un-stage all:              git reset
+# un-stage all:               git reset
+
+# avoid ssl cert issues:      git config --global http.sslVerify false
+#
+# (avoids problems such as:
+#  "fatal: unable to access ... SSL certificate problem: certificate has expired
+# )
