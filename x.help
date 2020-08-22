@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# This is file ~/usr/bin/x.help
+#   many other files are symlinked to it
+#
+# ex:
+#   echo '|optx|some info|' > ~/usr/bin/_help/toolname.org
+#   ln -s x.help toolname.help
+#   toolname.help      # show help file for 'toolname'
+#   toolname.help optx # show help file for 'toolname', with 'optx' matches hilighted
+
+helpdir="$(dirname $0)/_help"
+if [ ! -d "$helpdir" ]; then
+  echo "INTERNAL ERROR: help dir '${helpdir}/' missing!"
+  exit 1
+fi
+
+helpfile="${helpdir}/$(basename $0)"
+helpfile="${helpfile%.help}"
+if [ ! -f "$helpfile" ]; then
+  if [ -f "${helpfile}.org" ]; then
+    helpfile="${helpfile}.org"
+  else
+    echo "ERROR: helpfile '$helpfile' not found"
+    exit 1
+  fi
+fi
+
+if [ "$1" = '-i' ]; then
+  ignorecase=-i
+  shift
+fi
+
+if [ $# = 0 ]; then
+  cat "$helpfile"
+else
+  cat "$helpfile" | grep $ignorecase --color=always -E "($|${@})"
+fi

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-cat << EOF
-# shortcuts:
-#   Instant Replay on/off: Cmd-Opt-B
-#   Navigate 'marks' (command prompts): Cmd-Shift-Up/Dn"
-EOF
-
