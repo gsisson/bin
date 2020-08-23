@@ -1,5 +1,9 @@
-| shortcuts                            |                 |
-|--------------------------------------+-----------------|
-| - Instant Replay on/off              | Cmd-Opt-B       |
-| - Navigate 'marks' (command prompts) | Cmd-Shift-Up/Dn |
-
+|----------------------------------------+--------------------------------|
+| Shortcuts                              |                                |
+| - Instant Replay on/off                | Cmd-Opt-B                      |
+| - Navigate 'marks' (command prompts)   | Cmd-Shift-Up/Dn                |
+|----------------------------------------+--------------------------------|
+| Speed up iTerm2/Terminal Startup Times | du -sh /private/var/log/asl    |
+|                                        | rm /private/var/log/asl/Logs/* |
+|                                        | rm /private/var/log/asl/*      |
+|----------------------------------------+--------------------------------|
