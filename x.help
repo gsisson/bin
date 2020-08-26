@@ -26,7 +26,7 @@ if [ ! -f "$helpfile" ]; then
   fi
 fi
 
-case $1 in
+case "$1" in
   EDIT) edit=true     ; shift ;;
   -i)   ignorecase=-i ; shift ;;
 esac
@@ -39,5 +39,5 @@ fi
 if [ $# = 0 ]; then
   cat "$helpfile"
 else
-  cat "$helpfile" | grep $ignorecase --color=always -E "($|${@})"
+  cat "$helpfile" | ggrep $ignorecase --color=always -E "($|${@})"
 fi

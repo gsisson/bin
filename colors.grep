@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+echo "#"
+echo "# edit GREP_COLORS in ~/.bashrc.colors"
+echo "#"
+echo
+
+for n0 in 01 03 05 07; do
+  case $n0 in
+    01) echo "# bold"  ;;
+    03) echo "# italics";;
+    05) echo "# blink"  ;;
+    07) echo "# inverse";;
+  esac
+  for n01 in 3 4; do
+    for n02 in 1 2 3 4 5 6 7 ; do
+      for n11 in 3 4; do
+        for n12 in 1 2 3 4 5 6 7 ; do
+#          case $n12 in
+#            1) echo "# red"  ;;
+#            2) echo "# green"  ;;
+#            3) echo "# yellow";;
+#            4) echo "# blue";;
+#            5) echo "# magenta"  ;;
+#            6) echo "# cyan";;
+#            7) echo "# white";;
+#          esac
+          echo -n export GREP_COLORS="'ms=${n0};${n01}${n02};${n11}${n12}:'" \;\ 
+                 export GREP_COLORS="ms=${n0};${n01}${n02};${n11}${n12}:"
+          echo "line match line" | ggrep --color=always match
+        done
+      done
+    done
+  done
+done
