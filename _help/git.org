@@ -3,6 +3,10 @@
 | delete branch remotely        | git push origin --delete remoteBranchName |
 | un-stage all                  | git reset                                 |
 | avoid ssl cert issues         | git config --global http.sslVerify false  |
+|-------------------------------+-------------------------------------------|
+| delete a repo                 | . ~/.githubtoken                          |
+|                               | hub delete [-y] user-or-org/repo          |
+|-------------------------------+-------------------------------------------|
 | # avoids problems such as     |                                           |
 | #   "fatal: unable to access  |                                           |
 | #    SSL certificate problem  |                                           |

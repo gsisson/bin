@@ -26,9 +26,14 @@ if [ ! -f "$helpfile" ]; then
   fi
 fi
 
-if [ "$1" = '-i' ]; then
-  ignorecase=-i
-  shift
+case $1 in
+  EDIT) edit=true     ; shift ;;
+  -i)   ignorecase=-i ; shift ;;
+esac
+
+if [ "$edit" = 'true' ]; then
+  $EDITOR_FOR_FILES "$helpfile"
+  exit
 fi
 
 if [ $# = 0 ]; then
