@@ -2,6 +2,7 @@
 
 echo "#"
 echo "# edit GREP_COLORS in ~/.bashrc.colors"
+echo "# (documentation in https://www.gnu.org/software/grep/manual/grep.html)"
 echo "#"
 echo
 
