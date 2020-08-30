@@ -1,21 +1,24 @@
-|-------------------------------+---------------------------------------------|
-| un-stage all                  | git reset                                   |
-| undo commit                   | git reset --soft HEAD^                      |
-| delete branch locally         | git branch -d localBranchName               |
-| delete branch remotely        | git push origin --delete remoteBranchName   |
-| avoid ssl cert issues         | git config --global http.sslVerify false    |
-| show tracking branches        | git branch -vv                              |
-| set tracking branch upstream  | git branch --set-upstream-to origin/feature |
-| -or-                          | git push -u origin feature                |
-|-------------------------------+---------------------------------------------|
-| delete a repo                 | . ~/.githubtoken                            |
-|                               | hub delete [-y] user-or-org/repo            |
-|-------------------------------+---------------------------------------------|
-| # avoids problems such as     |                                             |
-| #   "fatal: unable to access  |                                             |
-| #    SSL certificate problem  |                                             |
-| #    certificate has expired" |                                             |
-|-------------------------------+---------------------------------------------|
+|--------------------------------+------------------------------------------------------|
+| un-stage all                   | git reset                                            |
+| undo commit                    | git reset --soft HEAD^                               |
+| delete branch locally          | git branch -d localBranchName                        |
+| delete branch remotely         | git push origin --delete remoteBranchName            |
+| avoid ssl cert issues          | git config --global http.sslVerify false             |
+| show tracking branches         | git branch -vv                                       |
+| set tracking branch upstream   | git branch --set-upstream-to origin/feature          |
+| -or-                           | git push -u origin feature                           |
+| show trailing whitespace       | git -R # reverse (shows trailing whitespace removed) |
+| .(git diff only shows trailing |                                                      |
+| ..whitespace that is added)    |                                                      |
+|--------------------------------+------------------------------------------------------|
+| delete a repo                  | . ~/.githubtoken                                     |
+|                                | hub delete [-y] user-or-org/repo                     |
+|--------------------------------+------------------------------------------------------|
+| # avoids problems such as      |                                                      |
+| #   "fatal: unable to access   |                                                      |
+| #    SSL certificate problem   |                                                      |
+| #    certificate has expired"  |                                                      |
+|--------------------------------+------------------------------------------------------|
 
 REBASE MY FORK (notes from: https://bit.ly/2QyH3Fm)
   * git remote add upstream git://github.com/ORIGINAL-USER/THEIR-REPO.git
