@@ -1,5 +1,6 @@
 |---------------------+---------------------------------------------------------------------------------------------|
 | ⌘K ⌘S               | Open "Keyboard Shortcuts" window                                                            |
+| ^-  / ^=            | Backward / Forward through the Navigation History (^= BTT)                                  |
 |---------------------+---------------------------------------------------------------------------------------------|
 |                     | (is this for Visual Studio??)                                                               |
 |                     | Code Folding                                                                                |
@@ -13,3 +14,4 @@
 | ⌘K ⌘2 (for level 2) | Fold Level X - fold all regions of level X, except region at the current cursor position    |
 | ⌘K ⌘/               | Fold All Block Comments - folds all regions that start with a block comment token           |
 |---------------------+---------------------------------------------------------------------------------------------|
+
