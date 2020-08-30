@@ -1,0 +1,15 @@
+|---------------------+---------------------------------------------------------------------------------------------|
+| ⌘K ⌘S               | Open "Keyboard Shortcuts" window                                                            |
+|---------------------+---------------------------------------------------------------------------------------------|
+|                     | (is this for Visual Studio??)                                                               |
+|                     | Code Folding                                                                                |
+| ⌘K ⌘0               | Fold All regions in the editor                                                              |
+| ⌘K ⌘J               | Unfold All regions in the editor                                                            |
+| ⌥⌘[                 | Fold the innermost uncollapsed region at the cursor                                         |
+| ⌥⌘]                 | Unfold the collapsed region at the cursor                                                   |
+| ⌘K ⌘L               | Toggle Fold - folds or unfolds the region at the cursor                                     |
+| ⌘K ⌘[               | Fold Recursively - folds the innermost uncollapsed region at cursor & all regions inside it |
+| ⌘K ⌘]               | Unfold Recursively - unfolds the region at the cursor and all regions inside that region    |
+| ⌘K ⌘2 (for level 2) | Fold Level X - fold all regions of level X, except region at the current cursor position    |
+| ⌘K ⌘/               | Fold All Block Comments - folds all regions that start with a block comment token           |
+|---------------------+---------------------------------------------------------------------------------------------|

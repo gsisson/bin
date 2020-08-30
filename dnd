@@ -2,16 +2,22 @@
 
 case "$1" in
   on)
+    set -x
     /usr/bin/osascript -e 'display notification "Enabling DND" with title "Do not disturb"'
     /usr/bin/defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturb -boolean true
     /usr/bin/defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturbDate -date "$(date -u +'%Y-%m-%d %H:%M:%S +0000')"
     sleep 5
     /usr/bin/killall NotificationCenter
+    set +x
+    banner "DND - ON -"
     ;;
   off)
+    set -x
     /usr/bin/defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturb -boolean false
     /usr/bin/killall NotificationCenter
     /usr/bin/osascript -e 'display notification "DND disabled" with title "Do not disturb"'
+    set +x
+    banner "DND - OFF -"
     ;;
   *) echo "usage: $(basename $0) on|off"; exit 1;;
 esac

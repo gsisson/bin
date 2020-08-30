@@ -1,0 +1,2 @@
+- print out the name of the current function
+    print(f"ENTERED {inspect.stack()[0][3]}()")

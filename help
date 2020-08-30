@@ -1,143 +1,58 @@
 #!/usr/bin/env bash
 
-cd ~/usr/
+# This script is
+#   ~/usr/bin/help
+#
+# It provides command completion when used in conjunction
+#   ~/usr/bin/functions/completion/help
+#
 
 usage() {
-  echo "$(basename $0): [-f] <search-string>"
-  echo "  -f: will show/run the file if there is a single match"
+  echo "usage: $(basename $0) TOPIC <args>"
   exit 1
 }
 
-if [ "${1}" = '-f' ]; then
-  shift
-  dump="true"
-fi
-
-if [ "${1}" = '-h' -o "${1}" = '-?' -o "${1}" = '--help' ]; then
+if [ "$#" = 0 ]; then
   usage
-fi
-
-reset='\033[0m'
-bold_green='\033[1;32m'
-bold_cyan='\033[1;96m'
-color="${bold_cyan}"
-
-tmpf=$HOME/_notes.help.filenames.txt
-rm -f ${tmpf}
-trap "rm -f ${tmpf}" INT TERM EXIT
-
-file="${1}"
-term="${1}"
-shift
-
-if [ "${1}" = '-f' ]; then
-  shift
-  dump="true"
-fi
-
-prog="$(basename $0)"
-case $prog in
-  notes)
-    dir="$HOME/usr/notes"
-    cd "${dir}"
-    prefix=''
-#   prefix='notes'
-    case "${file}" in
-      *.org) ;;
-      "")     eval ls ${prefix}*;exit;;
-      *)     file="${file}.org";;
-    esac
-    ;;
-  help)
-    dir="$HOME/usr/bin"
-    cd "${dir}"
-    prefix='help.'
-    case "${file}" in
-      help.*) ;;
-      "")     eval ls ${prefix}*;exit;;
-      *)      file="help.${file}";;
-    esac
-    ;;
-  *)
-    echo "unexpected option \"$prog\"!"
-    exit 1
-    ;;
-esac
-
-# eval echo ${dir}/${prefix}*
-echo -e "${color}looking for \"${term}\" in $dir/${prefix}* files...${reset}"
-
-if [ -f "${file}" ];then
-  case $prog in
-    notes)
-      # SHOW it
-      echo -e "${color}==> ${file} <==${reset}"
-      cat ./"${file}"
-      ;;
-    help)
-      # RUN it
-      if [ ! -x ./"${file}" ]; then
-        echo ./"${file}" is not executable
-        exit 1
-      fi
-      echo -e "${color}executing ${file}${reset}"
-      exec ./"${file}"
-      ;;
-  esac
-  exit $?
-fi
-
-# list files that match the glob (even it just one file matches)
-
-# if [ -n "${1}" ]; then
-#   # some arg was passed, so search for it in the files
-#   file_count_with_matches=$(ack -icl "${1}" ${prefix}* | wc -l)
-#   if [ $file_count_with_matches = 1 ]; then
-#     the_only_file_name_with_matches=$(ack -icl "${1}" ${prefix}* | sed -e 's/:.*//')
-#   fi
-#   ack -i "${1}" ${prefix}*
-# else
-#   # no arg passed, so set it to '.' for upcoming search of filenames
-#   set -- .
-# fi
-
-# find . -type f | grep "${prefix}" > ${tmpf}
-case $prog in
-  notes) find . -type f
-    ;;
-  help)  find . -type f | grep help
-    ;;
-esac > ${tmpf}
-
-file_count_with_matches=$(ack -i "${term}" ${tmpf} | wc -l | sed -e 's/ *//g')
-
-if [ "$file_count_with_matches" = 1 ]; then
-  the_only_file_name_with_matches=$(ack -i "${term}" ${tmpf})
-  the_only_file_name_with_matches=${the_only_file_name_with_matches#./}
-fi
-
-if [ -n "$the_only_file_name_with_matches" ]; then
-  if [ "$dump" = 'true' ]; then
-    echo -e "${color}==> ${the_only_file_name_with_matches} <==${reset}"
-    cat "$the_only_file_name_with_matches"
-    exit $?
-  fi
-fi
-
-#echo -e "${color}========================================================${reset}"
-
-if [ "$count" = 0 ]; then
-  echo "no match for \"${term}\" in any filename in ${dir}."
   exit
 fi
 
-# show the matches within filenames
-ack -i "${term}" ${tmpf}
-
-if [ -n "$the_only_file_name_with_matches" ]; then
-  # count length of last message
-  len=$(ack -i "${term}" ${tmpf} | wc -c )
-# echo -en "\033[1A"      # move up one line
-# echo -en "\033[${len}C" # move out the length of last message
-  echo -e "${color} (use -f option to view this one matching file)${reset}"
+if [ "$1" = -? ]; then
+  cd ~/usr/bin/_help/; \ls -1 | sed -e 's:.org$::' | column
+  exit
 fi
+
+file="$HOME/usr/bin/_help/${1}.org"
+if [ ! -f "$file" ]; then
+  echo "ERROR: Unknown option: \"$1\""
+  echo 
+  echo "  Try one of these:"
+  $0 -? | expand | sed -e 's:^:  :'
+  echo
+  exit 1
+fi
+shift
+
+if [ "$1" = "EDIT" ] ; then
+  edit=true
+  shift
+fi
+
+if [ "$1" = "-i" ] ; then
+  ignorecase=-i
+  shift
+fi
+
+if [ "$edit" = 'true' ]; then
+  $EDITOR_FOR_FILES "$file"
+  exit
+fi
+
+cat "$file" | if [ $# = 0 ]; then
+  cat
+else
+  ggrep $ignorecase --color=always -E "($|${@})"
+fi
+
+exit
+

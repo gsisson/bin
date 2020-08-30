@@ -1,13 +1,55 @@
-| undo commit                   | git reset --soft HEAD^                    |
-| delete branch locally         | git branch -d localBranchName             |
-| delete branch remotely        | git push origin --delete remoteBranchName |
-| un-stage all                  | git reset                                 |
-| avoid ssl cert issues         | git config --global http.sslVerify false  |
-|-------------------------------+-------------------------------------------|
-| delete a repo                 | . ~/.githubtoken                          |
-|                               | hub delete [-y] user-or-org/repo          |
-|-------------------------------+-------------------------------------------|
-| # avoids problems such as     |                                           |
-| #   "fatal: unable to access  |                                           |
-| #    SSL certificate problem  |                                           |
-| #    certificate has expired" |                                           |
+|-------------------------------+---------------------------------------------|
+| un-stage all                  | git reset                                   |
+| undo commit                   | git reset --soft HEAD^                      |
+| delete branch locally         | git branch -d localBranchName               |
+| delete branch remotely        | git push origin --delete remoteBranchName   |
+| avoid ssl cert issues         | git config --global http.sslVerify false    |
+| show tracking branches        | git branch -vv                              |
+| set tracking branch upstream  | git branch --set-upstream-to origin/feature |
+| -or-                          | git push -u origin feature                |
+|-------------------------------+---------------------------------------------|
+| delete a repo                 | . ~/.githubtoken                            |
+|                               | hub delete [-y] user-or-org/repo            |
+|-------------------------------+---------------------------------------------|
+| # avoids problems such as     |                                             |
+| #   "fatal: unable to access  |                                             |
+| #    SSL certificate problem  |                                             |
+| #    certificate has expired" |                                             |
+|-------------------------------+---------------------------------------------|
+
+REBASE MY FORK (notes from: https://bit.ly/2QyH3Fm)
+  * git remote add upstream git://github.com/ORIGINAL-USER/THEIR-REPO.git
+  * merge one of two ways:
+    * like a "git pull --rebase"  
+      * git rebase upstream/master        
+    * or, like "git pull" (which is fetch + merge)
+      * git fetch upstream
+      * git merge upstream/master master
+  * push to your repo (forked from theirs):
+    * git push
+
+TRACKING BRANCHES
+ * Why do I need to explicitly push a new branch? (https://bit.ly/3gA0CaY)
+ * Different push options, re: branches (https://bit.ly/2YLzsrk)
+
+GIT 'HUB' utility
+ * brew install hub
+ * hub version
+   * => git version 2.25.0
+   * => hub version 2.14.1
+ * hub create --private \
+       --remote-name=GITHUB_REPO \
+          GITHUB_ORG/GITHUB_REPO
+     => https://github.com/GITHUB_ORG/GITHUB_REPO
+ * hub delete GITHUB_ORG/GITHUB_REPO
+     => Deleted repository 'GITHUB_ORG/GITHUB_REPO'
+
+
+GIT DELETE LOCAL BRANCH (already gone from remote)
+ # These commands needed after, say, merging a PR onto origin master
+ # and the branch having been deleted on origin:
+  1) remove local knowledge of that remote branch
+     git remote prune origin --dry-run
+     git remote prune origin
+  2) remove local branch
+     git branch -d BRANCH_GONE_FROM_REMOTE

@@ -1,9 +1,9 @@
 # when loaded (sourced) into a shell, this function,
-# kept in ~/usr/completion/, will cause command
+# kept in ~/usr/bin/functions/completion/, will cause command
 # completion to be enabled for the command.
 
-_g() {
-  local cmd=g
+_help() {
+  local cmd=help
   # boilerplate
   local cur prev opts
   COMPREPLY=()
@@ -11,7 +11,7 @@ _g() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
   # call the program to get the options the program takes
-  opts=$($HOME/usr/bin0/$cmd -?)
+  opts=$($HOME/usr/bin/$cmd -?)
 
   # commands that take arguments
   case "${prev}" in
@@ -32,12 +32,12 @@ _g() {
 # fi
 }
 
-complete -F _g g
+complete -F _help help
 
 # if the script (not the function) returns something to be
 # evaluated (like a "chdir", which 'g' does), then uncomment
 # the COMMAND() function below to eval that command
-
-function g() {
-  eval $(~/usr/bin0/g "$@")
-}
+#
+#function g() {
+#  eval $(~/usr/bin0/g "$@")
+#}

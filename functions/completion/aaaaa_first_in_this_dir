@@ -1,8 +1,8 @@
-# running ". ~/usr/completion/*" will load and run this script
-# if it didn't exist, ". ~/usr/completion/*" would only run the first one alphabetically
-for file in ~/usr/completion/*
-do
-  if [ "$file" != ~/usr/completion/aaaaa_first_in_this_dir ]; then
+# running ". ~/usr/bin/functions/completion/*" will load and run this script
+# if it didn't exist, ". ~/usr/bin/functions/completion/*" would only run the first one alphabetically
+
+for file in ~/usr/bin/functions/completion/*; do
+  if [ "$file" != ~/usr/bin/functions/completion/aaaaa_first_in_this_dir ]; then
 #   echo + source $file
            source $file
   fi
