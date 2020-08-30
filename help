@@ -8,7 +8,8 @@
 #
 
 usage() {
-  echo "usage: $(basename $0) TOPIC <args>"
+  echo "usage: $(basename $0) TOPIC [e | SEARCH-ARGS]"
+  echo "       e: edit the help file"
   exit 1
 }
 
@@ -33,7 +34,7 @@ if [ ! -f "$file" ]; then
 fi
 shift
 
-if [ "$1" = "EDIT" ] ; then
+if [ "$1" = "e" ] ; then
   edit=true
   shift
 fi
@@ -44,7 +45,7 @@ if [ "$1" = "-i" ] ; then
 fi
 
 if [ "$edit" = 'true' ]; then
-  $EDITOR_FOR_FILES "$file"
+  emacsclient -nw "$file"
   exit
 fi
 
