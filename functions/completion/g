@@ -1,3 +1,5 @@
+_enter_dot_file
+
 # when loaded (sourced) into a shell, this function,
 # kept in ~/usr/completion/, will cause command
 # completion to be enabled for the command.
@@ -41,3 +43,5 @@ complete -F _g g
 function g() {
   eval $(~/usr/bin0/g "$@")
 }
+
+_leave_dot_file

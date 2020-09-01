@@ -1,3 +1,5 @@
+_enter_dot_file
+
 # when loaded (sourced) into a shell, this function,
 # kept in ~/usr/completion/, will cause command
 # completion to be enabled for the command.
@@ -33,3 +35,5 @@ _ee() {
 }
 
 complete -F _ee ee
+
+_leave_dot_file
