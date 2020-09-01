@@ -1,0 +1,124 @@
+#+TITLE: Emacs Notes
+#+TAGS: HOME(h) WORK(w) STORE(s)
+#+OPTIONS: toc:nil
+
+* keyboard - general
+  |-------------+-------------------------------------------------|
+  | F4          | re-run last keyboard macro                      |
+  | ^X^+ / ^X^- | increase/decrease font size                     |
+  | ^X .        | set fill prefix (inserted with ^o)              |
+  | ^q          | prefix for entering non-printables (^v in bash) |
+  | ^x^v        | effectively revert-buffer [find-alternate-file] |
+  |-------------+-------------------------------------------------|
+* keyboard - colors
+  |----------+---------------|
+  | esc-O d  | default       |
+  | esc-O b  | bold          |
+  | esc-O i  | italic        |
+  | esc-O l  | bold-italic   |
+  | esc-O u  | underline     |
+  | esc-O ^h | see full list |
+  |----------+---------------|
+* org-mode
+** :this_is_a_tag:
+|                                                          |
+| in a table :a_tag:                 doesn't get hilighted |
+| in a table :@at_sign_prefixed_tag: does    get hilighted |
+|                                                          |
+*** org-mode keyboard shortcuts for tags
+**** :highlighted_tag_inside_colons_by_itself:
+**** :highlighted_tag_inside_colons_by_itself: trailing text removes hi-light (weird)
+**** C-c C-q allows tag entry for end of the line (hit return) :HOME:STORE:FREE_TAG:
+doesn't work on non-bulleted lines (no bolding)           :HOME:STORE:FREE_TAG:
+**** shortcut keys for tags can be defined at top of file:
+***** #+TAGS: HOME(h) WORK(w) STORE(s)
+***** (hit C-c C-c to reload the file after adding that line)
+**** colored tags (using dot.emacs code)
+***** some text with an                     :@at_sign_prefixed_green_tag:
+some text with an                     :@at_sign_prefixed_green_tag:
+** org-mode keyboard: bullets
+   note: meta = opt mac key
+  |-----------------------------------+----------------------------------------------------|
+  | Meta-enter (when at end of line)  | add new bullet item on next line                   |
+  | Meta-enter (when at beg of line)  | add new bullet item on PREVIOUS line               |
+  | Ctrl-enter                        | add new bullet item AFTER this tree                |
+  | Tab (when on a blank bullet item) | toggle between indent level: same, one in, one out |
+  | Tab (when on a non-blank item)    | toggle visibilitiy of item and underlings          |
+  | Meta-      right/left arrow       | move ITEM in/out                                   |
+  | Meta-Shift right/left arrow       | move ITEM TREE in/out                              |
+  | Meta-      up/down arrow          | move ITEM TREE up/down                             |
+  | Meta-Shift up/down arrow          | move ITEM up/down                                  |
+  |-----------------------------------+----------------------------------------------------|
+** org-mode markup
+*** *bold* /italic/ =code= ~verbatim~ _underline_ +striketrough+
+** org-mode links:
+  |----------+--------------------------|
+  | ^c^l     | create a url link        |
+  | ^c^o     | open the link you are on |
+  | example  | [[file:spectre.meltdown.org::failed attempt][spectre-meltdown]]         |
+  | example2 | [[http://google.com][google]]                   |
+  |----------+--------------------------|
+** tables: https://orgmode.org/manual/Built_002din-table-editor.html
+  |---------------------------+-----------------------------------------------------------|
+  | just type table text here | adding vert-bars, and type <tab> which "draws" the table  |
+  | Meta-up/down arrow        | move whole items (could be mult rows)                     |
+  | Meta-right/left           | reorder columns                                           |
+  | Meta-Shift-left/right     | delete current colum / add column on left                 |
+  | Meta-return               | add a line break, keeping text in the same cell           |
+  |---------------------------+-----------------------------------------------------------|
+  | Movings Cells             | (mark an emacs "rectangle" by setting 'mark' and 'point') |
+  | -------------             |                                                           |
+  | ^C ^X Meta-w              | copy rectangle selection                                  |
+  | ^C ^X ^w                  | cut rectangle selection                                   |
+  | ^C ^X ^y                  | paste rectangular selection                               |
+  |---------------------------+-----------------------------------------------------------|
+** org-mode metadata (used during export)
+*** exporting:
+|------+-------------------------|
+| ^c^e | export to other formats |
+|------+-------------------------|
+** code snippets (which export nicely)
+  |------+------------------------------------------------------------------|
+  | ^c'  | edit the code in a BEGIN_SRC block in a new lang-specific buffer |
+  | ^c^c | evaluate the code                                                |
+  |------+------------------------------------------------------------------|
+  #+BEGIN_SRC ruby
+    def fact(n)
+      return 1 if n = 0
+      n * fact(n-1)
+    end
+  #+END_SRC
+** LaTeX chars, and formulas (inside $ delimiters)
+  \alpha \rightarrow \beta
+  $O(n \log n)$
+  \begin{align*}
+  3 * 2 + 1 &= 6 + 1 \\
+            &= 7
+  \end{align*}
+** other notes
+*** org-mode files are supported by github now, and display correctly
+** my old org-mode notes
+   - Keys:
+     - Meta + Enter   [to make a text line into a bullet line]
+     - Meta + <arrow> [to move an entry up/down, or in/out]
+     - TAB : to open current level nesting (cycle 3 times)
+     - ⇧TAB : to open full nesting (cycle 3 times)
+     - Test 1
+     - Test 2
+       - two a
+       - two b - two b - two b - two b - two b - two b - two b - two b - two b - two b
+      two b - two b - two b - two b - two b - 
+     - Test 3
+       - three
+** TODO => DONE lists, etc
+*** [C-u] C-c C-t   : cycle through TODO/DONE/...
+*** URL: https://orgmode.org/guide/Multi_002dstate-workflows.html#Multi_002dstate-workflows
+**** Add to .emacs:
+  (setq org-todo-keywords
+      '((sequence "TODO" "|" "DONE")
+        (sequence "REPORT" "BUG" "KNOWNCAUSE" "|" "FIXED")))
+**** or anywhere in a file (C-c C-c in file to parse this):
+#+TODO: TODO(t) | DONE(d)
+#+TODO: REPORT(r) BUG(b) KNOWNCAUSE(k) | FIXED(f)
+#+TODO: | CANCELED(c)
+

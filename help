@@ -45,7 +45,11 @@ if [ "$1" = "-i" ] ; then
 fi
 
 if [ "$edit" = 'true' ]; then
-  emacsclient -nw "$file"
+  if which gnuclientw >/dev/null 2>&1; then
+    gnuclientw "$file"
+  else
+    emacsclient -nw "$file"
+  fi     
   exit
 fi
 
