@@ -1,2 +1,93 @@
-- print out the name of the current function
-    print(f"ENTERED {inspect.stack()[0][3]}()")
+   
+| Python                                             | Ruby                                    |
+|----------------------------------------------------+-----------------------------------------|
+| range object: range(10)                            | (0..9)         # Range.new(0,9)         |
+| range object: range(10,2)                          | (0..9).step(2) # Range.new(0,9).step(2) |
+| range to list: list(range(10)                      | *0..9                                   |
+| print(f'val:{var}') +                              | puts "val:#{var}"                       |
+| class _member_ ref: "self.attr"                    | @attr                                   |
+| class _level_ attr ref: self.attr / ClassName.attr | @@attr                                  |
+| class method def'n: decorate with '@classmethod'   | self.method / ClassName.method          |
+| class method call: method(cls)                     | ClassName.method                        |
+| NoneType : None                                    | NilClass : nil                          |
+| dictionay {'apple':2.99}                           | Hash {'apple' => 3.99 } / {apple: 1.99} |
+| bool / True / False                                | TrueClass / FalseClass true / false     |
+| tuple unpacking: for (a,b) in two_item_tuples_list | <same>                                  |
+| tuple unpacking: - parens are optional             | ditto                                   |
+| tuple unpacking: - python chokes if not two items  |                                         |
+| for index,item in enumerate(list):                 | .each_with_index                        |
+| zip(list1,list2,list3)                             | list1.zip(list2,list3)                  |
+| from lib_file import fn_defn                       | require 'file'                          |
+| filter()                                           | .select                                 |
+| [raise] try/except/else/finally                    | [raise] begin/rescue/else/ensure/end    |
+| str_python.upper()                                 | str_ruby.upcase                         |
+| a Module is Py is a file.                          | In Ruby it is simply code.              |
+| list membership: 'in' operator                     | .include?                               |
+| jump to top of loop: continue                      | next                                    |
+| print function's name                              | print(inspect.stack()[0][3])            |
+| noop in loop: pass                                 | NO NEED IN RUBY                         |
+| conditional blocks (colon/indent/no end)           | conditional blocks                      |
+| > if cond:                                         | > if                                    |
+| > elif cond2:                                      | > elsif                                 |
+| > else:                                            | > else                                  |
+| >                                                  | > end                                   |
+| while loops allow "else:" clause                   | NO SUCH                                 |
+| > else runs just once when looping is done         | >                                       |
+| __del__                                            | NO SUCH (Ruby doesn't ref count)        |
+| _* __* __*__ 'magic' methods                       | NO SUCH                                 |
+
+| Python Only                                                                                                       |
+|-------------------------------------------------------------------------------------------------------------------|
+| protected methods/fields: start names with a _single_ underscore                                                  |
+| private   methods/fields: start names with a _double_ underscore                                                  |
+| multi-line string can be text in between triple quotes                                                            |
+| r'reg expr' # r{reg expr}   or   /reg expr/                                                                       |
+| if __name__ == "__main__" # used to determine if a py file was loaded to be run directly (vs via a module import) |
+| "dunder" means "double underscore"                                                                                |
+| implement __str__, __len__, __del__ to handle .str(), .len(), etc                                                 |
+| lambda var:expression_using_var                                                                                   |
+| class Dog(Animal): # inheriting from Animal class                                                                 |
+| Animal.__init__(self) # call parent constructor                                                                   |
+| 'comprehension' to simplify/shorten for loops                                                                     |
+| uses indentation for block instead of braces # use spaces over tabs; python3 disallows mixing                     |
+| methods need parens                                                                                               |
+| idiom: use '_' for looping var when not going to  use the loop var                                                |
+| single quoted strings do NOT prevent interpolation 'has a \t tab'                                                 |
+| with string slices [start:stop:step] the stop index is NOT included                                               |
+| wierd: reverse a string with [::-1]                                                                               |
+| strings are immutable                                                                                             |
+|                                                                                                                   |
+| str_pyth{}.format('on')                                                                                           |
+| 1<2<3 # chained comparisons is equivalent to 1<2 && 2<3                                                           |
+|-------------------------------------------------------------------------------------------------------------------|
+ 
+|---------------------------------------------------------------------------------|
+| New Types in Python                                                             |
+| ('tuple') is like an immutable ['list'] # just two methods: .count() .index()   |
+| {'set','is'} like a list, but have no duplicates and are unordered # use braces |
+
+|-------------------------------------------------------------------------------------------------|
+| listp comprehensions:                                                                           |
+| - square the even numbers found between 0 and 5 inclusive:                                      |
+| [n**2 for n in range(0,6) if n%2==0] # (0..5).select{\n\ n%2==0;n**2}.map{ \n\ n**2}            |
+| - 'else' clause allowed, but 'if' must move to front :-(                                        |
+| [n**2 if n%2==0 else 99 for n in range(0,6) ] # (0..5).map{/n/n%2==0 ? n**2 : 99}               |
+ 
+|--------------------------------------------------------------------|
+| Nested loops # *in ruby use .product/.select/.map*                 |
+| [x+y+z for x in [10,20] for y in [1,2] for z in [0.1,0.2] if y<2 ] |
+| [10,20].product([1,2],[0.1,0.2]).select{/x,y,z/y<2}.map(&:sum)     |
+ 
+|-----------------------------------------------------------------|
+| dictionary comprehensions:                                      |
+| {x:x**2 for x in range(10)}                                     |
+| > creates key/value pairs for 0 to 9, of the num and its square |
+ 
+|-----------------------------------------------------------------------|
+| files                                                                 |
+| file_obj = open('filename')                                           |
+| file_obj.read()      # read in entire file as string                  |
+| file_obj.readlines() # read in entire file as array of string (lines) |
+| with open('file') as file_obj:                                        |
+| >    do_stuff_first                                                   |
+| >    then_file_will_auto-close_after_this_block                       |
