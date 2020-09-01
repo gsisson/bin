@@ -52,8 +52,10 @@ fi
 cat "$file" | if [ $# = 0 ]; then
   cat
 else
-  ggrep $ignorecase --color=always -E "($|${@})"
+  grepit=grep
+  if ggrep > /dev/null 2>&1; then
+      ggrep on Mac shows bold font for match; regular grep does not
+      grepit=ggrep
+  fi      
+  $grepit $ignorecase --color=always -E "($|${@})"
 fi
-
-exit
-
