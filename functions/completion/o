@@ -13,7 +13,11 @@ _o() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
   # call the program to get the options the program takes
-  opts=$($HOME/usr/bin0/$cmd -?)
+  if [ -d $HOME/usr/bin0 ]; then
+    opts=$($HOME/usr/bin0/$cmd -?)
+  else
+    opts=$($HOME/usr/bin/$cmd -?)
+  fi
 
   # commands that take arguments
   case "${prev}" in

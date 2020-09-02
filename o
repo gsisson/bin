@@ -99,14 +99,23 @@ case "$@" in
   dropbox)          handle_it "$HOME/Dropbox/";;
   downloads)        handle_it "$HOME/Downloads";;
   home)             handle_it "$HOME";;
-  photos)           handle_it "$HOME/Photos/";;
+  photos)           handle_it "$HOME/Pictures/";;
+  pictures)         handle_it "$HOME/Pictures/";;
   desktop)          handle_it "$HOME/Desktop/";;
   # places (executables that are kind of like folders)
   #
   #documents.local) handle_it "shell:Local Documents";; #same place as 'documents' actually
   recycle)          handle_it "$HOME/Recycle";;
-  screenshots)      handle_it "$HOME/Photos/Screenshots";;
+  screenshots)      handle_it "$HOME/Desktop/Screenshots";;
   # web pages
-  web)              cmd /c "start https://google.com";;
-  *)                handle_it "$*";;
+  tiny)                open 'http://tiny.amazon.com/';;
+  isengard)            open 'https://tiny.amazon.com/r91blny0';;
+  tlz-docs)            open 'https://tlz-product-docs-dev.tlzdemo.net/';;
+ #tlz-docs-isengard)   open 'https://d-906709f405.awsapps.com/start';;
+  tlz-docs-isengard)   open 'https://tiny.amazon.com/150r5a9wl';; 
+  tlz-docs-code-build) open 'https://tiny.amazon.com/1h1qdeb8q';;
+  tlz-docs-github)     open 'https://github.com/tlzproject/tlz-product-docs';;
+  tlz-OLD-workshop)    open 'https://tlz-workshop.tlzdemo.net/';;
+  sage)                open 'https://sage.amazon.com/search?q=what+is+sage';;
+  *)                   handle_it "$*";;
 esac
