@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+
+# This script is symlinked and can be entered as 'o' or 'g':
+#   ~/usr/bin/o
+#   ~/usr/bin/g
+#
+# It provides command completion when used in conjuction
+#   with ~/usr/bin/functions/completion/[og]
+#
+# Pass an argument and when runs as
+#   'o' it will 'open' the passed argument (a folder or supported program name)
+#   'g' will output a 'cd' command for passed arguement (must be a folder)
+#       Note: if 'g' gets a non-directory target it will just open it as though called with 'o'
+#
+# - If no argument is passed in, the clipboard is used as the argument
+
+#
+# the function that does the actual work
+#
+handle_it() {
+  cmd=$(basename $0)
+  if [ "${CYGWIN}" = "" ]; then
+    local clipboard=$( pbpaste )
+  else
+    local clipboard=$( getclip|d2u )
+  fi
+  # handle arguments 
+  if [ "${1#shell}" != "$@" -o "${1#Microsoft}" != "$@"  ]; then
+    # not handling a directory, but a 'shell:' type, or 'Microsoft' type
+    if [ "$cmd" = 'g' ]; then
+      echo "cannot 'g' to '$@'"     1>&2
+      echo "running 'o' instead..." 1>&2
+      cmd='o'
+      # caller of 'g' is expecting some text to be returned, so echo back a blank line
+      echo
+    fi
+    case "$1" in
+      shell*)     echo + explorer "$@" 1>&2
+                         explorer "$@"
+                  ;;
+      Microsoft*) echo + control /name "$@" 1>&2
+                         control /name "$@"
+                  ;;
+    esac
+    return
+  fi
+  # handling a directory directories
+  if [ -z "$*" ]; then
+    # no argument passed, so maybe a directory is on the clipboard
+    #clipboard=$( getclip|d2u )
+    if [ -d "$clipboard" ]; then
+      set -- "$clipboard"
+    else
+      # let the user know we looked for a dir on the clipboard
+      echo "# clipboard does not hold a directory" 1>&2
+    fi
+  fi
+  if [ -z "$*" ]; then
+    # if no directory was passed, nor on the clipboard, that is a usage error
+    echo "usage $cmd <directory>" 1>&2
+    exit 1
+  fi
+  if [ ! -d "$*" ]; then
+    # if the argument passed was not a directoy, that is an error
+    echo "ERROR: Directory does not exist: '$@'" 1>&2
+    exit 1
+  fi
+  # now we have a real directory to work with
+  case "$cmd" in
+    o) # filter this line out when run with '-?'
+       # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
+       if [ "${CYGWIN}" = "" ]; then
+         echo + open $windir "$@" 1>&2
+         open $windir "$@"
+       else
+         windir=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) 
+         echo + explorer $windir 1>&2
+         explorer $windir
+       fi
+       ;;
+    g) echo "cd '$*'";; # filter this line out when run with '-?'
+  esac
+}
+
+# - Here we translate supported 'shorthand' arguements for real directories or programs
+#   that are hard to remember
+# - Add more entries to the 'case' to handle new shorthands
+# - Any argument that isn't a shorthand is handed by the final '*' case (specific directories
+#   or something passed in on the clipboard
+
+case "$@" in
+  # '-?' provides help by returning a list of supported shorthands.
+  # This argument is used by ~/usr/completion/[og] to get command completion for shortcuts
+  -?)               cat $0 | grep -v '#' | grep '[a-z])' | sed -e 's:).*::' -e 's:^  ::' | column;;
+  # executable shorthands that can be 'opened'
+  #
+  # folder shorthands that can be 'opened'
+  cloud)            handle_it "$HOME/Dropbox/";;
+  dropbox)          handle_it "$HOME/Dropbox/";;
+  downloads)        handle_it "$HOME/Downloads";;
+  home)             handle_it "$HOME";;
+  photos)           handle_it "$HOME/Photos/";;
+  desktop)          handle_it "$HOME/Desktop/";;
+  # places (executables that are kind of like folders)
+  #
+  #documents.local) handle_it "shell:Local Documents";; #same place as 'documents' actually
+  recycle)          handle_it "$HOME/Recycle";;
+  screenshots)      handle_it "$HOME/Photos/Screenshots";;
+  # web pages
+  web)              cmd /c "start https://google.com";;
+  *)                handle_it "$*";;
+esac
