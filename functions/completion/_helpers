@@ -1,0 +1,41 @@
+#---------------------------------------------------------------------
+# command completion helper functions
+
+_isMemberButNotPrefix() {
+  # returns 0 (true) when first param ($1) is found in the passed
+  #   array ($2), and is not also a prefix of any other element of the array
+  # returns 1 (false) otherwise
+  # examples
+  #   a=(foo foobar baz)
+  #   _isMemberButNotPrefix 'foob'   "${a[@]}" # $?=>1 (no, 'foob' is not member of array)
+  #   _isMemberButNotPrefix 'baz'    "${a[@]}" # $?=>0 (yes, 'baz' is member; also not a prefix)
+  #   _isMemberButNotPrefix 'foobar' "${a[@]}" # $?=>0 (yes, 'foobar' is member; also not a prefix)
+  #   _isMemberButNotPrefix 'foo'    "${a[@]}" # $?=>1 (no, 'foo' is member but is prefix of foobar)
+  local prefix=false
+  local match=false
+  local item="$1"; shift
+  if [ -z "$item" ]; then return 1; fi
+  local element
+  for element; do
+    if [[ $element ==   $item     ]]; then match=true;  fi
+    if [[ $element =~ ^${item}..* ]]; then prefix=true; fi
+  done
+  if [ "$match" = true -a "$prefix" = false ]; then
+    return 0 # good, a match found, and not also a prefix of any other array elements
+  fi
+  return 1 # no good... either not found, or was found as prefix of other array elements
+}
+
+_isMember() {
+  # return 0 (true) when first arg ($1) is found in the passed array ($2)
+  # returns 1 (false) otherwise
+  # examples
+  #   a=(foo foobar baz)
+  #   _isMember 'foo'  "${a[@]}" # $?=>0 (yes, 'foo' is member of array)
+  #   _isMember 'foob' "${a[@]}" # $?=>1 (no, 'foob' is not member of array)
+  #   _isMember 'baz'  "${a[@]}" # $?=>0 (yes, 'baz' is member of array)
+  local item="$1"
+  local element
+  for element; do [[ "$element" == "$item" ]] && return 0; done
+  return 1
+}

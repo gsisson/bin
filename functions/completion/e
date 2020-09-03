@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# This function will perform command completion for the 'e' command.
+# It expects helper functions from the _helper file in the same directory are already loaded.
+
+_e_completions() {
+  # Note: when calling 'compgen' in bash, MUST use '[*]' array arg, not '[@]'
+
+  local CMD SEARCH OPTS
+  CMD=e
+  CMD=$HOME/usr/bin0/$CMD
+
+  # get the valid 1st arument choices
+  SEARCH="options"
+  OPTS=($($CMD ${SEARCH}))
+  # work on 1st argument (i.e. COMP_WORDS with index = 1)
+  if ! _isMemberButNotPrefix "${COMP_WORDS[1]}" "${OPTS[@]}"; then
+    # first argument not yet valid
+    COMPREPLY=($(compgen -W "${OPTS[*]}" "${COMP_WORDS[1]}"))
+  else
+    # found valid 1st argument, get the valid 2nd arument choices
+    SEARCH="${COMP_WORDS[1]}-options"
+    OPTS=($($CMD ${SEARCH}))
+    # work on 2st argument (i.e. COMP_WORDS with index = 2)
+    if ! _isMemberButNotPrefix "${COMP_WORDS[2]}" "${OPTS[@]}"; then
+      # 2nd argument not yet valid
+      COMPREPLY=($(compgen -W "${OPTS[*]}" "${COMP_WORDS[2]}"))
+    else
+      # found valid 2nd argument (no 3nd argument choices)
+      :
+    fi
+  fi
+}
+
+# register for command completion
+complete -F _e_completions e
