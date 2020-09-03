@@ -4,7 +4,7 @@ _enter_dot_file
 # if it didn't exist, ". ~/usr/bin/functions/completion/*" would only run the first one alphabetically
 
 for file in ~/usr/bin/functions/completion/*; do
-  if [ "$file" != ~/usr/bin/functions/completion/_loadall ]; then
+  if [ "$file" != ~/usr/bin/functions/completion/__loadall ]; then
     _source_dot_file $file
   fi
 done

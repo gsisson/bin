@@ -1,5 +1,8 @@
+#!/usr/bin/env bash
+_enter_dot_file
+
 #---------------------------------------------------------------------
-# command completion helper functions
+# command completion helper functions (used by 'm' and 'e')
 
 _isMemberButNotPrefix() {
   # returns 0 (true) when first param ($1) is found in the passed
@@ -39,3 +42,5 @@ _isMember() {
   for element; do [[ "$element" == "$item" ]] && return 0; done
   return 1
 }
+
+_leave_dot_file

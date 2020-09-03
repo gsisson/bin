@@ -1,8 +1,8 @@
+#!/usr/bin/env bash
 _enter_dot_file
 
-# when loaded (sourced) into a shell, this function,
-# kept in ~/usr/completion/, will cause command
-# completion to be enabled for the command.
+# This function, kept in ~/usr/bin/functions/completion/, will perform command
+# completion for the 'ee' command.
 
 _ee() {
   local cmd=ee
@@ -13,7 +13,11 @@ _ee() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
   # call the program to get the options the program takes
-  opts=$($HOME/usr/bin/$cmd -?)
+  if [ -d $HOME/usr/bin0 ]; then
+    opts=$($HOME/usr/bin0/$cmd -?)
+  else
+    opts=$($HOME/usr/bin/$cmd -?)
+  fi
 
   # commands that take arguments
   case "${prev}" in
@@ -35,5 +39,17 @@ _ee() {
 }
 
 complete -F _ee ee
+
+# if the script (not the function) returns something to be
+# evaluated (like a "chdir", which 'g' does), then uncomment
+# the COMMAND() function below to eval that command
+
+#function g() {
+#  if [ -d $HOME/usr/bin0 ]; then
+#    eval $(~/usr/bin0/g "$@")
+#  else
+#    eval $(~/usr/bin/g "$@")
+#  fi
+#}
 
 _leave_dot_file

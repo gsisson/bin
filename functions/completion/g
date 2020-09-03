@@ -1,8 +1,8 @@
+#!/usr/bin/env bash
 _enter_dot_file
 
-# when loaded (sourced) into a shell, this function,
-# kept in ~/usr/completion/, will cause command
-# completion to be enabled for the command.
+# This function, kept in ~/usr/bin/functions/completion/, will perform command
+# completion for the 'g' command.
 
 _g() {
   local cmd=g
@@ -53,4 +53,3 @@ function g() {
 }
 
 _leave_dot_file
-

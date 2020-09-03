@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
+_enter_dot_file
 
-# This function will perform command completion for the 'e' command.
-# It expects helper functions from the _helper file in the same directory are already loaded.
+# This function, kept in ~/usr/bin/functions/completion/, will perform command
+# completion for the 'e' command.
+# 
+# It expects helper functions from the _helper file in the same directory to
+# already be loaded.
 
-_e_completions() {
+_e() {
   # Note: when calling 'compgen' in bash, MUST use '[*]' array arg, not '[@]'
 
   local CMD SEARCH OPTS
   CMD=e
-  CMD=$HOME/usr/bin0/$CMD
+  if [ -d $HOME/usr/bin0 ]; then
+    CMD=$HOME/usr/bin0/$CMD
+  else
+    CMD=$HOME/usr/bin/$CMD
+  fi
 
   # get the valid 1st arument choices
   SEARCH="options"
@@ -33,4 +41,6 @@ _e_completions() {
 }
 
 # register for command completion
-complete -F _e_completions e
+complete -F _e e
+
+_leave_dot_file
