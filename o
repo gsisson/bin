@@ -110,6 +110,9 @@ case "$@" in
   # web pages
   tiny)                open 'http://tiny.amazon.com/';;
   isengard)            open 'https://tiny.amazon.com/r91blny0';;
+#  tlz)                 case ${@} in
+#                         docs);;
+#                       esac;;
   tlz-docs)            open 'https://tlz-product-docs-dev.tlzdemo.net/';;
  #tlz-docs-isengard)   open 'https://d-906709f405.awsapps.com/start';;
   tlz-docs-isengard)   open 'https://tiny.amazon.com/150r5a9wl';; 
