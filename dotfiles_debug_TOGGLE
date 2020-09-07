@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+# Description:
+#
+#   This script (which takes no arguments) toggles on/off the
+#   tool support that helps you debug your 'dotfiles' (such
+#   as ~/.bashrc and ~/.bash_profile)
+#
+# Setup:
+#
+#   This script expects you to complete the setup described
+#   in the 'dotfile.tracker.fn' file. After that setup is 
+#   done, you can run the script.  See 'usage' below.
+#
+# Usage:
+#
+#   Once setup is done, you can run this script to help find out
+#   where some particular environment variable, or shell function,
+#   or shell alias, is being defined.  After running it you can
+#   open a new terminal window and watch the helpful output.
+#
+#   When done debugging, run this script again to toggle the help
+#   off.
+#
+
+tools=$HOME/usr/bin/functions/dotfile.tracker.fn
+dfile=dotfiles_debug_sentinal
+
+if  [ ! -f "$tools" ]; then
+  echo
+  echo "ERROR: missing file '$(basename $tools)'"
+  echo
+  echo "       - You must have that file available for these tools to work"
+  echo "       - Edit this script and change the 'tools' variable to"
+  echo "         the path to your 'dotfile.tracker.fn' file."
+  echo 
+  exit 1
+fi
+
+if [ -f $HOME/.${dfile} ]; then
+  mv $HOME/.${dfile} $HOME/_${dfile}
+  echo
+  echo "dotfile tracking disabled"
+  echo
+  exit 0
+fi
+
+if [ ! -f $HOME/_${dfile} ]; then
+  echo
+  echo "SETUP: creating file '$HOME/_${dfile}'..."
+  cat > $HOME/_${dfile} << EOF
+# If this file (.dotfiles_debug_sentinal) exists in the
+# \$HOME directory, it will cause, when a shell starts,
+# for functions in ~/usr/bin/functions/dotfile.tracker.fn
+# to be run when each dotfile (.bashrc, .profile, etc) is
+# loaded, thus showing you what dotfiles are loading.
+#
+# In addition, when each dotfile is loaded, this file will
+# be sourced.  Put code in here and it will run when each
+# dotfile is entered and exited.  Here are a few exaples
+# you can uncomment to watch the PATH variable or watch
+# a directory
+#
+     echo -en "\033[38;05;214m"      # colorize output
+     echo EDITOR:\$EDITOR
+     echo -en "\033[0m"              # stop colorizing
+#
+EOF
+  echo "       setup complete."
+fi
+
+mv $HOME/_${dfile} $HOME/.${dfile}
+echo
+echo "dotfile tracking ENABLED"
+echo "  - now, when you start a new terminal window, you will see helpful output"
+echo "  - you can add additional helpful commands to the ~/.${dfile}"
+echo "    to help see changes in a specific var/alias/funtion that is causing"
+echo "    you difficulty"
+echo
+exit 0

@@ -1,22 +1,20 @@
-# usage:
-# in some dotfile:
-# 
-#   _enter_dot_file
-#   _source_dot_file  ~/.some_other_dot_file
-#   _leave_dot_file
-
-# this next function is obsolete... instead, just put code in the
-# ~/.dotfiles_debug_sentinal file and it will be run
-# (ie. calls to '_do_something()' have been replaced below with '. $sentinal')
+# setup:
 #
-# _do_something() {
-#   :
-#   # To help figure out where in the dot files something is loading,
-#   # touch "$HOME/.dotfiles_debug_sentinal", and then output something here,
-#   # for exaple, watch PATH, to see where new items get added
-#   #  echo $PATH | tr : '
-#   #'| wc
-# }
+#   Inside each of your "dot files" (~/.bashrc ~/.bash_profile, etc), add
+#   these lines at the top of the dotfile:
+#
+#       . ~/usr/bin/functions/dotfile.tracker.fn
+#       _enter_dot_file
+#
+#   and add this line at the bollom
+#
+#       _leave_dot_file
+#
+#   and whenever you want to 'source' another file, do it this
+#   way (instead of using 'source' or '.')
+#
+#       _source_dot_file  ~/.some_other_dot_file
+#
 
 _enter_dot_file() {
   dot_file_space="• ${dot_file_space}"
@@ -75,24 +73,5 @@ _source_dot_file() {
     . "$1"
   else
     echo -e "${dot_file_space}${yellow}--  $caller (CANNOT FIND FILE: $1)${off}"
-  fi
-}
-
-_say_something() {
-  local yellow="\033[0;33m"
-  local off="\033[0m"
-  #_do_something
-  local sentinal="$HOME/.dotfiles_debug_sentinal"
-  local file="$1"
-  if [ -n "$ZSH_VERSION"  ]; then caller="${funcfiletrace[1]%:*}"; fi
-  if [ -n "$BASH_VERSION" ]; then caller="${BASH_SOURCE[1]}"; fi
-  caller=${caller#?:}
-  caller=${caller#/cygdrive/?}
-  caller=${caller#/[uU]sers/[a-zA-Z]*/}
-  file=${file#?:}                     # strip c:
-  file=${file#/cygdrive/[a-zA-Z]}     # strip /cygdrive/c
-  file=${file#/[uU]sers/[a-zA-Z]*/}   # string /users/name/
-  if [ -f $sentinal ]; then
-    echo -e "${dot_file_space}${yellow}    $caller (Note: $@)${off}"
   fi
 }

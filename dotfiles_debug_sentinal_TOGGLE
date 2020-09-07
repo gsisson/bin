@@ -1,9 +1,0 @@
-dfile=dotfiles_debug_sentinal
-if   [ -f $HOME/.${dfile} ]; then
-  mv $HOME/.${dfile} $HOME/_${dfile}
-  echo "dotfile tracking disabled"
-elif [ -f $HOME/_${dfile} ]; then
-  mv $HOME/_${dfile} $HOME/.${dfile}
-  echo "dotfile tracking ENABLED"
-  echo "  (add repeating commands to ~/.${dfile} to see changes caused by dotfiles)"
-fi
