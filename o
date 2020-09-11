@@ -88,6 +88,8 @@ handle_it() {
 # - Any argument that isn't a shorthand is handed by the final '*' case (specific directories
 #   or something passed in on the clipboard
 
+tlz_docs_isengard="https://tiny.amazon.com/150r5a9wl"
+
 case "$@" in
   # '-?' provides help by returning a list of supported shorthands.
   # This argument is used by ~/usr/completion/[og] to get command completion for shortcuts
@@ -108,6 +110,8 @@ case "$@" in
   recycle)          handle_it "$HOME/Recycle";;
   screenshots)      handle_it "$HOME/Desktop/Screenshots";;
   # web pages
+  sso-tlz5)            open 'https://tiny.amazon.com/17amv9n73';;
+  sso-tlz-docs)        open "${tlz_docs_isengard}";;
   tiny)                open 'http://tiny.amazon.com/';;
   isengard)            open 'https://tiny.amazon.com/r91blny0';;
 #  tlz)                 case ${@} in
@@ -115,7 +119,7 @@ case "$@" in
 #                       esac;;
   tlz-docs)            open 'https://tlz-product-docs-dev.tlzdemo.net/';;
  #tlz-docs-isengard)   open 'https://d-906709f405.awsapps.com/start';;
-  tlz-docs-isengard)   open 'https://tiny.amazon.com/150r5a9wl';; 
+  tlz-docs-isengard)   open ${tlz_docs_isengard};;
   tlz-docs-code-build) open 'https://tiny.amazon.com/1h1qdeb8q';;
   tlz-docs-github)     open 'https://github.com/tlzproject/tlz-product-docs';;
   tlz-OLD-workshop)    open 'https://tlz-workshop.tlzdemo.net/';;
