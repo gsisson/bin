@@ -1,20 +1,25 @@
 # setup:
 #
-#   Inside each of your "dot files" (~/.bashrc ~/.bash_profile, etc), add
-#   these lines at the top of the dotfile:
+#   First, fnd a place to store this file 'dotfile.tracker.fn' Let's
+#   say, for example, that you place it in ~/usr/bin/functions/
+#
+#   Next, inside each of your "dot files" (~/.bashrc ~/.bash_profile, etc),
+#   add these two lines at the top of the dotfile:
 #
 #       . ~/usr/bin/functions/dotfile.tracker.fn
 #       _enter_dot_file
 #
-#   and add this line at the bollom
+#   and add this one line at the bottom:
 #
 #       _leave_dot_file
 #
-#   and whenever you want to 'source' another file, do it this
-#   way (instead of using 'source' or '.')
+#   and also, whereever in your dotfile you 'source' another file, do it
+#   this way (instead of using 'source' or '.')
 #
 #       _source_dot_file  ~/.some_other_dot_file
 #
+#   Once you have made those changes to your dot files, you can run
+#   the dotfiles_debug_TOGGLE script to toggle debug help on/off
 
 _enter_dot_file() {
   dot_file_space="• ${dot_file_space}"
