@@ -110,7 +110,9 @@ case "$@" in
   recycle)          handle_it "$HOME/Recycle";;
   screenshots)      handle_it "$HOME/Desktop/Screenshots";;
   # web pages
-  sso-tlz5)            open 'https://tiny.amazon.com/17amv9n73';;
+  sso-tlz5)            open 'https://tiny.amazon.com/17amv9n73';; # 719  never shows up as tab arg!
+  sso-tlz7)            open 'https://tiny.amazon.com/m866sf8b';;  # 4ff  never shows up as tab arg!
+  sso-tlz8)            open 'https://tiny.amazon.com/13t7mm6l0';; # d67  never shows up as tab arg!
   sso-tlz-docs)        open "${tlz_docs_isengard}";;
   tiny)                open 'http://tiny.amazon.com/';;
   isengard)            open 'https://tiny.amazon.com/r91blny0';;

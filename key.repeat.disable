@@ -1,1 +1,3 @@
-defaults write -g ApplePressAndHoldEnabled -bool true
+echo + defaults write -g ApplePressAndHoldEnabled -bool true
+       defaults write -g ApplePressAndHoldEnabled -bool true
+echo "You'll have to log out and back in for this to take effect"

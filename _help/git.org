@@ -11,6 +11,7 @@
 | show trailing whitespace       | git -R # reverse (shows trailing whitespace removed) |
 | .(git diff only shows trailing |                                                      |
 | ..whitespace that is added)    |                                                      |
+| grab file from other branch    | git checkout [remote/]branch <file/dir>              |
 |--------------------------------+------------------------------------------------------|
 | delete a repo                  | . ~/.githubtoken                                     |
 |                                | hub delete [-y] user-or-org/repo                     |
