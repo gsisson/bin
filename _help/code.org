@@ -2,6 +2,9 @@
 | ⌘K ⌘S               | Open "Keyboard Shortcuts" window                                                            |
 | ^-  / ^=            | Backward / Forward through the Navigation History (^= BTT)                                  |
 |---------------------+---------------------------------------------------------------------------------------------|
+| ⌘D                  | Extend cursor selection to next instance of matching text                                   |
+| ⌘D ⌘K               | Cancel the current text addition                                                            |
+|---------------------+---------------------------------------------------------------------------------------------|
 |                     | (is this for Visual Studio??)                                                               |
 |                     | Code Folding                                                                                |
 | ⌘K ⌘0               | Fold All regions in the editor                                                              |
