@@ -13,12 +13,12 @@
 #       Note: if 'g' gets a non-directory target it will just open it as though called with 'o'
 #
 # - If no argument is passed in, the clipboard is used as the argument
+#
+# - when maintaining, add "filter this line out" to any lines that match the grep
+#   down on the '-?)' line.  Usually that is any line matching '[a-z0-9])'
 
-#
-# the function that does the actual work
-#
 handle_it() {
-  cmd=$(basename $0)
+  cmd=$(basename $0) # filter this line out when run with '-?' (matches on "0)")
   if [ "${CYGWIN}" = "" ]; then
     local clipboard=$( pbpaste )
   else
@@ -67,7 +67,8 @@ handle_it() {
   fi
   # now we have a real directory to work with
   case "$cmd" in
-    o) # filter this line out when run with '-?'
+    o) # filter this line out when run with '-?' (matches on "o)")
+
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
        if [ "${CYGWIN}" = "" ]; then
          echo + open $windir "$@" 1>&2
@@ -78,7 +79,7 @@ handle_it() {
          explorer $windir
        fi
        ;;
-    g) echo "cd '$*'";; # filter this line out when run with '-?'
+    g) echo "cd '$*'";; # filter this line out when run with '-?' (matches on "g)")
   esac
 }
 
@@ -93,7 +94,7 @@ tlz_docs_isengard="https://tiny.amazon.com/150r5a9wl"
 case "$@" in
   # '-?' provides help by returning a list of supported shorthands.
   # This argument is used by ~/usr/completion/[og] to get command completion for shortcuts
-  -?)               cat $0 | grep -v '#' | grep '[a-z])' | sed -e 's:).*::' -e 's:^  ::' | column;;
+  -?)               cat $0 | grep -v 'filter this line out' | grep -v '^ *#' | grep '[a-z0-9])' | sed -e 's:).*::';;
   # executable shorthands that can be 'opened'
   #
   # folder shorthands that can be 'opened'

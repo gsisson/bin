@@ -50,7 +50,7 @@ _show-all-aws-accounts() {
 
 _options() {
   filter="${1}"
-  cat $0 | grep -v 'options)'| grep "[a-z]).*${filter}" | sed -e 's:).*::' -e 's:^:  :' | column
+  cat $0 | grep -v 'options)'| grep "[a-z0-9]).*${filter}" | sed -e 's:).*::' -e 's:^:  :' | column
   exit
 }
 

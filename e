@@ -62,7 +62,7 @@ _options() {
   # addig a new case statement.  case statement lines with "#ignore" on them will be
   # reoved from the result.
   filter="${1}"
-  cat $0 | \grep -v  '#ignore'| \grep "[a-z]).*${filter}" | sed -e 's:).*::' -e 's:^:  :' | column
+  cat $0 | \grep -v  '#ignore'| \grep "[a-z0-9]).*${filter}" | sed -e 's:).*::' -e 's:^:  :' | column
   exit
 }
 
