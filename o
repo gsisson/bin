@@ -68,7 +68,6 @@ handle_it() {
   # now we have a real directory to work with
   case "$cmd" in
     o) # filter this line out when run with '-?' (matches on "o)")
-
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
        if [ "${CYGWIN}" = "" ]; then
          echo + open $windir "$@" 1>&2
@@ -90,27 +89,102 @@ handle_it() {
 #   or something passed in on the clipboard
 
 tlz_docs_isengard="https://tiny.amazon.com/150r5a9wl"
+desktop_pictures_locn="c:/Users/gsisson/AppData/Local/Packages/Microsoft.Windows."
+desktop_pictures_locn="${desktop_pictures_locn}ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
 
 case "$@" in
   # '-?' provides help by returning a list of supported shorthands.
   # This argument is used by ~/usr/completion/[og] to get command completion for shortcuts
-  -?)               cat $0 | grep -v 'filter this line out' | grep -v '^ *#' | grep '[a-z0-9])' | sed -e 's:).*::';;
+  -?) cat $0 | grep -v 'filter this line out' |
+      grep -v '^ *#' | grep '[a-zA-Z0-9])' |
+      sed -e 's:).*::' -e 's:^  ::' | column;;
   # executable shorthands that can be 'opened'
-  bitlocker)        handle_it Microsoft.BitLockerDriveEncryption;;
-  #
+  anki)                handle_it "$HOME/Library/Application Support/Anki2/";;
+  blinds)              "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
+  photoshop)           shift; $HOME/usr/bin/adobe "$@";;
+  premiere.pro)        shift; $HOME/usr/bin/pp    "$@";;
+  firefox )            if [ "${CYGWIN}" = "" ]; then
+                         echo "fix $0 for mac"
+                       else
+                         cmd /c "C:/Program Files/Mozilla Firefox/firefox.exe"
+                       fi;;
+  screensaver)         control "desk.cpl,,@screensaver";;
+  bitlocker)           handle_it Microsoft.BitLockerDriveEncryption;;
+  #                    alternative: manage-bde -unlock t: -password # must be admin!
+  controller)          handle_it "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}";;
   # folder shorthands that can be 'opened'
-  cloud)            handle_it "$HOME/Dropbox/";;
-  dropbox)          handle_it "$HOME/Dropbox/";;
-  downloads)        handle_it "$HOME/Downloads";;
-  home)             handle_it "$HOME";;
-  photos)           handle_it "$HOME/Pictures/";;
-  pictures)         handle_it "$HOME/Pictures/";;
-  desktop)          handle_it "$HOME/Desktop/";;
-  # places (executables that are kind of like folders)
-  #
-  #documents.local) handle_it "shell:Local Documents";; #same place as 'documents' actually
-  recycle)          handle_it "$HOME/Recycle";;
-  screenshots)      handle_it "$HOME/Desktop/Screenshots";;
+  completion)          handle_it "$HOME/usr/completion/";;
+  auto_hot_key)        handle_it "$HOME/usr/bin/config/";;
+  cloud)               if [ "${CYGWIN}" = "" ]; then
+                         open "$HOME/Dropbox/"
+                       else
+                         handle_it "$HOME/Documents/Cloud"
+                       fi;;
+  data)                handle_it "$HOME/Documents/HOME/DATA";;
+  dropbox)             if [ "${CYGWIN}" = "" ]; then
+                         open "$HOME/Documents/Cloud/Dropbox"
+                       else
+                         handle_it "$HOME/Dropbox/"
+                       fi;;
+  downloads)           handle_it "$HOME/Downloads";;
+  home)                handle_it "$HOME";;
+  links)               handle_it "$HOME/usr/bin0/pc/lnk/";;
+  movies)              handle_it "C:/_MOVIES_C/";;
+  photos)              if [ "${CYGWIN}" = "" ]; then
+                         echo "fix $0 for mac"
+                       else
+                         handle_it "$HOME/Pictures/" # open "shell:Pictures"
+                       fi;;
+  room)                handle_it $HOME/Documents/HOME/*stat*/*05*/*en*;;
+  rotate)              handle_it "P:/Photos/My_Pictures_ToRotate";;
+  scan)                handle_it "P:/Photos/My_Pictures_Scan_In";;
+  sysinternals)        handle_it "$HOME/usr/bin0/pc/SysInternals/";;
+  video)               handle_it "P:/Videos/";;
+  video.marker)        handle_it $HOME/usr/bin0/video.marker/;;
+  # places (executabl  es that are kind of like folders)
+  diskmgmt)            cmd /c "C:/Windows/System32/diskmgmt.msc";;
+  computer)            handle_it "shell:MyComputerFolder";;
+  control.panel)       handle_it "shell:ControlPanelFolder";;
+  desktop)             if [ "${CYGWIN}" = "" ]; then
+                         open "$HOME/Desktop/"
+                       else
+                         handle_it "$HOME/Desktop/" # open "shell:Desktop"
+                       fi;;
+  desktop.common)      handle_it "shell:Common Desktop";;
+  documents)           handle_it "shell:Documents";;
+  #documents.local)    handle_it "shell:Local Documents";; #same place as 'documents' actually
+  documents.common)    handle_it "shell:Common Documents";;
+  libraries)           handle_it "shell:Libraries";;
+  music)               handle_it "shell:My Music";;
+  music.to.get)        handle_it "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
+  photos.pc)           handle_it "shell:My Pictures";;
+  pictures)            if [ "${CYGWIN}" = "" ]; then
+                         open "$HOME/Pictures/"
+                       else
+                         handle_it "$HOME/Pictures/"
+                       fi;;
+  pictures.desktop)    handle_it "$desktop_pictures_locn";;
+  pinned)              handle_it "shell:User Pinned";;
+  playlists)           handle_it "shell:Playlists";;
+  printers)            handle_it "shell:PrintersFolder";;
+  quick.launch)        handle_it "shell:Quick Launch";;
+  recycle)             if [ "${CYGWIN}" = "" ]; then
+                         open "$HOME/Recycle"
+                       else
+                         handle_it "shell:RecycleBinFolder"
+                       fi;;
+  screenshots)         if [ "${CYGWIN}" = "" ]; then
+                         open "$HOME/Desktop/Screenshots"
+                       else
+                         handle_it "shell:ScreenShots"
+                       fi;;
+  sendto)              handle_it "shell:SendTo";;
+  startmenu)           handle_it "shell:Start Menu";;
+  startmenu.common)    handle_it "shell:Common Start Menu";;
+  startup)             handle_it "shell:Startup";;
+  startup.common)      handle_it "shell:Common Startup";;
+  tix1)                cmd /c "start https://bit.ly/3d7sBPj";;
+  tix2)                cmd /c "start https://bit.ly/2SqFD0u";;
   # web pages
   sso-tlz5)            open 'https://tiny.amazon.com/17amv9n73';; # 719  never shows up as tab arg!
   sso-tlz7)            open 'https://tiny.amazon.com/m866sf8b';;  # 4ff  never shows up as tab arg!

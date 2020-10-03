@@ -12,11 +12,7 @@ _m() {
 
   local CMD SEARCH OPTS
   CMD=m
-  if [ -d $HOME/usr/bin0 ]; then
-    CMD=$HOME/usr/bin0/$CMD
-  else
-    CMD=$HOME/usr/bin/$CMD
-  fi
+  CMD=$HOME/usr/bin/$CMD
 
   # get the valid 1st arument choices
   SEARCH="options"

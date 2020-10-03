@@ -13,11 +13,7 @@ _g() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
   # call the program to get the options the program takes
-  if [ -d $HOME/usr/bin0 ]; then
-    opts=$($HOME/usr/bin0/$cmd -?)
-  else
-    opts=$($HOME/usr/bin/$cmd -?)
-  fi
+  opts=$($HOME/usr/bin/$cmd -?)
 
   # commands that take arguments
   case "${prev}" in
@@ -45,11 +41,7 @@ complete -F _g g
 # the COMMAND() function below to eval that command
 
 function g() {
-  if [ -d $HOME/usr/bin0 ]; then
-    eval $(~/usr/bin0/g "$@")
-  else
-    eval $(~/usr/bin/g "$@")
-  fi
+  eval $(~/usr/bin/g "$@")
 }
 
 _leave_dot_file
