@@ -96,6 +96,7 @@ case "$@" in
   # This argument is used by ~/usr/completion/[og] to get command completion for shortcuts
   -?)               cat $0 | grep -v 'filter this line out' | grep -v '^ *#' | grep '[a-z0-9])' | sed -e 's:).*::';;
   # executable shorthands that can be 'opened'
+  bitlocker)        handle_it Microsoft.BitLockerDriveEncryption;;
   #
   # folder shorthands that can be 'opened'
   cloud)            handle_it "$HOME/Dropbox/";;
