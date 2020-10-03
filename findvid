@@ -89,6 +89,7 @@ done
 
 old_d=""
 
+unalias grep
 if [ "$separated" != true ]; then
   cat find.txt t:/Premiere.Pro.Work/find | egrep -v '(jpg$|txt$|xmp$)' | grep -iP "$args" | grep '.*/' |
     sed -e 's|^\.|t:/RECYCLABLE/v|'
