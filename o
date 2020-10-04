@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+. ~/.bashrc.functions.pc
 
 # This script is symlinked and can be entered as 'o' or 'g':
 #   ~/usr/bin/o
@@ -16,6 +17,15 @@
 #
 # - when maintaining, add "filter this line out" to any lines that match the grep
 #   down on the '-?)' line.  Usually that is any line matching '[a-z0-9])'
+
+if [ "${CYGWIN}" != "" ]; then
+  open() {
+    case "$1" in
+      http*) cmd /c start "${@}";;
+      *)     start "$@";;
+    esac
+  }
+fi
 
 handle_it() {
   cmd=$(basename $0) # filter this line out when run with '-?' (matches on "0)")
@@ -66,6 +76,7 @@ handle_it() {
     exit 1
   fi
   # now we have a real directory to work with
+  echo "directory!"
   case "$cmd" in
     o) # filter this line out when run with '-?' (matches on "o)")
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
@@ -102,7 +113,7 @@ case "$@" in
   blinds)              "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
   photoshop)           shift; $HOME/usr/bin/adobe "$@";;
   premiere.pro)        shift; $HOME/usr/bin/pp    "$@";;
-  firefox )            if [ "${CYGWIN}" = "" ]; then
+  firefox)             if [ "${CYGWIN}" = "" ]; then
                          echo "fix $0 for mac"
                        else
                          cmd /c "C:/Program Files/Mozilla Firefox/firefox.exe"
@@ -111,60 +122,53 @@ case "$@" in
   bitlocker)           handle_it Microsoft.BitLockerDriveEncryption;;
   #                    alternative: manage-bde -unlock t: -password # must be admin!
   controller)          handle_it "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}";;
+  browser)             open "$HOME/usr/src/DotNet/c#/Browser/Browser.csproj";;
   # folder shorthands that can be 'opened'
-  anki)                handle_it "$HOME/Library/Application Support/Anki2/";;
-  browser)             handle_it "$HOME/usr/src/DotNet/c#/Browser/";;
-  completion)          handle_it "$HOME/usr/completion/";;
-  auto_hot_key)        handle_it "$HOME/usr/bin/config/";;
+  anki)                open "$HOME/Library/Application Support/Anki2/";;
+  browser)             open "$HOME/usr/src/DotNet/c#/Browser/";;
+  completion)          open "$HOME/usr/completion/";;
+  auto_hot_key)        open "$HOME/usr/bin/config/";;
   cloud)               if [ "${CYGWIN}" = "" ]; then
                          open "$HOME/Dropbox/"
                        else
-                         handle_it "$HOME/Documents/Cloud"
+                         open "$HOME/Documents/Cloud"
                        fi;;
-  data)                handle_it "$HOME/Documents/HOME/DATA";;
+  data)                open "$HOME/Documents/HOME/DATA";;
   dropbox)             if [ "${CYGWIN}" = "" ]; then
                          open "$HOME/Documents/Cloud/Dropbox"
                        else
-                         handle_it "$HOME/Dropbox/"
+                         open "$HOME/Dropbox/"
                        fi;;
-  downloads)           handle_it "$HOME/Downloads";;
-  home)                handle_it "$HOME";;
-  links)               handle_it "$HOME/usr/bin0/pc/lnk/";;
-  movies)              handle_it "C:/_MOVIES_C/";;
+  downloads)           open "$HOME/Downloads";;
+  home)                open "$HOME";;
+  links)               open "$HOME/usr/bin0/pc/lnk/";;
+  movies)              open "C:/_MOVIES_C/";;
   photos)              if [ "${CYGWIN}" = "" ]; then
                          echo "fix $0 for mac"
                        else
-                         handle_it "$HOME/Pictures/" # open "shell:Pictures"
+                         open "$HOME/Pictures/" # open "shell:Pictures"
                        fi;;
-  room)                handle_it $HOME/Documents/HOME/*stat*/*05*/*en*;;
-  rotate)              handle_it "P:/Photos/My_Pictures_ToRotate";;
-  scan)                handle_it "P:/Photos/My_Pictures_Scan_In";;
-  sysinternals)        handle_it "$HOME/usr/bin0/pc/SysInternals/";;
-  video)               handle_it "P:/Videos/";;
-  video.marker)        handle_it $HOME/usr/bin0/video.marker/;;
+  room)                open $HOME/Documents/HOME/*stat*/*05*/*en*;;
+  rotate)              open "P:/Photos/My_Pictures_ToRotate";;
+  scan)                open "P:/Photos/My_Pictures_Scan_In";;
+  sysinternals)        open "$HOME/usr/bin0/pc/SysInternals/";;
+  video)               open "P:/Videos/";;
+  video.marker)        efile "$HOME/usr/local/video.marker/index.html";;
   # places (executabl  es that are kind of like folders)
-  diskmgmt)            cmd /c "C:/Windows/System32/diskmgmt.msc";;
+  diskmgmt)            open "C:/Windows/System32/diskmgmt.msc";;
   computer)            handle_it "shell:MyComputerFolder";;
   control.panel)       handle_it "shell:ControlPanelFolder";;
-  desktop)             if [ "${CYGWIN}" = "" ]; then
-                         open "$HOME/Desktop/"
-                       else
-                         handle_it "$HOME/Desktop/" # open "shell:Desktop"
-                       fi;;
+  desktop)             open "$HOME/Desktop/";;
   desktop.common)      handle_it "shell:Common Desktop";;
   documents)           handle_it "shell:Documents";;
   #documents.local)    handle_it "shell:Local Documents";; #same place as 'documents' actually
   documents.common)    handle_it "shell:Common Documents";;
   libraries)           handle_it "shell:Libraries";;
   music)               handle_it "shell:My Music";;
-  music.to.get)        handle_it "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
+  music.to.get)        open "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
   photos.pc)           handle_it "shell:My Pictures";;
-  pictures)            if [ "${CYGWIN}" = "" ]; then
-                         open "$HOME/Pictures/"
-                       else
-                         handle_it "$HOME/Pictures/"
-                       fi;;
-  pictures.desktop)    handle_it "$desktop_pictures_locn";;
+  pictures)            open "$HOME/Pictures/";;
+  pictures.desktop)    open "$desktop_pictures_locn";;
   pinned)              handle_it "shell:User Pinned";;
   playlists)           handle_it "shell:Playlists";;
   printers)            handle_it "shell:PrintersFolder";;
@@ -184,9 +188,9 @@ case "$@" in
   startmenu.common)    handle_it "shell:Common Start Menu";;
   startup)             handle_it "shell:Startup";;
   startup.common)      handle_it "shell:Common Startup";;
-  tix1)                cmd /c "start https://bit.ly/3d7sBPj";;
-  tix2)                cmd /c "start https://bit.ly/2SqFD0u";;
   # web pages
+  tix1)                open "https://bit.ly/3d7sBPj";;
+  tix2)                open "https://bit.ly/2SqFD0u";;
   sso-tlz5)            open 'https://tiny.amazon.com/17amv9n73';; # 719  never shows up as tab arg!
   sso-tlz7)            open 'https://tiny.amazon.com/m866sf8b';;  # 4ff  never shows up as tab arg!
   sso-tlz8)            open 'https://tiny.amazon.com/13t7mm6l0';; # d67  never shows up as tab arg!
