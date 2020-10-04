@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-shortcut='C:\users\gsisson\test.lnk'
-shortcut='test.lnk'
+
 shortcut="$1"
-target='http://google.com'
 target="$2"
 
 usage() {
-  echo "usage $(basename $0): SHORTCUT_NAME TARGET"
+  echo "usage: $(basename $0) SHORTCUT_NAME TARGET"
+  echo "   ex: $(basename $0) 'c:/tmp/go-google.lnk' 'http://google.com'"
   exit 1
 }
 

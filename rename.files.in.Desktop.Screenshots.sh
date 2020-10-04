@@ -6,7 +6,7 @@
 #   
 #   #!/usr/bin/env bash
 #   cd $(dirname $0)
-#   /Users/gsisson/usr/bin/rename.files.in.Desktop.Screenshots.sh
+#   $HOME/usr/bin/rename.files.in.Desktop.Screenshots.sh
 
 for f in * ; do
   if [[ "$f" =~ ^\ *[0-9]{4}\-[0-9]{2}-[0-9]{2}\ at\ [0-9]{2}\.[0-9]{2}\.[0-9]{2}\.png ]]; then
