@@ -191,9 +191,6 @@ case "$@" in
   # web pages
   tix1)                open "https://bit.ly/3d7sBPj";;
   tix2)                open "https://bit.ly/2SqFD0u";;
-  sso-tlz5)            open 'https://tiny.amazon.com/17amv9n73';; # 719  never shows up as tab arg!
-  sso-tlz7)            open 'https://tiny.amazon.com/m866sf8b';;  # 4ff  never shows up as tab arg!
-  sso-tlz8)            open 'https://tiny.amazon.com/13t7mm6l0';; # d67  never shows up as tab arg!
   sso-tlz9)            open 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
   sso-tlz-docs)        open "${tlz_docs_isengard}";;
   tiny)                open 'http://tiny.amazon.com/';;
