@@ -192,6 +192,7 @@ case "$@" in
   tix1)                open "https://bit.ly/3d7sBPj";;
   tix2)                open "https://bit.ly/2SqFD0u";;
   sso-tlz9)            open 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
+  sso-tlz0)            open 'https://tiny.amazon.com/135smat4n';;
   sso-tlz-docs)        open "${tlz_docs_isengard}";;
   tiny)                open 'http://tiny.amazon.com/';;
   isengard)            open 'https://tiny.amazon.com/r91blny0';;

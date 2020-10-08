@@ -46,9 +46,11 @@ fi
 
 if [ "$edit" = 'true' ]; then
   if which gnuclientw >/dev/null 2>&1; then
-    gnuclientw "$file"
+    echo + gnuclientw "$file"
+           gnuclientw "$file"
   else
-    emacsclient -nw "$file"
+    echo + emacsclient -nw "$file"
+           emacsclient -nw "$file"
   fi     
   exit
 fi
