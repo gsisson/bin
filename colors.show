@@ -61,7 +61,7 @@ do_color() {
   local n="$1"
   local color_name="$2"
   if [ "$3" = "fav" ]; then
-    color "$n" "  $color_name (favorite)"
+    color "$n" "  $color_name favorite"
     return
   fi
   color "0;$n" "  plain $color_name"

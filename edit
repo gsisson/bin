@@ -19,13 +19,8 @@ if [ -d "$1" ]; then
 fi
 
 EF="$EDITOR_FOR_FILES"
-EF="emacsclient -n"
-EF="emacsclient"
-[ -z "$EF" ] && no_file_editor
-which "$EF" > /dev/null 2>&1 || no_file_editor
-if [ "$EF" = emacsclient ]; then
-  EF="emacsclient -n" # -n means "don't wait for editor to return"
-  EF="emacsclient"
-fi
+[ -z "${EF}" ] && no_file_editor
+which "${EF%% *}" > /dev/null 2>&1 || no_file_editor
+
+echo $EF "${@}"
 exec $EF "${@}"
-exit 1

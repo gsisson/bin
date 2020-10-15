@@ -109,6 +109,7 @@ case "$@" in
   -?) cat $0 | grep -v 'filter this line out' |
       grep -v '^ *#' | grep '[a-zA-Z0-9])' |
       sed -e 's:).*::' -e 's:^  ::' | column;;
+  e)                   edit "$0";; # filter this line out when run with '-?' (avoid clutter)
   # executable shorthands that can be 'opened'
   blinds)              "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
   photoshop)           shift; $HOME/usr/bin/adobe "$@";;
@@ -191,8 +192,9 @@ case "$@" in
   # web pages
   tix1)                open "https://bit.ly/3d7sBPj";;
   tix2)                open "https://bit.ly/2SqFD0u";;
-  sso-tlz9)            open 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
-  sso-tlz0)            open 'https://tiny.amazon.com/135smat4n';;
+  sso0)                open 'https://tiny.amazon.com/135smat4n';;
+  sso1)                open 'https://tiny.amazon.com/130r5i4sm';;
+  sso9)                open 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
   sso-tlz-docs)        open "${tlz_docs_isengard}";;
   tiny)                open 'http://tiny.amazon.com/';;
   isengard)            open 'https://tiny.amazon.com/r91blny0';;
@@ -200,7 +202,6 @@ case "$@" in
 #                         docs);;
 #                       esac;;
   tlz-docs)            open 'https://tlz-product-docs-dev.tlzdemo.net/';;
- #tlz-docs-isengard)   open 'https://d-906709f405.awsapps.com/start';;
   tlz-docs-isengard)   open ${tlz_docs_isengard};;
   tlz-docs-code-build) open 'https://tiny.amazon.com/1h1qdeb8q';;
   tlz-docs-github)     open 'https://github.com/tlzproject/tlz-product-docs';;
