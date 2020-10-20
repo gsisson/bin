@@ -8,4 +8,4 @@ fi
 echo -n "SMS parameters for account: "
 aws sts get-caller-identity | grep 'Account' | sed -e 's:",$::' -e 's:.*"::'
 
-aws ssm get-parameter --name /tlz/accounts --with-decryption | jq '.Parameter.Value' | sed -e 's:\\":":g' -e 's:^"::' -e 's:"$::' |jq
+aws ssm delete-parameter --name "${@}" | cat 
