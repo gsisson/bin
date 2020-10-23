@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-set -x
-kinit && mwinit && ada credentials update
