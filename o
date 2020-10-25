@@ -76,7 +76,6 @@ handle_it() {
     exit 1
   fi
   # now we have a real directory to work with
-  echo "directory!"
   case "$cmd" in
     o) # filter this line out when run with '-?' (matches on "o)")
        # the dir comes in as a cygwin dir, but to open it, we need a windows dir 
@@ -166,7 +165,8 @@ case "$@" in
   documents.common)    handle_it "shell:Common Documents";;
   libraries)           handle_it "shell:Libraries";;
   music)               handle_it "shell:My Music";;
-  music.to.get)        open "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
+  music.backup)        handle_it "T:/___Mac.Music_BACKUP";;
+  music.to.get)        handle_it "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
   photos.pc)           handle_it "shell:My Pictures";;
   pictures)            open "$HOME/Pictures/";;
   pictures.desktop)    open "$desktop_pictures_locn";;
