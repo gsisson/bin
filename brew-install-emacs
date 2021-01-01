@@ -3,4 +3,7 @@ cat << EOF
   brew tap d12frosted/emacs-plus
   brew install emacs-plus    --HEAD --with-spacemacs-icon # fail after uninstall
   brew install emacs-plus@27 --HEAD --with-spacemacs-icon
+# if ever you can't run it due to error "Check ... to make sure Emacs works with this version of macOS. You may need to reinstall ..."
+# then try this:
+  brew reinstall emacs-plus@27 --no-quarantine
 EOF

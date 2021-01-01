@@ -1,0 +1,10 @@
+ # expected line to parse:
+ #   https://sns.us-east-1.amazonaws.com/unsubscribe.html?SubscriptionArn=arn:aws:sns:us-east-1:184537110454:tfsdl-lpd-ih-notify-support-of-problem-test:913d48ad-c937-4771-8c23-0d3b7e04fd8b&Endpoint=glennaws@amazon.com
+ pbpaste | \grep 'amazonaws.com/unsubscribe.htm' | sed -e 's|https://sns..*.amazonaws.com/unsubscribe.html?SubscriptionArn=arn:aws:sns:.*:\([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\):\(.*\):.*|Account: \1|'
+ pbpaste | \grep 'amazonaws.com/unsubscribe.htm' | sed -e 's|https://sns..*.amazonaws.com/unsubscribe.html?SubscriptionArn=arn:aws:sns:.*:\([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\):\(.*\):.*|Topic:   \2|'
+
+ # expected JSON formats:
+ #  ["NameError","{\"errorMessage\":\"name 'FatalSupportException' is not defined\",\"errorType\":\"NameError\",\"stackTrace\":[\"  File \\\"/var/task/tfsdl_lpd_ih_Lambda_Notification.py\\\", line 301, in lambda_handler\\n    return PtcNotifier(event).notify()\\n\",\"  File \\\"/var/task/tfsdl_lpd_ih_Lambda_Notification.py\\\", line 284, in notify\\n    except FatalSupportException as e:\\n\"]}"]
+ pbpaste |
+ \grep -Ev '(amazonaws.com/unsubscribe.html|^$|^--$|If you wish to stop receiving notifications from this topic|Please do not reply directly to this email)' |
+ tr '\n' ' ' | jq '.[1]' | sed -e 's:^"::' -e 's:"$::' -e 's:\\":":g' -e 's:\\\\"::g' -e 's:\\\\n::g' | jq

@@ -121,4 +121,7 @@ some text with an                     :@at_sign_prefixed_green_tag:
 #+TODO: TODO(t) | DONE(d)
 #+TODO: REPORT(r) BUG(b) KNOWNCAUSE(k) | FIXED(f)
 #+TODO: | CANCELED(c)
+* Install Emacs
+** see ~/usr/bin/brew-install-emacs
+
 
