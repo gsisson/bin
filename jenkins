@@ -1,0 +1,5 @@
+#executor_port="-p 50000:50000"
+image="jenkins/jenkins:lts"
+
+set -x
+docker run -p 8080:8080 $executor_port -v jenkins_home:/var/jenkins_home $image
