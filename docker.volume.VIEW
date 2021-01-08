@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+end="\033[0m"
+ex="\033[7;102;90m"
+cmd="\033[1;96m"
+
+if [ $# != 0 ]; then
+  echo + docker run --rm -it -v /:/docker alpine:edge "${@}"
+         docker run --rm -it -v /:/docker alpine:edge "${@}"
+else
+  echo -e "    docker run --rm -it -v /:/docker alpine:edge ${cmd}CMD${end} /docker/${cmd}VOLUME_MOUNT_POINT${end}"
+  echo -e "ex: docker run --rm -it -v /:/docker alpine:edge ${ex}cat /docker/var/lib/docker/volumes/jenkins_home/_data/secrets/initialAdminPassword${end}"
+  echo
+  echo -e "where ${cmd}VOLUME_MOUNT_POINT${end} is from 'docker volume inspect VOLUME'"
+fi

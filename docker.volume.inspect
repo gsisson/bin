@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+end="\033[0m"
+ex="\033[7;102;90m"
+cmd="\033[1;96m"
+
+if [ $# != 0 ]; then
+  echo + docker volume inspect "${@}"
+         docker volume inspect "${@}"
+else
+  echo -e "    docker volume inspect ${cmd}VOLUME${end}"
+  echo -e "ex: docker volume inspect jenkins_home"
+  echo 
+  echo -e "where ${ex}VOLUME${end} is from 'docker volume ls'"
+fi
