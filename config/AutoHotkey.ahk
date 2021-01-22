@@ -13,51 +13,6 @@
 ; and it launches a new Notepad window (or activates an existing one).  To
 ; try out these hotkeys, run AutoHotkey again, which will load this file.
 
-;^0::
-;  LoopCnt = 40
-;  MsgBox About to Take %LoopCnt% Snapshots
-;  IfWinExist Kindle
-;  {
-;    Loop %LoopCnt% {
-;      WinActivate Kindle
-;      WinWaitActive Kindle
-;      Send {PrintScreen}
-;      Sleep, 1500
-;      WinActivate PicPick
-;      WinWaitActive PicPick
-;      Send ^{w}
-;      WinActivate Kindle
-;      WinWaitActive Kindle
-;      Send {Down}
-;      Sleep, 1000
-;    }
-;  } else {
-;    MsgBox Cannot Find Kindle
-;  }
-;Return
-
-;WheelUp::
-;Send {WheelDown}
-;Return
-
-;WheelDown::
-;Send {WheelUp}
-;Return
-
-;; reload this script
-;^+f::
-;Reload
-;return
-
-;; move to left side of screen
-;^+d::
-;WinMove,A,,-12,-10,980,1080
-;return
-
-;; move to right side of screen
-;^+g::
-;WinMove,A,,948,-10,980,1080
-;return
 
 ; Control-Shift-Z to minimize current window
 ^+Z::
@@ -72,8 +27,6 @@ return
 ^!+Enter::
 Send {Backspace}{Return}{Down}
 return
-
-; #z::Run www.autohotkey.com
 
 Menu, Tray, Icon, C:\WINDOWS\system32\SHELL32.dll, 13
 
@@ -105,19 +58,6 @@ else {
 }
 return
 
-;;IfWinExist _PicPick.CAPTURE
-;^!+p::
-;IfWinExist PicPick Editor
-;{
-;  WinActivate
-;} else {
-;  Run C:\Program Files (x86)\PicPick\picpick.exe
-;  WinWait PicPick Editor
-;}
-;Run %USERPROFILE%\Documents\MyPictures\_ToRotate
-;WinWait _ToRotate
-;return
-
 ^+u::
 SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_1_Ctrl_Shift_U
@@ -144,37 +84,21 @@ else
   Run %USERPROFILE%\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
 return
 
-;; Picasa must be full screen
-;; Picasa must have hidden folders open
-;; Picasa must have lots of hidden folders so taht the lower
-;;   left of the screen is a hidden folder
-;; Script will then right click the lowermost folder (which
-;;   should be a hidden folder) and get the context menu up,
-;;   and then it will left click on the "unhide command"
-;
-;  SetTitleMatchMode 2 ;match anywhere in title
-;  IfWinExist Picasa
-;    WinActivate
-;    SetMouseDelay, 10
-;    Click Right  80, 910
-;    Click       140, 710
-;  return
-
-;^!+i::
-;SetTitleMatchMode 2 ;match "Mozilla Firefox" anywhere in title
-;IfWinExist Mozilla Firefox
-;  WinActivate
-;else
-;  Run %USERPROFILE%\usr\local\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
-;return
-
 ^+i::
-SetTitleMatchMode 2 ;match "Chrome" anywhere in title
-IfWinExist Chrome
+SetTitleMatchMode 2 ;match "Mozilla Firefox" anywhere in title
+IfWinExist Mozilla Firefox
   WinActivate
 else
-  Run %USERPROFILE%\usr\local\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
+  Run %USERPROFILE%\usr\local\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
 return
+
+;^+i::
+;SetTitleMatchMode 2 ;match "Chrome" anywhere in title
+;IfWinExist Chrome
+;  WinActivate
+;else
+;  Run %USERPROFILE%\usr\local\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
+;return
 
 ^+p::
 IfWinExist emacs@%HOSTNAME%
