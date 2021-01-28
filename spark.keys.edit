@@ -2,5 +2,14 @@
 . ~/.profile
 . ~/.bashrc
 
-open '/Applications/Utilities/Script Editor.app' \
-  $HOME/usr/src/applescript/spark.applescript.GoPopUp.ctrl.shift.slash.scpt
+for app in '/Applications/Utilities/Script Editor.app' \
+           '/Applications/Script Editor.app'
+do
+  if [ -f "$app" ]; then
+    # open '/Applications/Utilities/Script Editor.app'
+    # open '/Applications/Script Editor.app'
+   open "$app" \
+     $HOME/usr/bin/applescript/spark.applescript.GoPopUp.ctrl.shift.slash.scpt
+   break
+  fi
+done

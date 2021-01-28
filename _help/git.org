@@ -1,28 +1,29 @@
-|--------------------------------+------------------------------------------------------|
-| show tracking branches         | git branch -vv                                       |
-| set upstream & tracking branch | git branch --set-upstream-to origin/feature          |
-| --or--                         | git push -u REMOTE BRANCH-TO-TRACK                   |
-| --example--                    | git push -u origin feature                           |
-| delete branch locally          | git branch -d localBranchName                        |
-| delete branch remotely         | git push origin --delete remoteBranchName            |
-| rename branch                  | git branch -m NEW-NAME                               |
-|                                | git fetch --all --prune # when previous doesn't work |
-| un-stage all                   | git reset                                            |
-| undo commit                    | git reset --soft HEAD^                               |
-| avoid ssl cert issues          | git config --global http.sslVerify false             |
-| show trailing whitespace       | git -R # reverse (shows trailing whitespace removed) |
-| .(git diff only shows trailing |                                                      |
-| ..whitespace that is added)    |                                                      |
-| grab file from other branch    | git checkout [remote/]branch <file/dir>              |
-|--------------------------------+------------------------------------------------------|
-| delete a repo                  | . ~/.githubtoken                                     |
-|                                | hub delete [-y] user-or-org/repo                     |
-|--------------------------------+------------------------------------------------------|
-| # avoids problems such as      |                                                      |
-| #   "fatal: unable to access   |                                                      |
-| #    SSL certificate problem   |                                                      |
-| #    certificate has expired"  |                                                      |
-|--------------------------------+------------------------------------------------------|
+|-------------------------------------------------+------------------------------------------------------|
+| show tracking branches                          | git branch -vv                                       |
+| set upstream & tracking branch                  | git branch --set-upstream-to origin/feature          |
+| --or--                                          | git push -u REMOTE BRANCH-TO-TRACK                   |
+| --example--                                     | git push -u origin feature                           |
+| delete branch locally                           | git branch -d localBranchName                        |
+| delete branch remotely                          | git push origin --delete remoteBranchName            |
+| rename branch                                   | git branch -m NEW-NAME                               |
+|                                                 | git fetch --all --prune # when previous doesn't work |
+| un-stage all                                    | git reset                                            |
+| undo commit                                     | git reset --soft HEAD^                               |
+| avoid ssl cert issues                           | git config --global http.sslVerify false             |
+| show trailing whitespace                        | git -R # reverse (shows trailing whitespace removed) |
+| .(git diff only shows trailing                  |                                                      |
+| ..whitespace that is added)                     |                                                      |
+| grab file from other branch                     | git checkout [remote/]branch <file/dir>              |
+| don't show untracked files                      | git config --local status.showUntrackedFiles no      |
+|-------------------------------------------------+------------------------------------------------------|
+| delete a repo                                   | . ~/.githubtoken                                     |
+|                                                 | hub delete [-y] user-or-org/repo                     |
+|-------------------------------------------------+------------------------------------------------------|
+| # avoids problems such as                       |                                                      |
+| #   "fatal: unable to access                    |                                                      |
+| #    SSL certificate problem                    |                                                      |
+| #    certificate has expired"                   |                                                      |
+|-------------------------------------------------+------------------------------------------------------|
 
 REBASE MY FORK (notes from: https://bit.ly/2QyH3Fm)
   * git remote add upstream git://github.com/ORIGINAL-USER/THEIR-REPO.git
