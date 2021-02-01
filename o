@@ -164,9 +164,10 @@ case "$@" in
   #documents.local)    handle_it "shell:Local Documents";; #same place as 'documents' actually
   documents.common)    handle_it "shell:Common Documents";;
   libraries)           handle_it "shell:Libraries";;
-  music)               handle_it "shell:My Music";;
+  music)               handle_it "P:/Music";;
+  music.shell)         handle_it "shell:My Music";;
   music.backup)        handle_it "T:/___Mac.Music_BACKUP";;
-  music.to.get)        handle_it "P:/Photos/My_Pictures_ToRotate/_MUSIC_TO_GET";;
+  music.to.get)        handle_it "P:/Music/_MUSIC_TO_GET";;
   photos.pc)           handle_it "shell:My Pictures";;
   pictures)            open "$HOME/Pictures/";;
   pictures.desktop)    open "$desktop_pictures_locn";;
