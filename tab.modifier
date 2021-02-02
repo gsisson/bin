@@ -1,0 +1,6 @@
+
+echo 'chrome-extension://hcbgadmbdkiilgpifjgcakjehmafcjai/html/options.html' | pbcopy
+echo
+echo "URL is on the clipboard"
+echo
+open https://www.google.com/search?rlz=1C5CHFA_enUS902US903&ei=XJMZYLirKZXx-gTpiaGYBA&q=%22Open+Tab+Modifier+%3C%3D+Type+in+the+URL%22++++++++++++++++++%22absdal%22+%22askdfjsf%22&oq=%22Open+Tab+Modifier+%3C%3D+Type+in+the+URL%22++++++++++++++++++%22absdal%22+%22askdfjsf%22&gs_lcp=CgZwc3ktYWIQA1CwLVj0NWCaOWgBcAB4AIABcIgBiQySAQQxMy40mAEAoAEBqgEHZ3dzLXdpesABAQ&sclient=psy-ab&ved=0ahUKEwi4ycOG5MvuAhWVuJ4KHelECEMQ4dUDCA0&uact=5
