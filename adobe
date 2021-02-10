@@ -4,9 +4,12 @@
 # MERGE WITH usr/bin/pp !!!
 
 case $(uname) in
-  CYGWIN*) ;;
-  *)       echo "not supported on this playform!"
-	   exit 1;;
+  CYGWIN*)  ;;
+  *Darwin*) open '/Applications/Krita.app'
+            exit $?
+            ;;
+  *)        echo "not supported on this playform!"
+	    exit 1;;
 esac
 
 cmd='C:/Program Files/Adobe/Photoshop/Photoshop.exe' # Creative Cloud

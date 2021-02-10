@@ -1,2 +1,13 @@
 #!/usr/bin/env bash
-~/usr/bin/code ~/.config/karabiner/karabiner.json
+echo
+echo "To setup KE, clone my fork and run doit.sh:"
+echo "  cd ~/src"
+echo "  git clone git@github.com-ges:gsisson/KE-complex_modifications.git"
+echo "  cd KE-complex_modifications"
+echo "  ./doit.sh"
+echo "  (them follow the instructions)"
+echo
+echo "Preferably, don't edit the karabiner.json, but change doit.sh instead"
+echo
+echo  + ~/usr/bin/code ~/.config/karabiner/karabiner.json
+        ~/usr/bin/code ~/.config/karabiner/karabiner.json
