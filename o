@@ -148,6 +148,8 @@ case "$@" in
                        else
                          open "$HOME/Pictures/" # open "shell:Pictures"
                        fi;;
+  audiobooks)          open "P:/Audio.Books/";;
+  humor)               open "P:/Audio.Books/";;
   room)                open $HOME/Documents/HOME/*stat*/*05*/*en*;;
   rotate)              open "P:/Photos/My_Pictures_ToRotate";;
   scan)                open "P:/Photos/My_Pictures_Scan_In";;
@@ -175,6 +177,8 @@ case "$@" in
   playlists)           handle_it "shell:Playlists";;
   printers)            handle_it "shell:PrintersFolder";;
   quick.launch)        handle_it "shell:Quick Launch";;
+  phone)               handle_it "shell:MyComputerFolder";;
+  ringtones)           open "T:/Ringtones";;
   recycle)             if [ "${CYGWIN}" = "" ]; then
                          open "$HOME/Recycle"
                        else
