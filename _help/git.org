@@ -41,6 +41,17 @@ TRACKING BRANCHES
  * Why do I need to explicitly push a new branch? (https://bit.ly/3gA0CaY)
  * Different push options, re: branches (https://bit.ly/2YLzsrk)
 
+GIT CODE-COMMIT
+ * Install Tool and Test Git CLI
+ * Install the required tool for AWS CodeCommit access via Git CLI:
+   pip install git-remote-codecommit
+ * test access by cloning an already existing repo:
+   export AWS_PROFILE=whatever
+   git clone codecommit::us-east-1://some-code-commit-repo-name
+ * replicate an existing repo to a new code-commit repo
+   git remote add codecommit codecommit::us-east-1://some-code-commit-repo-name
+   AWS_PROFILE=whatever git push codecommit
+
 GIT 'HUB' utility
  * brew install hub
  * hub version
@@ -52,7 +63,6 @@ GIT 'HUB' utility
      => https://github.com/GITHUB_ORG/GITHUB_REPO
  * hub delete GITHUB_ORG/GITHUB_REPO
      => Deleted repository 'GITHUB_ORG/GITHUB_REPO'
-
 
 GIT DELETE LOCAL BRANCH (already gone from remote)
  # These commands needed after, say, merging a PR onto origin master
