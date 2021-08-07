@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+opts="-hide_banner -loglevel error"
+
 usage() {
   echo
   echo "USAGE: $(basename $0) -d <OUTPUT_DIRECTORY> <INPUT_DV_FILE>..."
@@ -31,6 +33,6 @@ done
 
 for f in "${@}"; do
   f="${f%.dv}"
-  echo + ffmpeg.exe -i "$f.dv" -deinterlace -y -c:v libx264 -c:a aac -crf 22 -preset fast -pix_fmt yuv420p "$outdir/$f.mp4"
-         ffmpeg.exe -i "$f.dv" -deinterlace -y -c:v libx264 -c:a aac -crf 22 -preset fast -pix_fmt yuv420p "$outdir/$f.mp4"
+  echo + ffmpeg.exe $opts -i "$f.dv" -deinterlace -y -c:v libx264 -c:a aac -crf 22 -preset fast -pix_fmt yuv420p "$outdir/$f.mp4"
+         ffmpeg.exe $opts -i "$f.dv" -deinterlace -y -c:v libx264 -c:a aac -crf 22 -preset fast -pix_fmt yuv420p "$outdir/$f.mp4"
 done

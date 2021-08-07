@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+opts="-hide_banner -loglevel error"
+
 usage() {
   echo
   echo "USAGE: $(basename $0) -d <OUTPUT_DIRECTORY> <INPUT_VOB_FILE>..."
@@ -32,6 +34,6 @@ done
 
 for f in "${@}"; do
   f="${f%.vob}"
-  echo + ffmpeg -i "$f" -deinterlace -acodec copy "$outdir/$f.mp4"
-         ffmpeg -i "$f" -deinterlace -acodec copy "$outdir/$f.mp4"
+  echo + ffmpeg $opts -i "$f" -deinterlace -acodec copy "$outdir/$f.mp4"
+         ffmpeg $opts -i "$f" -deinterlace -acodec copy "$outdir/$f.mp4"
 done

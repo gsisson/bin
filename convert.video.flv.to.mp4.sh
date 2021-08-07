@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo "ffmpeg -i input.flv -c copy -copyts output.mp4"
+opts="-hide_banner -loglevel error"
+
+echo "ffmpeg $opts -i input.flv -c copy -copyts output.mp4"
 
 exit
 

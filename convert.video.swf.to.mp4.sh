@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+opts="-hide_banner -loglevel error"
+
 usage() {
   echo
   echo "USAGE: $(basename $0) -d <OUTPUT_DIRECTORY> <INPUT_FILE>..."
@@ -31,6 +33,6 @@ done
 
 for f in "${@}"; do
   f="${f%.swf}"
-  echo + ffmpeg -deinterlace -i "$f.swf" "$outdir/$f.mp4"
-         ffmpeg -deinterlace -i "$f.swf" "$outdir/$f.mp4"
+  echo + ffmpeg $opts -deinterlace -i "$f.swf" "$outdir/$f.mp4"
+         ffmpeg $opts -deinterlace -i "$f.swf" "$outdir/$f.mp4"
 done

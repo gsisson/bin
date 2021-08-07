@@ -213,5 +213,6 @@ case "$@" in
   tlz-docs-github)     open 'https://github.com/tlzproject/tlz-product-docs';;
   tlz-OLD-workshop)    open 'https://tlz-workshop.tlzdemo.net/';;
   sage)                open 'https://sage.amazon.com/search?q=what+is+sage';;
+  msfs-community)      handle_it "C:/";;
   *)                   handle_it "$*";;
 esac
