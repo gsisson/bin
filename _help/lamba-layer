@@ -1,0 +1,45 @@
+## Lambda Layer Example using MPmath Library
+
+Follow these step to create and use an example Python Lambda Layer that holds the MPmath library.
+
+1. Create the .zip file that will become the Lambda Layer containing the mpmath library:
+   - `python --version ` # Note your python version
+   - `echo mpmath > requirements.txt`
+   - `pip install -r requirements.txt -t python`
+   - `zip -r mpmath.zip python`
+
+2. Create the Lambda Layer via the AWS Console
+
+   - From the AWS Console, create a new lambda layer called `My MPmath Layer`
+   - Upload the `mpmath.zip` file created earlier
+   - Note: be sure to specify the layer as being compatible with the version of python you used in creating the layer
+
+3. Create a simple 'hello world' Lambda
+
+   - From the AWS Console, create a new Lambda function using the "Author from scratch" option, which will create a sample 'hello world' lambda
+   - Run the Lambda which should output 'Hello World'
+
+4. Replace the Lambda code with the following code, so that now the lambda tries to use the MPmath library to prints PI to 50 places (rather than printing 'hello world'):
+
+```
+    import json
+    from mpmath import mp # mpmath is loaded from your layer here
+    
+    def lambda_handler(event, context):
+        mp.dps = 50
+        pi = mp.quad(lambda x: mp.exp(-x**2),
+                     [-mp.inf, mp.inf]) ** 2
+        return {
+            'statusCode': 200,
+            'body': json.dumps(str(pi))
+        }
+```
+
+5. Try to run the Lambda
+   - Try to run the Lambda function from the AWS Console
+   - Observe that the Lambda will fail with the error 'No module named "mpmath"'
+
+6. Add the Layer to the Lambda and Run again
+
+   - In the Lambda configuration, press "Add a Layer" and pick your newly created custom Layer 'My MPmath Layer'
+   - Run the Lambda again and now you should see PI computed to 50 places correctly, since your layer is providing the MPmath library.

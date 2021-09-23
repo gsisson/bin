@@ -1,32 +1,62 @@
-|--------------------------------+-------------------------------------------------------------|
-| fetch all branchs              | git branch -a;  git checkout -b localname origin/remotename |
-| show tracking branches         | git branch -vv                                              |
-| set upstream & tracking branch | git branch --set-upstream-to origin/feature                 |
-| --or--                         | git push -u REMOTE BRANCH-TO-TRACK                          |
-| --example--                    | git push -u origin feature                                  |
-| delete branch locally          | git branch -d localBranchName                               |
-| delete branch remotely         | git push origin --delete remoteBranchName                   |
-| rename branch                  | git branch -m NEW-NAME                                      |
-|                                | git fetch --all --prune # when previous doesn't work        |
-| un-stage all                   | git reset                                                   |
-| undo commit                    | git reset --soft HEAD^                                      |
-| avoid ssl cert issues          | git config --global http.sslVerify false                    |
-| show trailing whitespace       | git -R # reverse (shows trailing whitespace removed)        |
-| .(git diff only shows trailing |                                                             |
-| ..whitespace that is added)    |                                                             |
-| grab file from other branch    | git checkout [remote/]branch <file/dir>                     |
-| don't show untracked files     | git config --local status.showUntrackedFiles no             |
-|--------------------------------+-------------------------------------------------------------|
-| delete a repo                  | . ~/.githubtoken                                            |
-|                                | hub delete [-y] user-or-org/repo                            |
-|--------------------------------+-------------------------------------------------------------|
-| # avoids problems such as      |                                                             |
-| #   "fatal: unable to access   |                                                             |
-| #    SSL certificate problem   |                                                             |
-| #    certificate has expired"  |                                                             |
-|--------------------------------+-------------------------------------------------------------|
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| fetch all branchs                   | git branch -a;  git checkout -b localname origin/remotename                         |
+| show tracking branches              | git branch -vv                                                                      |
+| set upstream & tracking branch      | git branch --set-upstream-to origin/feature                                         |
+| --or--                              | git push -u REMOTE BRANCH-TO-TRACK                                                  |
+| --example--                         | git push -u origin feature                                                          |
+| delete branch locally               | git branch -d localBranchName                                                       |
+| delete branch remotely              | git push origin --delete remoteBranchName                                           |
+| rename branch                       | git branch -m NEW-NAME                                                              |
+|                                     | git fetch --all --prune # when previous doesn't work                                |
+| un-stage all                        | git reset                                                                           |
+| undo commit                         | git reset --soft HEAD^                                                              |
+| avoid ssl cert issues               | git config --global http.sslVerify false                                            |
+| show trailing whitespace            | git -R # reverse (shows trailing whitespace removed)                                |
+| .(git diff only shows trailing      |                                                                                     |
+| ..whitespace that is added)         |                                                                                     |
+| grab file from other branch         | git checkout [remote/]branch <file/dir>                                             |
+| don't show untracked files          | git config --local status.showUntrackedFiles no                                     |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| git stash list                      | show all stashes                                                                    |
+| git show stash stash@{0}            | show the top-most stash                                                             |
+| git stash drop stash@{0}            | drop a specific stash                                                               |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| delete a repo                       | . ~/.githubtoken                                                                    |
+|                                     | hub delete [-y] user-or-org/repo                                                    |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| view a file at a certain commit     | git show SHA:/dir/dir/path/to/file                                                  |
+| # avoids problems such as           |                                                                                     |
+| #   "fatal: unable to access        |                                                                                     |
+| #    SSL certificate problem        |                                                                                     |
+| #    certificate has expired"       |                                                                                     |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| _Rebase branch to master_           |                                                                                     |
+| git checkout master                 | This is how to rebase a branch to master when master has                            |
+| git pull --rebase origin master     | a bunch of new commits on it.                                                       |
+| git checkout <branch>               | Note that -f is necessary on the 'git push' because you have sort-of                |
+| git rebase master                   | re-written history by changing where your branch "starts" from                      |
+| git push origin <branch> -f         | -f will override origin/feature-branch with local feature-branch                    |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| git remote prune origin             | part 1) handle 'cannot lock ref' error when pulling                                 |
+| git fetch                           | part 2) handle 'cannot lock ref' error when pulling                                 |
+| git remote prune origin             | part 3) handle 'cannot lock ref' error when pulling                                 |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| install pre-commit                  | # due to other globally installed hooks (ex: gitdefender) "pre-commit install" will |
+|                                     | # fail with "Cowardly refusing to install hooks with 'core.hooksPath' set"          |
+|                                     | git config --global init.templateDir ~/.git-template # cloned repos include hooks   |
+|                                     | pre-commit init-templatedir ~/.git-template                                         |
+|                                     | cd REPODIR/                                                                         |
+|                                     | cp ~/.git-template/hooks/* .git/hooks/                                              |
+| pre-commit run [--all-files]        | run on the commited files (or all files, not just commited files)                   |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+|                                     |                                                                                     |
+| git restore .                       | rather than 'git restore FILE' for all unstaged changed files                       |
+|-------------------------------------+-------------------------------------------------------------------------------------|
+| 'git diff' show trailing whitespace | git config --global color.diff.whitespace "700000 reverse" (non-bright red)         |
+|                                     | git config --global diff.wsErrorHighlight all                                       |
+|-------------------------------------+-------------------------------------------------------------------------------------|
 
-REBASE MY FORK (notes from: https://bit.ly/2QyH3Fm)
+* REBASE MY FORK (notes from: https://bit.ly/2QyH3Fm)
   * git remote add upstream git://github.com/ORIGINAL-USER/THEIR-REPO.git
   * merge one of two ways:
     * like a "git pull --rebase"  
@@ -36,12 +66,10 @@ REBASE MY FORK (notes from: https://bit.ly/2QyH3Fm)
       * git merge upstream/master master
   * push to your repo (forked from theirs):
     * git push
-
-TRACKING BRANCHES
+* TRACKING BRANCHES
  * Why do I need to explicitly push a new branch? (https://bit.ly/3gA0CaY)
  * Different push options, re: branches (https://bit.ly/2YLzsrk)
-
-GIT CODE-COMMIT
+* GIT CODE-COMMIT
  * Install Tool and Test Git CLI
  * Install the required tool for AWS CodeCommit access via Git CLI:
    pip install git-remote-codecommit
@@ -51,8 +79,7 @@ GIT CODE-COMMIT
  * replicate an existing repo to a new code-commit repo
    git remote add codecommit codecommit::us-east-1://some-code-commit-repo-name
    AWS_PROFILE=whatever git push codecommit
-
-GIT 'HUB' utility
+* GIT 'HUB' utility
  * brew install hub
  * hub version
    * => git version 2.25.0
@@ -63,8 +90,7 @@ GIT 'HUB' utility
      => https://github.com/GITHUB_ORG/GITHUB_REPO
  * hub delete GITHUB_ORG/GITHUB_REPO
      => Deleted repository 'GITHUB_ORG/GITHUB_REPO'
-
-GIT DELETE LOCAL BRANCH (already gone from remote)
+* GIT DELETE LOCAL BRANCH (already gone from remote)
  # These commands needed after, say, merging a PR onto origin master
  # and the branch having been deleted on origin:
   1) remove local knowledge of that remote branch

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 dir="$HOME/Library/Application Support/Code/User"
+echo "$dir/settings.json"
 ~/usr/bin/code "$dir/settings.json"

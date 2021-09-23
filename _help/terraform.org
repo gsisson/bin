@@ -1,0 +1,26 @@
+#+TITLE: Terraform Notes
+#+OPTIONS: toc:nil
+
+* main.tf (establish versions, set backend bucket)
+data "aws_caller_identity" "current" {}
+terraform {
+  required_version = "~> 1.0.7"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.59.0"
+    }
+  }
+
+  # Create an S3 bucket with the CLI for storing your terraform state
+  #   bucket=MY-BUCKET-NAME
+  #   aws s3 mb s3://$bucket
+  #   aws s3api put-public-access-block --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --bucket $bucket
+  #   aws s3api put-bucket-versioning --bucket $bucket --versioning-configuration Status=Enabled
+  #   aws s3api put-bucket-encryption --bucket $bucket --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'
+  backend "s3" {
+    bucket = MY-BUCKET-NAME
+    key    = "us-west-1/{data.aws_caller_identity.current.account_id}_state.tfstate"
+    region = "us-west-2"
+  }
+}
