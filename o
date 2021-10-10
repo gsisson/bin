@@ -133,34 +133,34 @@ case "$@" in
                        else
                          open "$HOME/Documents/Cloud"
                        fi;;
-  data)                open "$HOME/Documents/HOME/DATA";;
+  data)                handle_it "$HOME/Documents/HOME/DATA";;
   dropbox)             if [ "${CYGWIN}" = "" ]; then
-                         open "$HOME/Documents/Cloud/Dropbox"
+                         handle_it "$HOME/Documents/Cloud/Dropbox"
                        else
-                         open "$HOME/Dropbox/"
+                         handle_it "$HOME/Dropbox/"
                        fi;;
-  downloads)           open "$HOME/Downloads";;
-  home)                open "$HOME";;
-  links)               open "$HOME/usr/bin0/pc/lnk/";;
-  movies)              open "C:/_MOVIES_C/";;
+  downloads)           handle_it "$HOME/Downloads";;
+  home)                handle_it "$HOME";;
+  links)               handle_it "$HOME/usr/bin0/pc/lnk/";;
+  movies)              handle_it "C:/_MOVIES_C/";;
   photos)              if [ "${CYGWIN}" = "" ]; then
                          echo "fix $0 for mac"
                        else
-                         open "$HOME/Pictures/" # open "shell:Pictures"
+                         handle_it "$HOME/Pictures/" # open "shell:Pictures"
                        fi;;
-  audiobooks)          open "P:/Audio.Books/";;
-  humor)               open "P:/Audio.Books/";;
-  room)                open $HOME/Documents/HOME/*stat*/*05*/*en*;;
-  rotate)              open "P:/Photos/My_Pictures_ToRotate";;
-  scan)                open "P:/Photos/My_Pictures_Scan_In";;
-  sysinternals)        open "$HOME/usr/bin0/pc/SysInternals/";;
-  video)               open "P:/Videos/";;
+  audiobooks)          handle_it "P:/Audio.Books/";;
+  humor)               handle_it "P:/Audio.Books/";;
+  room)                handle_it $HOME/Documents/HOME/*stat*/*05*/*en*;;
+  rotate)              handle_it "P:/Photos/My_Pictures_ToRotate";;
+  scan)                handle_it "P:/Photos/My_Pictures_Scan_In";;
+  sysinternals)        handle_it "$HOME/usr/bin0/pc/SysInternals/";;
+  video)               handle_it "P:/Videos/";;
   video.marker)        efile "$HOME/usr/local/video.marker/index.html";;
   # places (executabl  es that are kind of like folders)
-  diskmgmt)            open "C:/Windows/System32/diskmgmt.msc";;
+  diskmgmt)            handle_it "C:/Windows/System32/diskmgmt.msc";;
   computer)            handle_it "shell:MyComputerFolder";;
   control.panel)       handle_it "shell:ControlPanelFolder";;
-  desktop)             open "$HOME/Desktop/";;
+  desktop)             handle_it "$HOME/Desktop/";;
   desktop.common)      handle_it "shell:Common Desktop";;
   documents)           handle_it "shell:Documents";;
   #documents.local)    handle_it "shell:Local Documents";; #same place as 'documents' actually
@@ -171,22 +171,22 @@ case "$@" in
   music.backup)        handle_it "T:/___Mac.Music_BACKUP";;
   music.to.get)        handle_it "P:/Music/_MUSIC_TO_GET";;
   photos.pc)           handle_it "shell:My Pictures";;
-  pictures)            open "$HOME/Pictures/";;
-  pictures.desktop)    open "$desktop_pictures_locn";;
+  pictures)            handle_it "$HOME/Pictures/";;
+  pictures.desktop)    handle_it "$desktop_pictures_locn";;
   pinned)              handle_it "shell:User Pinned";;
   playlists)           handle_it "shell:Playlists";;
   printers)            handle_it "shell:PrintersFolder";;
   quick.launch)        handle_it "shell:Quick Launch";;
   phone)               handle_it "shell:MyComputerFolder"
                        handle_it "T:/_IMAGES.FOR.PHONE_VIDEO";;
-  ringtones)           open "P:/Music/_MUSIC_Ringtones";;
+  ringtones)           handle_it "P:/Music/_MUSIC_Ringtones";;
   recycle)             if [ "${CYGWIN}" = "" ]; then
-                         open "$HOME/Recycle"
+                         handle_it "$HOME/Recycle"
                        else
                          handle_it "shell:RecycleBinFolder"
                        fi;;
   screenshots)         if [ "${CYGWIN}" = "" ]; then
-                         open "$HOME/Desktop/Screenshots"
+                         handle_it "$HOME/Desktop/Screenshots"
                        else
                          handle_it "shell:ScreenShots"
                        fi;;
@@ -196,23 +196,23 @@ case "$@" in
   startup)             handle_it "shell:Startup";;
   startup.common)      handle_it "shell:Common Startup";;
   # web pages
-  tix1)                open "https://bit.ly/3d7sBPj";;
-  tix2)                open "https://bit.ly/2SqFD0u";;
-  sso0)                open 'https://tiny.amazon.com/135smat4n';;
-  sso1)                open 'https://tiny.amazon.com/130r5i4sm';;
-  sso9)                open 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
-  sso-tlz-docs)        open "${tlz_docs_isengard}";;
-  tiny)                open 'http://tiny.amazon.com/';;
-  isengard)            open 'https://tiny.amazon.com/r91blny0';;
+  tix1)                handle_it "https://bit.ly/3d7sBPj";;
+  tix2)                handle_it "https://bit.ly/2SqFD0u";;
+  sso0)                handle_it 'https://tiny.amazon.com/135smat4n';;
+  sso1)                handle_it 'https://tiny.amazon.com/130r5i4sm';;
+  sso9)                handle_it 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
+  sso-tlz-docs)        handle_it "${tlz_docs_isengard}";;
+  tiny)                handle_it 'http://tiny.amazon.com/';;
+  isengard)            handle_it 'https://tiny.amazon.com/r91blny0';;
 #  tlz)                 case ${@} in
 #                         docs);;
 #                       esac;;
-  tlz-docs)            open 'https://tlz-product-docs-dev.tlzdemo.net/';;
-  tlz-docs-isengard)   open ${tlz_docs_isengard};;
-  tlz-docs-code-build) open 'https://tiny.amazon.com/1h1qdeb8q';;
-  tlz-docs-github)     open 'https://github.com/tlzproject/tlz-product-docs';;
-  tlz-OLD-workshop)    open 'https://tlz-workshop.tlzdemo.net/';;
-  sage)                open 'https://sage.amazon.com/search?q=what+is+sage';;
+  tlz-docs)            handle_it 'https://tlz-product-docs-dev.tlzdemo.net/';;
+  tlz-docs-isengard)   handle_it ${tlz_docs_isengard};;
+  tlz-docs-code-build) handle_it 'https://tiny.amazon.com/1h1qdeb8q';;
+  tlz-docs-github)     handle_it 'https://github.com/tlzproject/tlz-product-docs';;
+  tlz-OLD-workshop)    handle_it 'https://tlz-workshop.tlzdemo.net/';;
+  sage)                handle_it 'https://sage.amazon.com/search?q=what+is+sage';;
   msfs-community)      handle_it "C:/";;
   *)                   handle_it "$*";;
 esac

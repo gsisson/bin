@@ -19,7 +19,7 @@ usage() {
 
 cleann() {
   # examples that return '665572'
-  #cleann '#665572#yua.aomi_HALF_v.mp4'
+  #cleann '#665572#file.name_HALF_v.mp4'
   #cleann '#665572#'
   #cleann '#665572'
   #cleann '665572'
