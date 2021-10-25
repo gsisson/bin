@@ -170,6 +170,7 @@ case "$@" in
   music.shell)         handle_it "shell:My Music";;
   music.backup)        handle_it "T:/___Mac.Music_BACKUP";;
   music.to.get)        handle_it "P:/Music/_MUSIC_TO_GET";;
+  music.to.store)      handle_it "P:/Music/_MUSIC_READY_TO_STORE";;
   photos.pc)           handle_it "shell:My Pictures";;
   pictures)            handle_it "$HOME/Pictures/";;
   pictures.desktop)    handle_it "$desktop_pictures_locn";;
