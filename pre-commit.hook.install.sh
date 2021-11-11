@@ -24,16 +24,20 @@ case "$(basename $0)" in
         ;;
       *)
         if [ -f $top/.git/hooks/pre-commit ]; then
-          echo "INFO: already installed"
-          exit
+          echo "INFO: pre-commit hook already installed"
+        else
+          if [ ! -f "$src" ]; then
+            src="$src_disabled"
+          fi
+          cmd="cp $src $top/.git/hooks/pre-commit"
+          echo + $cmd ;eval   $cmd
         fi
-        if [ ! -f "$src" ]; then
-          src="$src_disabled"
+        if [ -f $top/.pre-commit-config.yaml ]; then
+          echo "INFO: pre-commit-config.yaml already installed"
+        else
+          cmd="cp ~/.pre-commit-config.yaml $top/"
+          echo + $cmd ;eval   $cmd
         fi
-        cmd="cp $src $top/.git/hooks/pre-commit"
-        echo + $cmd ;eval   $cmd
-        cmd="cp ~/.pre-commit-config.yaml $top/"
-        echo + $cmd ;eval   $cmd
         ;;
     esac
     ;;
