@@ -70,11 +70,11 @@ handle_it() {
     echo "usage $cmd <directory>" 1>&2
     exit 1
   fi
-  if [ ! -d "$*" ]; then
-    # if the argument passed was not a directoy, that is an error
-    echo "ERROR: Directory does not exist: '$@'" 1>&2
-    exit 1
-  fi
+  #if [ ! -d "$*" ]; then
+  #  # if the argument passed was not a directoy, that is an error
+  #  echo "ERROR: Directory does not exist: '$@'" 1>&2
+  #  exit 1
+  #fi
   # now we have a real directory to work with
   case "$cmd" in
     o) # filter this line out when run with '-?' (matches on "o)")
