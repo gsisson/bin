@@ -3,11 +3,14 @@
 # convery python json-ish dictionarys to json
 
 sed \
+    -e 's:\\n::g'          \
+    -e 's:\\":":g'         \
     -e "s:':\":g"          \
+    -e 's|datetime\.datetime(\([0-9][0-9]*\), \([0-9][0-9]*\), \([0-9][0-9]*\), \([0-9][0-9]*\), \([0-9][0-9]*\), \([0-9][0-9]*\), \([0-9][0-9]*\), tzinfo=tzlocal())|"\1-\2-\3 \4:\5"|g' \
     -e 's:False:"False":g' \
     -e 's:True:"True":g'       |
-  jq
+  jq "${@}"
 #  jq -C | \
 #    sed \
 #    -e 's:"False":False:g' \
-#    -e 's:"true":True:g'    
+#    -e 's:"true":True:g'

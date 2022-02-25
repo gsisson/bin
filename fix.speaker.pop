@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set +x
+sudo killall coreaudiod
+sudo launchctl stop com.apple.audio.coreaudiod && \
+sudo launchctl start com.apple.audio.coreaudiod
