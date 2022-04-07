@@ -40,9 +40,9 @@ grab_em() {
     esac
     for a in $age; do
       d="T:/RECYCLABLE/v/_QUICK_"
-      d="${d}FUN/____/categories/${dir}/_${a}_${dir}_${n}/"
+      d="${d}FUN/____/cat/${dir}/_${a}_${dir}_${n}/"
       if [ "$ex" = true ]; then
-        d="${d}/_${a}_${dir}_${n}_ex/"
+        d="${d}_${a}_${dir}_${n}_ex/"
       fi
       if [ ! -d "$d" ]; then
         echo "ERROR: dir DNE: '$d'" ; sleep $sleep ; exit

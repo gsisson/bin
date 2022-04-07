@@ -1,110 +1,120 @@
-#!/usr/bin/env bash
-. ~/.bashrc
+#!/usr/bin/env ruby
 
-usage() {
-  (
-    if [ -n "$1" ]; then
-      echo "x${@}"
-    fi
-    echo "usage: $(basename $0) [-d] -"
-    echo "   or: $(basename $0) [-d] -n"
-    echo "   or: $(basename $0) [-d] UID"
-    echo "   or: $(basename $0) [-d] <SEARCH_STRING>..."
-    echo "       -d  separate results by directory"
-    echo "       -   clipboard will hold a string to look for"
-    echo "       -n  clipboard will hold a uid-prefix string, and only the uid will be searched for"
-  ) | cat 1>&2
+require '~/usr/ruby/lib/dir2.rb'
+require '~/usr/ruby/lib/file_symlink'
+require 'clipboard' #gem install clipboard
+
+DIR ='t:/RECYCLABLE/v/'
+DIR2='t:/Premiere.Pro.Work/'
+
+def usage(args = nil)
+  name = File.basename(__FILE__)
+  STDERR.puts "\n#{args}\n\n" if args
+  STDERR.puts "usage: #{name} -"
+  STDERR.puts "   or: #{name} -n"
+  STDERR.puts "   or: #{name} UID"
+  STDERR.puts "   or: #{name} <SEARCH_STRING>..."
+  STDERR.puts "       -   clipboard will hold a string to look for"
+  STDERR.puts "       -n  clipboard will hold a uid-prefix string, and only the uid will be searched for"
   exit 1
-}
+end
 
-cleann() {
+def cleann(n)
   # examples that return '665572'
-  #cleann '#665572#file.name_HALF_v.mp4'
-  #cleann '#665572#'
-  #cleann '#665572'
-  #cleann '665572'
+  # examples that return '665572'
+  # puts cleann('_5_#048585#abcd.txt')
+  # puts cleann('#665572#some.name.mp4')
+  # puts cleann('#665572#')
+  # puts cleann('#665572')
+  # puts cleann('#####665572')
+  # puts cleann('665572')
+  # STDERR.puts "cleann(#{n})"
+  # STDERR.puts "  #{n}"
+  n=n.sub(/##*/,'#')
+  # STDERR.puts "a #{n}"
+  n=n.sub('#FAV#','#')
+  # STDERR.puts "b #{n}"
+  n=n.sub(/#[0-9][0-9][0-9]bpm#/,'#')
+  # STDERR.puts "c #{n}"
+  n=n.sub(/^[^#]*/,'') if n =~ /#.*#/ # throw out chars before the first hash
+  # STDERR.puts "d #{n}"
+  n=n.sub(/[^#]*$/,'') if n =~ /#.*#/ # throw out chars after the last hash
+  # STDERR.puts "e #{n}"
+  n=n.sub(/^#*/,'')
+  # STDERR.puts "f #{n}"
+  n=n.sub(/#*$/,'')
+  # STDERR.puts "g #{n}"
+  if n !~ /[0-9][0-9][0-9][0-9][0-9][0-9]/
+    abort "ERROR: '#{n}' is not a 6 digit number!"
+  end
+  # STDERR.puts "  #{n}<--"
+  n
+end
 
-  #echo "in: cleann $1"  1>&2
-  n=${1#\#}
-  #echo "n|$n|"  1>&2
-  case "$n" in
-    [0-9][0-9][0-9][0-9][0-9][0-9]*);;
-    *)          usage "ERROR: '$n' is not a 6 digit number";;
-  esac
-  x=${n#??????}
-  n=${n%$x}
-  #echo "out: $n" 1>&2
-  echo $n
-}
+if ! Dir.exist?(DIR)
+  STDERR.puts "Directory DNE! #{DIR}"
+  exit 1
+end
 
-cd t:/Premiere.Pro.Work || o bitlocker || exit 1
-\ls ./\#* > find 2>/dev/null
-dir="t:/RECYCLABLE/v/"
-cd $dir || o bitlocker || exit 1
-
-find . -type f > find.txt
-
-if [ "$1" = "-d" ]; then
-  separated=true
-  shift
-fi
-
-if [ "$1" = "" ]; then
+if ARGV.size == 0
   usage
-fi
+end
 
-if [ "$1" = '-n' -o "$1" = '-' ]; then
-  if [ "$1" = '-n' ]; then
+if ARGV[0] == '-n' || ARGV[0] == '-'
+  if ARGV[0] == '-n'
     number_only='true'
-  fi
-  shift
-  if [ $# != 0 ]; then
+  end
+  ARGV.shift
+  if ARGV.size != 0
     usage "ERROR: '-' or '-n' take no additional arguments"
-  fi
-  set -- $(p)
-  if [ $# != 1 ]; then
-    usage "ERROR: clipboard contains more than one string!"
-  fi
-  if [[ ! "$1" =~ ^#?[0-9][0-9][0-9][0-9][0-9][0-9] ]]; then
-    if [ "$number_only" = 'true' ]; then
+  end
+  n=Clipboard.paste.split
+  if n.size != 1
+    usage "ERROR: clipboard contains more than one line!"
+  end
+  n=n[0]
+  STDERR.puts n
+  if n !~ /^#?[0-9][0-9][0-9][0-9][0-9][0-9]#?$/
+    if number_only == 'true'
       usage "ERROR: string does not start with a number!"
-    fi
-  fi
-  if [ "$number_only" = 'true' ]; then
-    set -- `cleann "$1"`
-  fi
-fi
-
-#thing="$( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' )"
-#set -- $( echo $num | sed -e 's:[^#]*#::' -e 's:#.*::' -e 's:^:#:' -e 's:$:#:' ) ${@}
-
-echo ========================== 1>&2
-echo "searching for: \"$@\""  1>&2
-echo ========================== 1>&2
-
-args=''
-for arg in "$@"; do
-  args="${args}(?=.*$arg)"
-done
-
-old_d=""
-
-unalias grep 2>/dev/null
-if [ "$separated" != true ]; then
-  cat find.txt t:/Premiere.Pro.Work/find | egrep -v '(jpg$|txt$|xmp$)' | grep -iP "$args" | grep '.*/' |
-    sed -e 's|^\.|t:/RECYCLABLE/v|'
-  exit
+    end
+  end
+  if number_only == 'true'
+    clean_n = cleann(n)
+    if clean_n.size == 0
+      exit 1
+    end
+  end
+  items = [n]
 else
-  cat find.txt t:/Premiere.Pro.Work/find | egrep -v '(jpg$|txt$)|xmp$' | grep -iP "$args" | sort |
-  sed -e 's|^./|'$dir'|' |
-  while read line; do
-    f=${line##*/}
-    d=${line%$f}
-    if [ "$d" != "$old_d" ]; then
-      echo '===================================================================='
-      echo dd=\"$d\"
-      old_d="$d"
-    fi
-    echo '  start "${dd}/'$f'"'
-  done | egrep -i --color "$1|$"
-fi
+  items = ARGV
+end
+
+STDERR.puts "=========================="
+STDERR.print "searching for: "
+items.each { |i| STDERR.print "#{i} " }
+STDERR.puts
+STDERR.puts "=========================="
+curdir=Dir2.pwd
+
+Dir.chdir DIR
+files = Dir2.all_files_recursively()
+files.map! {|i|"#{DIR}#{i}"}
+Dir.chdir DIR2
+files2 = Dir2.files('#*')
+files2.map! {|i|"#{DIR2}#{i}"}
+files += files2
+
+files.select! { |i| i !~ /^#{curdir}/i }
+
+#STDERR.puts "#{files.length}"
+files.select! {|i| i !~ /jpg$|txt$|xmp$|sh$|prproj$/i }
+#STDERR.puts "#{files.length}"
+items.each do |arg|
+  #STDERR.puts arg
+  files.select! {|i| i =~ %r{[^a-zA-Z]#{arg}[^a-zA-Z/]*}i }
+  #STDERR.puts "-> #{files.length}"
+  #STDERR.puts "--> #{files[0]}"
+end
+#STDERR.puts "#{files.length}"
+puts files
