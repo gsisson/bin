@@ -9,7 +9,7 @@ DIR2='t:/Premiere.Pro.Work/'
 
 def usage(args = nil)
   name = File.basename(__FILE__)
-  STDERR.puts "\n#{args}\n\n" if args
+  STDERR.puts("\n#{args}\n\n") if args != nil
   STDERR.puts "usage: #{name} -"
   STDERR.puts "   or: #{name} -n"
   STDERR.puts "   or: #{name} UID"
@@ -105,14 +105,40 @@ files2 = Dir2.files('#*')
 files2.map! {|i|"#{DIR2}#{i}"}
 files += files2
 
-files.select! { |i| i !~ /^#{curdir}/i }
+#files.select! { |i| i !~ /^#{curdir}/i } # reject ones (dir problem) in/under the directory this is run from
+
+test_special_case = false
+if test_special_case
+  items = []
+  files = []
+  items[0]=''
+end
 
 #STDERR.puts "#{files.length}"
-files.select! {|i| i !~ /jpg$|txt$|xmp$|sh$|prproj$/i }
+# reject files of types not interested in
+files.select! {|i| i !~ /jpg$|jpeg$|txt$|xmp$|png$|sh$|prproj$/i }
 #STDERR.puts "#{files.length}"
+
+def matchit(i,arg)
+  #            %r{[^a-zA-Z]#{arg}[^a-zA-Z/]*}i # wrong!
+  #            %r{[^a-zA-Z]#{arg}[^a-zA-Z/]+}i # unnecessary?
+  value = i =~ %r{[^a-zA-Z]#{arg}[^a-zA-Z/]}i || i =~ %r{[^a-zA-Z]#{arg}$}i
+  if ( i =~ /0000.dress/ )
+    ['.00','.30','.50','.60','.72','.75'].each do |j|
+      i_test = i.sub("0000.dress#{j}",'')
+      value = value && i_test =~ %r{[^a-zA-Z]#{arg}[^a-zA-Z/]}i
+    end
+  end
+  value
+end
+
 items.each do |arg|
-  #STDERR.puts arg
-  files.select! {|i| i =~ %r{[^a-zA-Z]#{arg}[^a-zA-Z/]*}i }
+  #puts files.length
+  #STDERR.puts "-> #{files.length}"
+  #STDERR.puts "--> #{files[0]}"
+  files.select! do |i|
+    matchit(i,arg)
+  end
   #STDERR.puts "-> #{files.length}"
   #STDERR.puts "--> #{files[0]}"
 end

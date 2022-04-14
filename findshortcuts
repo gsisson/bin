@@ -2,19 +2,10 @@
 . ~/.bashrc
 
 args=`echo ${1%.getem.sh} | sed -e 's:^#*::' -e 's:\.: :g' `
-echo args:$args:
-
-for arg in $args ; do
-  if [ -n "$args2" ]; then
-    args2="${args2}"'|[^a-zA-Z]'"$arg"
-  else
-    args2='[^a-zA-Z]'"${arg}"'[^a-zA-Z]'
-  fi
-done
-args2='('"${args2}"'[^a-zA-Z])'
+#echo args:$args:
 
 findvid $args | grep -Eiv '(prproj$|lnk$|sh$)' | while read line; do
-  bname=$(basename $line)
+  bname=$(basename "$line")
   for arg in $args LAST_ITEM; do
     if [ "$arg" = LAST_ITEM ]; then
       echo $line
