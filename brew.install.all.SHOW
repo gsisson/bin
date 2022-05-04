@@ -10,14 +10,19 @@ cat << EOF
   brew install awscli 
  #brew install aws-elasticbeanstalk 
   brew install openjdk # java
-  brew install terraform
-  brew install python # python@3.8
+ #brew install terraform
+  brew install tfenv
+ #brew install python # python@3.8
+  brew install pyenv pyenv-virtualenv
  #brew install tesseract # command line OCR software
   brew install imagemagick exiftool
   brew install go
   brew install node
   brew install ruby-build
   brew install rbenv # security -> privacy -> Developer Tools -> [x] iTerm.app
+       ruby-build -l
+       rbenv install LATEST-VERSION
+       . ~/.profile # to run "rbenv init - zsh"
  #brew install kubernetes-cli
  #brew install minikube # (comes with Docker on top toolbar?)
   brew cask install keycastr # https://github.com/keycastr/keycastr

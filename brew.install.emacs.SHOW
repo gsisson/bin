@@ -11,6 +11,8 @@ cat << EOF
   #     brew install emacs-plus # very SLOW to build... maybe use some --without-* options
   #     # brew linkapps emacs-plus # unsupported
   #     ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications
+  #     or
+  #     ln -s /opt/homebrew/opt/emacs-plus@28/Emacs.app /Applications
   #
   #  2) This works too, by just injecting the old code that brew used to install
   #     echo '# to get emacs...'
