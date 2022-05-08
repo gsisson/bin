@@ -6,7 +6,6 @@ cat << EOF
   brew install grep gnu-sed 
   brew install bash 
   brew install tmux tree watch wget zsh-completions jq git ack curl dos2unix httping
- #brew install srm # GONE!! use srm() fn, or get Dropbox/data/Settings/bin/srm/usr=local=Cellar=srm
   brew install awscli 
  #brew install aws-elasticbeanstalk 
   brew install openjdk # java
@@ -15,7 +14,6 @@ cat << EOF
   brew install iam-policy-json-to-terraform
  #brew install python # python@3.8
   brew install pyenv pyenv-virtualenv
- #brew install tesseract # command line OCR software
   brew install imagemagick exiftool
   brew install go
   brew install node
@@ -24,9 +22,13 @@ cat << EOF
        ruby-build -l
        rbenv install LATEST-VERSION
        . ~/.profile # to run "rbenv init - zsh"
+  brew install --cask stats
+  brew install smartmontools
+    # smartctl --all /dev/disk0
+  brew.install.emacs
  #brew install kubernetes-cli
  #brew install minikube # (comes with Docker on top toolbar?)
-  brew install --cask stats
-  brew cask install keycastr # https://github.com/keycastr/keycastr
-  brew.install.emacs
+ #brew cask install keycastr # https://github.com/keycastr/keycastr
+ #brew install srm # GONE!! use srm() fn, or get Dropbox/data/Settings/bin/srm/usr=local=Cellar=srm
+ #brew install tesseract # command line OCR software
 EOF
