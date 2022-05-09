@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo + smartctl --all /dev/disk0
+       smartctl --all /dev/disk0 | grep -v ^$ | grep --color=always -iE '($|percentage used)'
+echo + smartctl --all /dev/disk0
