@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo '+ pbpaste | sort | bpcopy'
+        pbpaste | sort | pbcopy
