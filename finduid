@@ -28,7 +28,8 @@ cleann() {
   echo >&2 :$1:
   case "$1" in
     *#*#*) n=`echo "$1" | sed -e 's/#FAV#/#/' -e 's/#[0-9][0-9][0-9]bpm#/#/' -e 's/^[^#]*//' -e 's/[^#]*$//' -e 's/^#*//' -e 's/#*$//'`
-           # echo >&2 n:$n:
+           n=`echo "$n" | sed -e 's/#[a-z]$//'`
+           echo >&2 n:$n:
            case "$n" in
              [0-9][0-9][0-9][0-9][0-9][0-9]) true ;;
              *) usage "ERROR: '$n' is not a 6 digit number";;

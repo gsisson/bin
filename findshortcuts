@@ -1,8 +1,26 @@
 #!/usr/bin/env bash
 . ~/.bashrc
 
-args=`echo ${1%.getem.sh} | sed -e 's:^#*::' -e 's:\.: :g' `
-#echo args:$args:
+# called from many dirs
+#  => THIS SCRIPT
+#    => mkshortcut.from.input.sh
+#      => Cygwin/mkshortcut.exe
+
+args=${1%getem.sh}
+args=${args%.getem.sh}
+#args=`echo ${1%.getem.sh} | sed -e 's:^#*::' -e 's:\.: :g' `
+args=`echo $args | sed -e 's:^#*::' -e 's:\.: :g' `
+if [ "$args" == "" ] ;then
+  pwd="$PWD"
+  while [ $(basename $pwd) != ==GEN ]; do
+    arg="$(basename $pwd)"
+    arg=${arg#@}
+    arg=${arg,,}
+    args="$args $arg"
+    pwd=$(dirname $pwd)
+  done
+fi
+echo args:$args:
 
 findvid $args | grep -Eiv '(prproj$|lnk$|sh$)' | while read line; do
   bname=$(basename "$line")

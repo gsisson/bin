@@ -1,0 +1,109 @@
+#!/usr/bin/env ruby
+
+require '~/usr/ruby/lib/dir2.rb'
+require '~/usr/ruby/lib/file_symlink'
+require 'clipboard' #gem install clipboard
+
+DIR ='t:/RECYCLABLE/v/'
+
+def usage(args = nil)
+  name = File.basename(__FILE__)
+  STDERR.puts("\n#{args}\n\n") if args != nil
+  STDERR.puts "usage: #{name} ...TBD..."
+  exit 1
+end
+
+if ! Dir.exist?(DIR)
+  STDERR.puts "Directory DNE! #{DIR}"
+  exit 1
+end
+
+def check_quick_for_nonlinks()
+  the = "#{DIR}_QUICK/"
+  if ! Dir.exist?(the)
+    STDERR.puts "Directory DNE! #{the}"
+    exit 1
+  end
+  Dir.chdir the do
+    items = Dir2.glob_i('**/*')
+    items.select! do |item|
+      ! Dir.exist?(item) && item !~ /\.lnk$|\.jpg$|\.txt$|\.sh$/
+    end
+    if items.size > 0
+      STDERR.puts
+      STDERR.puts "SHORTCUT ERROR!!"
+      STDERR.puts "Found non .lnk files under #{the}:"
+      STDERR.puts
+      items.each do |item|
+        STDERR.puts "#{the}#{item}"
+      end
+      STDERR.puts
+      exit 1
+    end
+  end
+end
+
+check_quick_for_nonlinks
+
+if ARGV.size == 0
+  #items = Dir2.glob_i('*.lnk')
+  items = Dir2.glob_i('**/*.lnk')
+else
+  items = ARGV
+end
+
+#puts "=========================="
+#print "searching for: "
+#items.each { |i| STDERR.print "#{i} " }
+#puts
+#puts "=========================="
+curdir=Dir2.pwd
+
+Dir.chdir DIR
+files = Dir2.all_files_recursively()
+files.select! {|i| ! Dir.exist?(i)}
+files.map! {|i|"#{DIR}#{i}"}
+# puts "#{files.length}"
+# reject files of types not interested in
+#files.select! {|i| i !~ /lnk$|mp3$|jpg$|jpeg$|txt$|xmp$|png$|sh$|proj$|gif$|url$|tif$|rb$|THM$|AAE$|psd$/i }
+ files.select! {|i| i =~ /f4v$|webm$|m2v$|m2t$|flv$|mts$|m4v$|avi$|3gp$|wmv$|mov$|mp4$|mpg$|mpeg$|mkv$/i }
+
+#puts "-----------------"
+#puts "#{files.length}"
+#puts files
+#puts "-----------------"
+
+probs=[]
+items.each do |item|
+  if item =~ / \([0-9]\).lnk$/ || item =~ / - Copy.lnk$/
+    # skip lnk files to types we don't care about
+    probs << item
+  end
+end
+if probs.size > 0
+  STDERR.puts
+  STDERR.puts "found problem lnk files ending with /[0-9].lnk#/ or / - Copy.lnk$/:"
+  STDERR.puts
+  probs.each do |prob|
+    STDERR.puts "#{curdir}/#{prob}"
+  end
+  STDERR.puts
+  exit 1
+end
+
+STDERR.puts "lnk files not matching targets:"
+items.each do |item|
+  item_f=File.basename(item).sub(/.lnk$/,'')
+  if item_f !~ /f4v$|webm$|m2v$|m2t$|flv$|mts$|m4v$|avi$|3gp$|wmv$|mov$|mp4$|mpg$|mpeg$|mkv$/i
+    # skip lnk files to types we don't care about
+    next
+  end
+  #item_f="/#{item_f}"
+  if files.any?{ |s| s[item_f] }
+    found=true
+  else
+    puts "#{curdir}/#{item}"
+  end
+end
+
+__END__

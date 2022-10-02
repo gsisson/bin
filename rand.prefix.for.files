@@ -11,13 +11,123 @@ def pref()
   sprintf("%05d",rand(100000))
 end
 
-ARGV.each do |arg|
-  if arg =~ /^_[0-9][0-9][0-9][0-9][0-9]_/
-    puts "skip #{arg}"
-    puts "File.rename #{arg} _#{pref()}_#{arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')}"
-    File.rename(arg, "_#{pref()}_#{arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')}")
-  else
-    puts "File.rename #{arg} _#{pref()}_#{arg}"
-    File.rename(arg, "_#{pref()}_#{arg}")
+if ARGV[0] && ARGV[0] == '-undo'
+  undo=true
+  ARGV.shift
+end
+
+if ARGV[0] && ARGV[0] == '-all'
+  all=true
+  ARGV.shift
+end
+
+if ARGV[0]
+  args = ARGV
+else
+  args = Dir2.glob_i('*.lnk')
+end
+
+#args.each do |arg|
+#  puts "arg:#{arg}:"
+#end
+#STDERR.puts "       (sleeping 20)..."
+#sleep 20
+
+args.each do |arg|
+  if ! File.exist?(arg)
+    STDERR.puts "ERROR: file DNE! '#{arg}'"
+    STDERR.puts "       (sleeping 10)..."
+    sleep 10
   end
 end
+
+conflict=false
+if undo
+  revs = args.select { |arg| arg =~ /^_[0-9][0-9][0-9][0-9][0-9]_/ }
+  if revs.length == 0
+    puts "Stopping (no files start with _#####_)"
+    STDERR.puts "(sleeping 2)..."
+    sleep 2
+    exit 0
+  end
+  revs.each do |arg|
+    new_arg=arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')
+    if File.exist?(new_arg)
+      puts "ERROR: file already exists! '#{new_arg}'"
+      conflict=true
+    end
+  end
+  if conflict
+    STDERR.puts "(sleeping 10)..."
+    sleep 10
+    exit 0
+  end
+  revs.each do |arg|
+    new_arg=arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')
+    #puts "File.rename #{arg} #{new_arg}"
+    puts "  removing prefix"
+    File.rename(arg, new_arg)
+  end
+  puts "done (sleeping 2)..."
+  sleep 2
+  exit 0
+end
+
+conflict=false
+files={}
+args.each do |arg|
+  #puts "checking #{arg}..."
+  pre=""
+  if arg =~ /^_[0-9][0-9][0-9][0-9][0-9]_/
+    #puts "  has prefix..."
+    normal = arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')
+    #puts "    (w/o prefix: #{normal})"
+    if files[normal]
+      if files[normal] !~ /^_[0-9][0-9][0-9][0-9][0-9]_/
+        pre="       "
+      end
+      puts "ERROR1: both exist:"
+      puts "        #{arg}"
+      puts "        #{pre}#{files[normal]}"
+      conflict=true
+    #else
+      #puts "    no conflict"
+    end
+  else
+    #puts "  does not have prefix..."
+    normal = arg
+    if files[normal]
+      puts "ERROR2: both exist:"
+      puts "        #{arg}"
+      puts "        #{pre}#{files[normal]}"
+      conflict=true
+    #else
+      #puts "    no conflict"
+    end
+  end
+  #puts "storing files[#{normal}] = #{arg}"
+  files[normal] = arg
+end
+if conflict
+  STDERR.puts "aborting! (sleep 10)..."
+  sleep 10
+  exit 1
+end
+
+args.each do |arg|
+  if arg =~ /^_[0-9][0-9][0-9][0-9][0-9]_/
+    if all
+      #puts "File.rename #{arg} _#{pref()}_#{arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')}"
+      print '.'
+      File.rename(arg, "_#{pref()}_#{arg.sub(/^_[0-9][0-9][0-9][0-9][0-9]_/,'')}")
+    end
+  else
+    #puts "File.rename #{arg} _#{pref()}_#{arg}"
+    pref=pref()
+    puts "  adding _#{pref}_"
+    File.rename(arg, "_#{pref}_#{arg}")
+  end
+end
+
+puts "all done (sleep 3)..."
+sleep 3

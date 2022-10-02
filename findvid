@@ -101,7 +101,7 @@ Dir.chdir DIR
 files = Dir2.all_files_recursively()
 files.map! {|i|"#{DIR}#{i}"}
 Dir.chdir DIR2
-files2 = Dir2.files('#*')
+files2 = Dir2.files("*") # Dir2.files('#*')
 files2.map! {|i|"#{DIR2}#{i}"}
 files += files2
 
@@ -144,3 +144,6 @@ items.each do |arg|
 end
 #STDERR.puts "#{files.length}"
 puts files
+
+
+__END__
