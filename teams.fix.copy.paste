@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# copying text from MS Teams seems to have spaces replaced by some oddball
+# character, so replace that oddball character with real spaces
+cat /dev/clipboard | sed -e 's: : :g' > /dev/clipboard
