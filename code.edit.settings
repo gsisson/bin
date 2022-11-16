@@ -7,7 +7,6 @@ dirs=( "$HOME/Library/Application Support/Code/User"
 for dir in "${dirs[@]}"; do
   if [ -f "$dir/$f" ]; then
     echo $dir/$f
-    #~/usr/bin/code $dir/$f
     code $dir/$f
     exit $?
   fi

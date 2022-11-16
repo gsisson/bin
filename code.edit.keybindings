@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
-dir="$HOME/Library/Application Support/Code/User"
-~/usr/bin/code "$dir/keybindings.json"
+
+f=keybindings.json
+dirs=( "$HOME/Library/Application Support/Code/User"
+       "$HOME/AppData/Roaming/Code/User"
+     ) 
+for dir in "${dirs[@]}"; do
+  if [ -f "$dir/$f" ]; then
+    echo $dir/$f
+    code $dir/$f
+    exit $?
+  fi
+done
+
+echo "none were found:"
+for dir in "${dirs[@]}"; do
+  echo "  $dir"
+done
+
