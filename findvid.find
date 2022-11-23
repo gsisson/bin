@@ -18,6 +18,69 @@ if ! Dir.exist?(DIR)
   exit 1
 end
 
+def check_quick_swim()
+  the = "#{DIR}_QUICK/____/==GEN/@SWIM.IN.OUT"
+  if ! Dir.exist?(the)
+    the = "#{DIR}_QUICK/____/==GEN/_@SWIM.IN.OUT"
+    if ! Dir.exist?(the)
+      STDERR.puts "Directory DNE! #{the}"
+      exit 1
+    end
+  end
+  Dir.chdir the do
+    # check 1
+    items = Dir2.glob_i('**/*')
+    items.select! do |item|
+      ! Dir.exist?(item) && item =~ /\.lnk$/ && item !~ /swimsuit/
+    end
+    if items.size > 0
+      STDERR.puts
+      STDERR.puts "ERROR!!"
+      STDERR.puts "Found non-'swimsuit' under '#{the}':"
+      STDERR.puts
+      items.each do |item|
+        STDERR.puts "#{the}/#{item}"
+      end
+      STDERR.puts
+      exit 1
+    end
+    # check 2
+    items = Dir2.glob_i('**/*')
+    items.select! do |item|
+      ! Dir.exist?(item) && item =~ /\.lnk$/ && item =~ /swimout/ && item !~ /outdoors/
+    end
+    if items.size > 0
+      STDERR.puts
+      STDERR.puts "ERROR!!"
+      STDERR.puts "Found non-'outdoors' under 'swimout' (#{the}):"
+      STDERR.puts
+      items.each do |item|
+        STDERR.puts "#{the}/#{item}"
+      end
+      STDERR.puts
+      exit 1
+    end
+    # check 3
+    items = Dir2.glob_i('**/*')
+    items.select! do |item|
+      ! Dir.exist?(item) && item =~ /\.lnk$/ && item =~ /outside/
+    end
+    if items.size > 0
+      STDERR.puts
+      STDERR.puts "ERROR!!"
+      STDERR.puts "Found 'outside' under 'swimout' (#{the}):"
+      STDERR.puts
+      items.each do |item|
+        STDERR.puts "#{the}/#{item}"
+      end
+      STDERR.puts
+      exit 1
+    end
+  end
+end
+
+check_quick_swim
+
 def check_quick_for_nonlinks()
   the = "#{DIR}_QUICK/"
   if ! Dir.exist?(the)
@@ -27,6 +90,7 @@ def check_quick_for_nonlinks()
   Dir.chdir the do
     items = Dir2.glob_i('**/*')
     items.select! do |item|
+      # not a directory, and not an allowed file
       ! Dir.exist?(item) && item !~ /\.lnk$|\.jpg$|\.txt$|\.sh$/
     end
     if items.size > 0
@@ -45,11 +109,13 @@ end
 
 check_quick_for_nonlinks
 
-if ARGV.size == 0
-  #items = Dir2.glob_i('*.lnk')
-  items = Dir2.glob_i('**/*.lnk')
-else
+if ARGV.size != 0
   items = ARGV
+else
+  #items = Dir2.glob_i('*.lnk')
+  Dir.chdir DIR do
+    items = Dir2.glob_i('**/*.lnk')
+  end
 end
 
 #puts "=========================="
@@ -76,7 +142,6 @@ files.map! {|i|"#{DIR}#{i}"}
 probs=[]
 items.each do |item|
   if item =~ / \([0-9]\).lnk$/ || item =~ / - Copy.lnk$/
-    # skip lnk files to types we don't care about
     probs << item
   end
 end
@@ -85,11 +150,17 @@ if probs.size > 0
   STDERR.puts "found problem lnk files ending with /[0-9].lnk#/ or / - Copy.lnk$/:"
   STDERR.puts
   probs.each do |prob|
-    STDERR.puts "#{curdir}/#{prob}"
+    STDERR.puts "#{DIR}/#{prob}"
   end
   STDERR.puts
   exit 1
 end
+
+
+#items = ['7.Crazy.Interesting.Facts.About.Sperm.mp4',
+#         'bogus']
+#files = ['t:/RECYCLABLE/v/AUDIO/advice/7.Crazy.Interesting.Facts.About.Sperm.mp4',
+#         't:/RECYCLABLE/v/AUDIO/advice/AWKWARD.MOMENTS.THAT.HAPPEN.ON.YOUR.PERIOD.mp4']
 
 STDERR.puts "lnk files not matching targets:"
 items.each do |item|
@@ -98,12 +169,14 @@ items.each do |item|
     # skip lnk files to types we don't care about
     next
   end
-  #item_f="/#{item_f}"
+  if item_f =~ /^_[0-9][0-9][0-9][0-9][0-9]_/
+    #puts "MATCH2: #{item_f}"
+    item_f =~ /\/_[0-9][0-9][0-9][0-9][0-9]_/
+    item_f = item_f[7..]
+  end
   if files.any?{ |s| s[item_f] }
     found=true
   else
-    puts "#{curdir}/#{item}"
+    puts "#{DIR}#{item}"
   end
 end
-
-__END__
