@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+. ~/.bashrc
+
+# called directly
+
+mkdir -p _
+for f in *.lnk; do
+  if find . -type f | grep '/.*/' | grep "/$f" > /dev/null 2>&1 ; then
+    # remove, since found in a sub-dir
+    rm "$f"
+  else
+    :
+    # keep, since not found in a sub-dir
+  fi
+done

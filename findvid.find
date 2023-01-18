@@ -2,9 +2,13 @@
 
 require '~/usr/ruby/lib/dir2.rb'
 require '~/usr/ruby/lib/file_symlink'
+require '~/usr/ruby/lib/filesystem'
 require 'clipboard' #gem install clipboard
 
 DIR ='t:/RECYCLABLE/v/'
+
+#video_extentions = /lnk$|mp3$|jpg$|jpeg$|txt$|xmp$|png$|sh$|proj$|gif$|url$|tif$|rb$|THM$|AAE$|psd$/i
+ video_extentions = /f4v$|webm$|m2v$|m2t$|flv$|mts$|m4v$|avi$|3gp$|wmv$|mov$|mp4$|mpg$|mpeg$|mkv$/i
 
 def usage(args = nil)
   name = File.basename(__FILE__)
@@ -19,9 +23,9 @@ if ! Dir.exist?(DIR)
 end
 
 def check_quick_swim()
-  the = "#{DIR}_QUICK/____/==GEN/@SWIM.IN.OUT"
+  the = "#{DIR}_QUICK/____/==GEN/SWIM.IN.OUT"
   if ! Dir.exist?(the)
-    the = "#{DIR}_QUICK/____/==GEN/_@SWIM.IN.OUT"
+    the = "#{DIR}_QUICK/____/==GEN/_SWIM.IN.OUT"
     if ! Dir.exist?(the)
       STDERR.puts "Directory DNE! #{the}"
       exit 1
@@ -79,8 +83,6 @@ def check_quick_swim()
   end
 end
 
-check_quick_swim
-
 def check_quick_for_nonlinks()
   the = "#{DIR}_QUICK/"
   if ! Dir.exist?(the)
@@ -91,7 +93,7 @@ def check_quick_for_nonlinks()
     items = Dir2.glob_i('**/*')
     items.select! do |item|
       # not a directory, and not an allowed file
-      ! Dir.exist?(item) && item !~ /\.lnk$|\.jpg$|\.txt$|\.sh$/
+      ! Dir.exist?(item) && item !~ /\.lnk$|\.jpg$|\.txt$|\.sh$|\.prproj/
     end
     if items.size > 0
       STDERR.puts
@@ -107,6 +109,38 @@ def check_quick_for_nonlinks()
   end
 end
 
+def check_word(wrong,correct)
+  the = "#{DIR}"
+  if ! Dir.exist?(the)
+    STDERR.puts "Directory DNE! #{the}"
+    exit 1
+  end
+  Dir.chdir the do
+    items = Dir2.glob_i('**/*')
+    items.select! do |item|
+      # not a directory, and not an allowed file
+      item =~ %r{#{wrong}}
+    end
+    if items.size > 0
+      STDERR.puts
+      STDERR.puts "SHORTCUT ERROR!!"
+      STDERR.puts "Found '#{wrong}' files under #{the}:"
+      STDERR.puts "(should be using '#{correct}')"
+      STDERR.puts
+      items.each do |item|
+        STDERR.puts "#{the}#{item}"
+      end
+      STDERR.puts
+      STDERR.puts "SHORTCUT ERROR!!"
+      STDERR.puts "Found '#{wrong}' files under #{the}:"
+      STDERR.puts "(should be using '#{correct}')"
+      STDERR.puts
+      exit 1
+    end
+  end
+end
+
+check_quick_swim
 check_quick_for_nonlinks
 
 if ARGV.size != 0
@@ -126,17 +160,17 @@ end
 curdir=Dir2.pwd
 
 Dir.chdir DIR
-files = Dir2.all_files_recursively()
-files.select! {|i| ! Dir.exist?(i)}
-files.map! {|i|"#{DIR}#{i}"}
-# puts "#{files.length}"
+vids = Dir2.all_files_recursively()
+vids.select! {|i| ! Dir.exist?(i)}
 # reject files of types not interested in
-#files.select! {|i| i !~ /lnk$|mp3$|jpg$|jpeg$|txt$|xmp$|png$|sh$|proj$|gif$|url$|tif$|rb$|THM$|AAE$|psd$/i }
- files.select! {|i| i =~ /f4v$|webm$|m2v$|m2t$|flv$|mts$|m4v$|avi$|3gp$|wmv$|mov$|mp4$|mpg$|mpeg$|mkv$/i }
+ vids.select! {|i| i =~ video_extentions }
+vids.map! {|i|"#{DIR}#{i}"}
+FS.verify_no_dup_files_across_dirs(vids)
+# puts "#{vids.length}"
 
 #puts "-----------------"
-#puts "#{files.length}"
-#puts files
+#puts "#{vids.length}"
+#puts vids
 #puts "-----------------"
 
 probs=[]
@@ -157,24 +191,16 @@ if probs.size > 0
 end
 
 
-#items = ['7.Crazy.Interesting.Facts.About.Sperm.mp4',
-#         'bogus']
-#files = ['t:/RECYCLABLE/v/AUDIO/advice/7.Crazy.Interesting.Facts.About.Sperm.mp4',
-#         't:/RECYCLABLE/v/AUDIO/advice/AWKWARD.MOMENTS.THAT.HAPPEN.ON.YOUR.PERIOD.mp4']
-
 STDERR.puts "lnk files not matching targets:"
 items.each do |item|
   item_f=File.basename(item).sub(/.lnk$/,'')
-  if item_f !~ /f4v$|webm$|m2v$|m2t$|flv$|mts$|m4v$|avi$|3gp$|wmv$|mov$|mp4$|mpg$|mpeg$|mkv$/i
-    # skip lnk files to types we don't care about
-    next
-  end
+  next if item_f !~ video_extentions
   if item_f =~ /^_[0-9][0-9][0-9][0-9][0-9]_/
     #puts "MATCH2: #{item_f}"
     item_f =~ /\/_[0-9][0-9][0-9][0-9][0-9]_/
     item_f = item_f[7..]
   end
-  if files.any?{ |s| s[item_f] }
+  if vids.any?{ |s| s[item_f] }
     found=true
   else
     puts "#{DIR}#{item}"

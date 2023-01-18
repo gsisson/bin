@@ -1,0 +1,97 @@
+#!/usr/bin/env ruby
+
+require '~/usr/ruby/lib/dir2.rb'
+require '~/usr/ruby/lib/file_symlink'
+require '~/usr/ruby/lib/filesystem'
+require 'clipboard' #gem install clipboard
+require 'open3'
+
+DIR ='t:/RECYCLABLE/v/'
+
+def usage(args = nil)
+  name = File.basename(__FILE__)
+  STDERR.puts("\n#{args}\n\n") if args != nil
+  STDERR.puts "usage: #{name} [-r]"
+  exit 1
+end
+
+def mkshortcut(tgt)
+  tgt = tgt.sub("t:/","/cygdrive/t/")
+  _stdin, _stdout, _stderr, wait_thr = Open3.popen3('mkshortcut.exe', "#{tgt}")
+  # wait_thr.value.exitstatus # (this will cause a long pause)
+end
+
+if ! Dir.exist?(DIR)
+  STDERR.puts "Directory DNE! #{DIR}"
+  exit 1
+end
+
+recursive=false
+usage if ARGV.count > 1
+if ARGV.count > 0
+  usage if ARGV[0] != '-r'
+  recursive=true
+end
+
+dirs = [Dir2.pwd]
+dirs = ["./"]
+if recursive
+  dirs += Dir2.all_dirs_recursively()
+end
+
+video_extentions = /f4v$|webm$|m2v$|m2t$|flv$|mts$|m4v$|avi$|3gp$|wmv$|mov$|mp4$|mpg$|mpeg$|mkv$/i
+
+vids = []
+Dir.chdir DIR do
+  vids = Dir2.all_files_recursively()
+  vids.select! {|i| ! Dir.exist?(i)}
+  vids.map! {|i|"#{DIR}#{i}"}
+  # select only file types interested
+  vids.select! {|i| i =~ video_extentions }
+  FS.verify_no_dup_files_across_dirs(vids)
+end
+
+# ensure all lnk files are valid
+links={}
+errs=[]
+for dir in dirs
+  Dir.chdir dir do  
+    lnks = Dir2.glob_i('*.lnk') # ('**/*.lnk')
+    lnks.each do |lnk|
+      lnk_f="/#{File.basename(lnk).sub(/.lnk$/,'')}"
+      next if lnk_f !~ video_extentions
+      vids_match = vids.select { |vid| vid[lnk_f] }
+      if vids_match.size != 1
+        msg = "  #{dir}#{lnk}: (vids_match.size:#{vids_match.size})\n"
+        vids_match.each {|vid| msg += "    #{vid}\n" }
+        errs << msg
+      else
+        links["#{dir}#{lnk}"] = vids_match[0]
+      end
+    end
+  end
+end
+if errs.size > 0
+  STDERR.puts "found invalid lnk files:"
+  errs.each { |err| STDERR.puts err }
+  exit 1
+end
+
+for dir in dirs
+  Dir.chdir dir do
+    puts "==========================================================="
+    puts "WORKING in '#{dir}'"
+    lnks = Dir2.glob_i('*.lnk') # ('**/*.lnk')
+    lnks.each do |lnk|
+      lnk_f=File.basename(lnk).sub(/.lnk$/,'')
+      next if lnk_f !~ video_extentions
+      tgt=links["#{dir}#{lnk}"]
+      puts "  relink #{lnk}"
+      puts "      to #{tgt}"
+      puts "  + mkshortcut(#{tgt})"
+      mkshortcut(tgt)
+      puts "    (done)"
+    end
+    puts
+  end
+end
