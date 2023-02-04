@@ -5,13 +5,8 @@
 #    => mkshortcut.from.input.sh # to change?
 #      => Cygwin/mkshortcut.exe  # to change?
 
-#require '~/usr/ruby/lib/dir2.rb'
-#require '~/usr/ruby/lib/file_symlink'
-#require '~/usr/ruby/lib/filesystem'
 require '~/usr/ruby/lib/findvid'
 require '~/usr/ruby/lib/check_for_non_links'
-#require 'clipboard' #gem install clipboard
-require 'open3'
 
 DIR ='t:/RECYCLABLE/v/'
 
@@ -26,6 +21,12 @@ def usage(args = nil)
   exit 1
 end
 
+def mkshortcut_in_cwd(tgt)
+  tgt = tgt.sub("t:/","/cygdrive/t/")
+  _stdin, _stdout, _stderr, wait_thr = Open3.popen3('mkshortcut.exe', "#{tgt}")
+  # wait_thr.value.exitstatus # (this will cause a long pause)
+end
+
 if ! Dir.exist?(DIR)
   STDERR.puts "Directory DNE! #{DIR}"
   exit 1
@@ -34,7 +35,6 @@ end
 # puts 'check_for_non_links()'
 # check_for_nonlinks(DIR, /\.lnk$|\.jpg$|\.txt$|\.sh$|\.prproj/)
 
-puts ARGV.size
 if ARGV.size != 1
   usage
 end
@@ -79,18 +79,32 @@ puts shortcuts_needed_here
 
 puts "now send the list to | mkshortcut.from.input.sh"
 
-__END__
+shortcuts_needed_here.each do |item|
+  puts "+ mkshortcut_in_cwd(#{item})"
+  # mkshortcut_in_cwd(item)
+end
 
-~/usr/bin/remove.dups
-exit
-
-mkdir -p _
-for f in *.lnk; do
-  if find . -type f | grep '/.*/' | grep "/$f" > /dev/null 2>&1 ; then
-    # remove, since found in a sub-dir
-    rm "$f"
+# ~/usr/bin/remove.dups
+lnks_below_full = Dir2.all_files_recursively()
+lnks_below_full = lnks_below_full.select { |file| file =~ /\.md$/ } # only .lnk files
+lnks_below_full = lnks_below_full.select { |file| file =~ /\// }  # not at top level (has a slash)
+lnks_below={}
+lnks_below_full.each do |lnk_full|
+  lnk = File.basename(lnk_full)
+  if lnks_below[lnk]
+    lnks_below[lnk] << lnk_full
   else
-    :
-    # keep, since not found in a sub-dir
-  fi
-done
+    lnks_below[lnk] = [lnk_full]
+  end
+end
+
+Dir2.glob_i_lnks().each do |lnk|
+  puts "checking for '#{lnk}' file..."
+  puts lnks_below[lnk]
+  if lnks_below[lnk]
+    lnks_below[lnk].each do |lnk_to_refresh|
+      puts "+ cp #{lnk} #{lnk_to_refresh}"
+    end
+    puts "+ remove #{lnk}"
+  end
+end

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # called from many dirs
-#  => findshortcuts
+#  => findshortcuts.sh (shortcuts.find.rb now does NOT call this)
 #    => THIS SCRIPT
 #      => Cywin/mkshortcut.exe
 #         [makes shortcut in CWD]

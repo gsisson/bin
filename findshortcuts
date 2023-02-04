@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 . ~/.bashrc
 
+echo
+echo "DO NOT RUN THIS BASH SCRIPT ANYMORE!!!"
+echo "  (use ~/usr/bin/shortcuts.find.rb)"
+echo
+exit
+
 # called from many dirs
 #  => THIS SCRIPT
 #    => mkshortcut.from.input.sh

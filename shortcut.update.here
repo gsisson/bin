@@ -15,7 +15,7 @@ def usage(args = nil)
   exit 1
 end
 
-def mkshortcut(tgt)
+def mkshortcut_in_cwd(tgt)
   tgt = tgt.sub("t:/","/cygdrive/t/")
   _stdin, _stdout, _stderr, wait_thr = Open3.popen3('mkshortcut.exe', "#{tgt}")
   # wait_thr.value.exitstatus # (this will cause a long pause)
@@ -88,8 +88,8 @@ for dir in dirs
       tgt=links["#{dir}#{lnk}"]
       puts "  relink #{lnk}"
       puts "      to #{tgt}"
-      puts "  + mkshortcut(#{tgt})"
-      mkshortcut(tgt)
+      puts "  + mkshortcut_in_cwd(#{tgt})"
+      mkshortcut_in_cwd(tgt)
       puts "    (done)"
     end
     puts
