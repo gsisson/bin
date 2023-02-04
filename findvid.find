@@ -117,6 +117,12 @@ end
 
 check_for_nonlinks(DIR, /\.lnk$|\.jpg$|\.txt$|\.sh$|\.prproj/)
 check_quick_swim
+check_word("housecleaning","housework")
+check_word("outside","outdoors")
+check_word("tempcheck","checkTemp")
+check_word("tempCheck","checkTemp")
+check_word("temp.check","checkTemp")
+check_word("check.temp","checkTemp")
 
 if ARGV.size != 0
   items = ARGV
