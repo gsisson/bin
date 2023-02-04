@@ -53,27 +53,27 @@ if args.length == 0
   end
 end
 
-matches = FindVid.main(args.split())
-puts matches
-puts "==========="
-
-targets = matches.select {|i| i !~ /jpg$|jpeg$|txt$|xmp$|png$|sh$|prproj$|lnk$/i } #  /prproj$|lnk$|sh$/i
-targets.each do |target|
-  bname=File.basename(target)
-  #puts "-#{target}"
+vids_n_stuff = FindVid.main(args.split())
+#puts vids_n_stuff
+vids = vids_n_stuff.select {|i| i !~ /jpg$|jpeg$|txt$|xmp$|png$|sh$|prproj$|lnk$/i } #  /prproj$|lnk$|sh$/i
+vids.each do |vid|
+  bname=File.basename(vid)
+  #puts "-#{vid}"
 end
 
 __END__
 
-findvid $args | grep -Eiv '(prproj$|lnk$|sh$)' | while read line; do
-  bname=$(basename "$line")
+findvid $args | grep -Eiv '(prproj$|lnk$|sh$)' | while read full_vid_path; do
+  vid=$(basename "$full_vid_path")
   for arg in $args LAST_ITEM; do
     if [ "$arg" = LAST_ITEM ]; then
-      echo $line
+      echo $full_vid_path
     else
-      if [[ $bname =~ $arg ]]; then
+      if [[ $vid =~ $arg ]]; then
         :
       else
+        # break out of for look so we don't echo out $full_vid_path, since
+        # it is missing this 'arg' (that it is required to include)
         break
       fi
     fi
