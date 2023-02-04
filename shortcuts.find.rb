@@ -53,32 +53,33 @@ if args.length == 0
   end
 end
 
-vids_n_stuff = FindVid.main(args.split())
-#puts vids_n_stuff
-vids = vids_n_stuff.select {|i| i !~ /jpg$|jpeg$|txt$|xmp$|png$|sh$|prproj$|lnk$/i } #  /prproj$|lnk$|sh$/i
-vids.each do |vid|
-  bname=File.basename(vid)
-  #puts "-#{vid}"
+args=args.split()
+shortcuts_needed_here=[]
+full_vids_with_path_plus_junk = FindVid.main(args)
+#puts full_vids_with_path_plus_junk
+full_vids_with_path = full_vids_with_path_plus_junk.select {|i| i !~ /jpg$|jpeg$|txt$|xmp$|png$|sh$|prproj$|lnk$/i } #  /prproj$|lnk$|sh$/i
+full_vids_with_path.each do |full_vid_path|
+  vidname=File.basename(full_vid_path)
+  ok=true
+  args.each do |arg|
+    if vidname !~ /#{arg}/
+      ok=false
+      # break out of for look so we don't echo out $full_vid_path, since
+      # it is missing this 'arg' (that it is required to include)
+      break
+    end
+  end
+  if ok
+    # puts full_vid_path
+    shortcuts_needed_here << full_vid_path
+  end
+  #puts "-#{vidname}"
 end
+puts shortcuts_needed_here
+
+puts "now send the list to | mkshortcut.from.input.sh"
 
 __END__
-
-findvid $args | grep -Eiv '(prproj$|lnk$|sh$)' | while read full_vid_path; do
-  vid=$(basename "$full_vid_path")
-  for arg in $args LAST_ITEM; do
-    if [ "$arg" = LAST_ITEM ]; then
-      echo $full_vid_path
-    else
-      if [[ $vid =~ $arg ]]; then
-        :
-      else
-        # break out of for look so we don't echo out $full_vid_path, since
-        # it is missing this 'arg' (that it is required to include)
-        break
-      fi
-    fi
-  done
-done | mkshortcut.from.input.sh
 
 ~/usr/bin/remove.dups
 exit
