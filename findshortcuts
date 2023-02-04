@@ -37,6 +37,9 @@ findvid $args | grep -Eiv '(prproj$|lnk$|sh$)' | while read line; do
   done
 done | mkshortcut.from.input.sh
 
+~/usr/bin/remove.dups
+exit
+
 mkdir -p _
 for f in *.lnk; do
   if find . -type f | grep '/.*/' | grep "/$f" > /dev/null 2>&1 ; then
