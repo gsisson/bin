@@ -16,6 +16,16 @@ def usage(args = nil)
 end
 
 def mkshortcut_in_cwd(tgt)
+  if tgt == 't:/RECYCLABLE/v/blah/blah'
+    STDERR.puts "    ===========> skipping blah blah <============"
+    STDERR.puts "    ===========> skipping blah blah <============"
+    STDERR.puts "    ===========> skipping blah blah <============"
+    STDERR.puts "    ===========> skipping blah blah <============"
+    STDERR.puts "    ===========> skipping blah blah <============"
+    STDERR.puts "    ===========> skipping blah blah <============"
+    STDERR.puts "    ===========> skipping blah blah <============"
+    return
+  end
   tgt = tgt.sub("t:/","/cygdrive/t/")
   _stdin, _stdout, _stderr, wait_thr = Open3.popen3('mkshortcut.exe', "#{tgt}")
   # wait_thr.value.exitstatus # (this will cause a long pause)

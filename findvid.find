@@ -84,12 +84,14 @@ def check_quick_swim()
   end
 end
 
-def check_word(wrong,correct)
+def check_word(wrong,correct,opt=nil)
   the = "#{DIR}"
   if ! Dir.exist?(the)
     STDERR.puts "Directory DNE! #{the}"
     exit 1
   end
+  wrong   = wrong.reverse   if opt == 'r'
+  correct = correct.reverse if opt == 'r'
   Dir.chdir the do
     items = Dir2.glob_i('**/*')
     items.select! do |item|
@@ -123,6 +125,8 @@ check_word("tempcheck","checkTemp")
 check_word("tempCheck","checkTemp")
 check_word("temp.check","checkTemp")
 check_word("check.temp","checkTemp")
+check_word("gniknaps","knaps",'r')
+check_word("suna","lana",'r')
 
 if ARGV.size != 0
   items = ARGV
