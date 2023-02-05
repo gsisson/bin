@@ -5,6 +5,7 @@
 #    => mkshortcut.from.input.sh # to change?
 #      => Cygwin/mkshortcut.exe  # to change?
 
+require 'fileutils'
 require '~/usr/ruby/lib/findvid'
 require '~/usr/ruby/lib/check_for_non_links'
 
@@ -44,7 +45,6 @@ args=args.sub(/\.getem\.sh$/,'').sub(/getem\.sh$/,'')
 args=args.sub(/^#*/,'').gsub(/\./,' ')
 if args.length == 0
   pwd=Dir.pwd
-  puts pwd
   while File.basename(pwd) != '==GEN' do
     arg=File.basename(pwd)
     arg=arg.sub(/^@/,'')
@@ -56,9 +56,9 @@ end
 args=args.split()
 shortcuts_needed_here=[]
 full_vids_with_path_plus_junk = FindVid.main(args)
-#puts full_vids_with_path_plus_junk
 full_vids_with_path = full_vids_with_path_plus_junk.select {|i| i !~ /jpg$|jpeg$|txt$|xmp$|png$|sh$|prproj$|lnk$/i } #  /prproj$|lnk$|sh$/i
 full_vids_with_path.each do |full_vid_path|
+  next if File.directory?(full_vid_path)
   vidname=File.basename(full_vid_path)
   ok=true
   args.each do |arg|
@@ -75,18 +75,21 @@ full_vids_with_path.each do |full_vid_path|
   end
   #puts "-#{vidname}"
 end
-puts shortcuts_needed_here
+#puts shortcuts_needed_here
 
-puts "now send the list to | mkshortcut.from.input.sh"
-
+print "making #{shortcuts_needed_here.size} shortcuts..."
 shortcuts_needed_here.each do |item|
-  puts "+ mkshortcut_in_cwd(#{item})"
-  # mkshortcut_in_cwd(item)
+  #puts "+ mkshortcut_in_cwd(#{item})"
+  mkshortcut_in_cwd(item)
+end
+if shortcuts_needed_here.size > 0
+  puts " (sleep 1, so mkshortcut commands can finish)"
+  sleep 1
 end
 
 # ~/usr/bin/remove.dups
 lnks_below_full = Dir2.all_files_recursively()
-lnks_below_full = lnks_below_full.select { |file| file =~ /\.md$/ } # only .lnk files
+lnks_below_full = lnks_below_full.select { |file| file =~ /\.lnk$/ } # only .lnk files
 lnks_below_full = lnks_below_full.select { |file| file =~ /\// }  # not at top level (has a slash)
 lnks_below={}
 lnks_below_full.each do |lnk_full|
@@ -98,13 +101,23 @@ lnks_below_full.each do |lnk_full|
   end
 end
 
+cp_cnt=0
+rm_cnt=0
 Dir2.glob_i_lnks().each do |lnk|
-  puts "checking for '#{lnk}' file..."
-  puts lnks_below[lnk]
+  # puts "checking for '#{lnk}' file..."
   if lnks_below[lnk]
     lnks_below[lnk].each do |lnk_to_refresh|
-      puts "+ cp #{lnk} #{lnk_to_refresh}"
+      # puts "+ cp #{lnk} #{lnk_to_refresh}"
+      cp_cnt += 1
+      FileUtils.cp(lnk,lnk_to_refresh)
     end
-    puts "+ remove #{lnk}"
+    rm_cnt += 1
+    # puts "+ remove #{lnk}"
+    FileUtils.rm(lnk)
   end
 end
+
+puts "updated    #{cp_cnt} files"
+puts "cleaned up #{rm_cnt} files"
+puts "(sleep 5)"
+sleep 5
