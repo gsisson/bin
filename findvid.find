@@ -117,7 +117,7 @@ def check_word(wrong,correct,opt=nil)
   end
 end
 
-check_for_nonlinks(DIR, /\.lnk$|\.jpg$|\.txt$|\.sh$|\.prproj/)
+check_for_nonlinks(DIR, /\.lnk$|\.jpg$|\.txt$|\.sh$|desktop\.ini$|\.prproj/)
 check_quick_swim
 check_word("housecleaning","housework")
 check_word("outside","outdoors")

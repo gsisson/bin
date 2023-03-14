@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 . ~/.bashrc
 
-echo USE RB VERSION
+echo "USE RB VERSION (in ~/usr/bin/findvid)"
 exit 1
 
 usage() {
