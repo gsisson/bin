@@ -6,8 +6,8 @@ dirs=( "$HOME/Library/Application Support/Code/User"
      ) 
 for dir in "${dirs[@]}"; do
   if [ -f "$dir/$f" ]; then
-    echo $dir/$f
-    code $dir/$f
+    echo "$dir/$f"
+    code "$dir/$f"
     exit $?
   fi
 done
