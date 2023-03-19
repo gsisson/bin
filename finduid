@@ -53,6 +53,11 @@ valid_number() {
 }
 
 n=""
+#echo ---------
+#echo "$#"
+#echo ":$1:"
+#echo ---------
+#exit
 if [ "$#" -gt 0 ]; then
   n="$1" ; shift
   if [ "$n" = '-' ]; then
@@ -90,7 +95,7 @@ if [ "$#" = 1 ]; then
   fi
 fi
 
-echo + findvid $n
+echo + findvid $n 1>&2
        findvid $n
 
 while : ; do
