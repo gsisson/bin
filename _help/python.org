@@ -97,7 +97,8 @@
 | covered well in this article (about jupyter notebook install):                      |
 |-------------------------------------------------------------------------------------|
 | brew install pyenv                                                                  |
-| pyenv install -l PIPE grep -ow '[0-9].[0-9].[0-9]' # list available python versions |
+| pyenv install -l PIPE grep -w ' [0-9]+\.[0-9]+\.[0-9]+' # list available python versions |
+|                                                                                     |
 | echo 'eval "$(pyenv init -)"' >> ~/.bash_profile                                    |
 | pyenv install 3.x.x                                                                 |
 | pyenv local 3.x.x                                                                   |

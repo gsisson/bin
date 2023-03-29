@@ -3,6 +3,7 @@
 pbpaste | grep -i AWS_SESSION_TOKEN >/dev/null
 if [ $? != 0 ] ; then
   if [[ "$1" =~ [0-9]* ]]; then
+    echo $1 has digits
     :
   else
     echo "clipboard doesn't appear to contain credentials!"
