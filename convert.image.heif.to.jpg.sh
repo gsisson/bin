@@ -1,0 +1,1 @@
+/Users/glennaws/usr/bin/convert.image.jpg.to.png.sh
