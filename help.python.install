@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
 cat << EOF
+
+# these notes are mostly from
+#   - https://github.com/pyenv/pyenv
+#   - https://github.com/pyenv/pyenv-virtualenv
+
 INSTALL
   brew install pyenv
   brew install pyenv-virtualenv
-  add to .profile:
-    eval "\$(pyenv init -)"
-    eval "\$(pyenv virtualenv-init -)"
+  add to ~/.profile (or ~/.zshenv):
+    # echo 'eval "\$(pyenv init -)"'            >> ~/.profile
+    # echo 'eval "\$(pyenv virtualenv-init -)"' >> ~/.profile
 PYENV EXAMPLES:
   pyenv versions     # list all pythons
   pyenv install VER1 # install python version VER1
@@ -14,6 +19,8 @@ PYENV EXAMPLES:
   pyenv global VER1  # set global python to VER1
   cd somedir/
   pyenv local  VER2  # set local python to VER2 for somedir/
+  # Install latest 3.7.X version
+    v=7; pyenv install \$(python-build --definitions | grep "^3.\$v" | grep '[0-9]+\.[0-9]+\.[0-9]+$' | tail -n1)
 VIRTUALENV EXAMPLES:
   cd ~/dir-to-use-special-python-and-libs/
     pyenv local VER1             # set the python version
@@ -22,8 +29,15 @@ VIRTUALENV EXAMPLES:
   cd ~/some-other-dir/
     pyenv activate VER1-custom   # USE the virtual python env from somewhere else
     pyenv uninstall 3.8.1-custom # get rid of the virtual python environmsnt
+  using some specific version of python
+    # add a new virtual env named MY_PY_ENV to use python3
+      pyenv virtualenv -p python3 MY_PY_ENV
+    # use that environment
+      pyenv local MY_PY_ENV
 RESOURCES:
   https://www.freecodecamp.org/news/manage-multiple-python-versions-and-virtual-environments-venv-pyenv-pyvenv-a29fb00c296f/
   https://virtualenv.pypa.io/en/latest/user_guide.html
   https://github.com/pyenv/pyenv-virtualenv
+
 EOF
+
