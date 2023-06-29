@@ -1,1 +1,1 @@
-/cygdrive/c/users/gsisson/usr/bin/convert.image.jpg.to.png.sh
+convert.image.jpg.to.png.sh
