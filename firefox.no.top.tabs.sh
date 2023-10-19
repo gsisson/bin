@@ -4,14 +4,15 @@ cat << EOF
 /*
   - To hide tabs in Firefox:
     - Place this file in the following location:
-      dir=/Users/glennaws/Library/Application Support/Firefox/Profiles/XXXXXXXX.default/chrome
+      dir="/Users/gsisson/Library/Application Support/Firefox/Profiles/XXXXXXXX.default/chrome"
                                                                        ^^^^^^^^ (will be different)
-    - mkdir -p $dir 
-    - $0 >> $dir/userChrome.css
+    - mkdir -p "\$dir"
+    - $0 >> "\$dir/userChrome.css"
     - open config:about in Firefox
       - search for "toolkit.legacyUserProfileCustomizations.stylesheets"
         - set to 'true'
     - restart Firefox
+    - (from https://superuser.com/questions/1424478/can-i-hide-native-tabs-at-the-top-of-firefox)
 
   - To adjust colors of the tabs
     - Tree Style Tab preferences
