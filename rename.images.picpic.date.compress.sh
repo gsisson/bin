@@ -26,13 +26,19 @@ move_em() {
       [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9][0-9].png |\
       [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9][0-9]_[hv].jpg |\
       [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9][0-9]_[hv].png)
+        if cmp "$f" "$t" 2>/dev/null ; then
+          echo "removing $f (duplicate of $t)"
+          rm "$f"
+          continue
+        fi
         if [ "$test" = true ]; then
           if [ -f "$t" ]; then
              collide=true
              echo "exists: $t" 1>&2
+             echo "       ($f)" 1>&2
           fi
         else
-          move_it "$f" "$t"
+          echo move_it "$f" "$t"
         fi
         ;;
     esac
@@ -43,5 +49,5 @@ move_em() {
   fi
 }
 
-move_em --test
+move_em --test ; set --
 move_em

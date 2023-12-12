@@ -36,6 +36,9 @@ def check_quick_swim()
     # check 1
     items = Dir2.glob_i('**/*')
     items.select! do |item|
+      item !~ /\/BesT\.lnk$|\/good\.lnk$|\/=too-....\.lnk$|\/_\.lnk$/
+    end
+    items.select! do |item|
       ! Dir.exist?(item) && item =~ /\.lnk$/ && item !~ /swimsuit/
     end
     if items.size > 0
@@ -52,7 +55,13 @@ def check_quick_swim()
     # check 2
     items = Dir2.glob_i('**/*')
     items.select! do |item|
-      ! Dir.exist?(item) && item =~ /\.lnk$/ && item =~ /swimout/ && item !~ /outdoors/
+      item !~ /\/BesT\.lnk$|\/good\.lnk$|\/=too-....\.lnk$|\/_\.lnk$/
+    end
+    items.select! do |item|
+      ! Dir.exist?(item)   &&
+        item =~ /\.lnk$/   &&
+        item =~ /swimout/  &&
+        item !~ /outdoors/
     end
     if items.size > 0
       STDERR.puts
@@ -67,6 +76,9 @@ def check_quick_swim()
     end
     # check 3
     items = Dir2.glob_i('**/*')
+    items.select! do |item|
+      item !~ /\/BesT\.lnk$|\/good\.lnk$|\/=too-....\.lnk$|\/_\.lnk$/
+    end
     items.select! do |item|
       ! Dir.exist?(item) && item =~ /\.lnk$/ && item =~ /outside/
     end
@@ -147,8 +159,7 @@ curdir=Dir2.pwd
 Dir.chdir DIR
 vids = Dir2.all_files_recursively()
 vids.select! {|i| ! Dir.exist?(i)}
-# reject files of types not interested in
- vids.select! {|i| i =~ video_extentions }
+vids.select! {|i| i =~ video_extentions } # reject files of types not interested in
 vids.map! {|i|"#{DIR}#{i}"}
 FS.verify_no_dup_files_across_dirs(vids)
 # puts "#{vids.length}"
