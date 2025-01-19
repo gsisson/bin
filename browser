@@ -2,6 +2,7 @@
 . ~/.bashrc
 
 dir="$HOME/usr/local/"
+
 prog="$progcs/Browser/bin/Debug/browser.exe"
 brow="${dir}browser_.exe"
 
@@ -55,9 +56,9 @@ done
 
 if [ "$1" = '-g' ]
 then
-# echo + ${dir}browser${n}.exe "$@"
+  echo + ${dir}browser${n}.exe "$@"
          ${dir}browser${n}.exe "$@" > /dev/null
 else
-# echo + $HOME/usr/bin/browser.bat ${n} "$@"
+  echo + $HOME/usr/bin/browser.bat ${n} "$@"
          $HOME/usr/bin/browser.bat ${n} "$@" > /dev/null
 fi

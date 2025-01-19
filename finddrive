@@ -48,7 +48,7 @@ do
                   find "t:/$i"   >> $t 2>&1
         done
       echo "+ part 2 of 2"
-        t=`echo T:/recyclable/output/find.${drive}.txt | cygdrivePathFix`
+        t=`echo T:/recyclable/find.${drive}.txt | cygdrivePathFix`
         drive='t:/recyclable'
         echo "+ find ${drive}   > $t 2>&1"
                 find ${drive}   > $t 2>&1
@@ -57,8 +57,8 @@ do
       t=`echo $wdir/find.${drive}.txt | cygdrivePathFix`
       echo "+ find ${drive}:/ > $t 2>&1"
               find ${drive}:/ > $t 2>&1
-      echo "+ cp         $t ${drive}:/"
-              cp         $t ${drive}:/
+      echo "+ cp         $t ${drive}:/tmp/"
+              cp         $t ${drive}:/tmp/
       ;;
   esac
 done

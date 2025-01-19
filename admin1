@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 . ~/.bashrc
 
 case $(basename $0) in

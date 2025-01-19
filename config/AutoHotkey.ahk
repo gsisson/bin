@@ -54,7 +54,8 @@ return
 IfWinExist Password Safe
   WinActivate
 else {
-  Run %USERPROFILE%\usr\local\pc\lnk\PwSafe_Ctrl_Alt_Shift_P.lnk
+  ;Run %USERPROFILE%\usr\local\pc\lnk\PwSafe_Ctrl_Alt_Shift_P.lnk
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\PwSafe_Ctrl_Alt_Shift_P.lnk
 }
 return
 
@@ -64,7 +65,8 @@ IfWinExist Mintty_1_Ctrl_Shift_U
 {
   WinActivate
 } else {
-  Run %USERPROFILE%\usr\local\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
+  ;Run %USERPROFILE%\usr\local\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
 }
 return
 
@@ -73,7 +75,8 @@ SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_2_Ctrl_Shift_J
   WinActivate
 else
-  Run %USERPROFILE%\usr\local\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
+  ;Run %USERPROFILE%\usr\local\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
 return
 
 ^+n::
@@ -81,7 +84,8 @@ SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_3_Ctrl_Shift_N
   WinActivate
 else
-  Run %USERPROFILE%\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
+  ;Run %USERPROFILE%\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
 return
 
 ^+i::
@@ -89,7 +93,8 @@ SetTitleMatchMode 2 ;match "Mozilla Firefox" anywhere in title
 IfWinExist Mozilla Firefox
   WinActivate
 else
-  Run %USERPROFILE%\usr\local\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
+  ;Run %USERPROFILE%\usr\local\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\FireFox_Ctrl_Alt_Shift_I.lnk
 return
 
 ;^+i::
@@ -97,14 +102,16 @@ return
 ;IfWinExist Chrome
 ;  WinActivate
 ;else
-;  Run %USERPROFILE%\usr\local\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
+; ;Run %USERPROFILE%\usr\local\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
+;  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Chrome_Ctrl_Alt_Shift_I.lnk
 ;return
 
 ^+p::
 IfWinExist emacs@%HOSTNAME%
   WinActivate
 else
-  Run %USERPROFILE%\usr\local\pc\lnk\Emacs_Ctrl_Alt_Shift_P.lnk
+  ;Run %USERPROFILE%\usr\local\pc\lnk\Emacs_Ctrl_Alt_Shift_P.lnk
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Emacs_Ctrl_Alt_Shift_P.lnk
 return
 
 ^+_::
@@ -119,6 +126,7 @@ return
 
 ;!TAB::
 ;Run %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\z      1) Programs\Tools\Macros Hotkeys Key Remapping\Window Switcher.lnk
+;Run C:\cygwin64\home\gsisson\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\z      1) Programs\Tools\Macros Hotkeys Key Remapping\Window Switcher.lnk
 ;return
 
 ; used by WinSplit Revolution:

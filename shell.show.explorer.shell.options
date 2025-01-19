@@ -1,0 +1,10 @@
+( wget -O - "https://ss64.com/nt/shell.html" 2>/dev/null |
+  grep '>shell:.*</td>' |
+  sed -e 's:.*shell:shell:' -e 's:<.*::' |
+  sort
+  echo "shell:::{ED7BA470-8E54-465E-825C-99712043E01C} # all control panel options"
+) | sed -e "s:^:explorer ':" -e "s:$:':"
+echo 1>&2 "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo 1>&2 "  Copy them to clipboard, paste into cygwin shell"
+echo 1>&2 "   -or-"
+echo 1>&2 "  Win-R, then paste the 'shell:*' entry and press enter"

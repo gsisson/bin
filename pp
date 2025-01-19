@@ -10,6 +10,7 @@ case $(uname) in
 esac
 
 cmd='C:/Program Files/Adobe/Adobe Premiere Pro CS6/Adobe Premiere Pro.exe'
+cmd='C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Adobe Production Premium CS6/Adobe Premiere Pro CS6.lnk'
 if [ ! -f "$cmd" ]; then
   echo "unable to find file: \"$cmd\""
   exit 1

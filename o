@@ -25,6 +25,7 @@ if [ "${CYGWIN}" != "" ]; then
       *)     start "$@";;
     esac
   }
+  #HOME=c:/users/gsisson
 fi
 
 handle_it() {
@@ -83,9 +84,23 @@ handle_it() {
          echo + open $windir "$@" 1>&2
          open $windir "$@"
        else
-         windir=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) 
-         echo + explorer $windir 1>&2
-         explorer $windir
+         if [ -d "$*" ]; then
+           open $*
+         else
+           # echo dollar_star::$*::
+           windir=$(echo "$*" | sed -e 's|/cygdrive/\(.\)/|\1:/|' -e 's:/:\\:g' ) 
+           #case "$windir" in
+           #  /home/gsisson*) echo 111;;
+           #  c:/users/gsisson*) echo 222;;
+           #  *) echo 333;;
+           #esac
+           echo + explorer $windir 1>&2
+           if [ ! -d "$windir" ]; then
+             echo "DNE: $windir"
+           else
+             explorer $windir
+           fi
+         fi
        fi
        ;;
     g) echo "cd '$*'";; # filter this line out when run with '-?' (matches on "g)")
@@ -98,7 +113,6 @@ handle_it() {
 # - Any argument that isn't a shorthand is handed by the final '*' case (specific directories
 #   or something passed in on the clipboard
 
-tlz_docs_isengard="https://tiny.amazon.com/150r5a9wl"
 desktop_pictures_locn="$HOME/AppData/Local/Packages/Microsoft.Windows."
 desktop_pictures_locn="${desktop_pictures_locn}ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
 
@@ -110,9 +124,9 @@ case "$@" in
       sed -e 's:).*::' -e 's:^  ::' | column;;
   e)                   edit "$0";; # filter this line out when run with '-?' (avoid clutter)
   # executable shorthands that can be 'opened'
-  blinds)              "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
-  photoshop)           shift; $HOME/usr/bin/adobe "$@";;
-  premiere.pro)        shift; $HOME/usr/bin/pp    "$@";;
+ #blinds)              "C:/Program Files (x86)/Stardock/WindowBlinds/WB10Config.exe" "$@" &;;
+  photoshop|ps)        shift; /home/gsisson/usr/bin/adobe "$@";;
+  premiere.pro|pp)     shift; /home/gsisson/usr/bin/pp    "$@";;
   firefox)             if [ "${CYGWIN}" = "" ]; then
                          echo "fix $0 for mac"
                        else
@@ -122,65 +136,78 @@ case "$@" in
   bitlocker)           handle_it Microsoft.BitLockerDriveEncryption;;
   #                    alternative: manage-bde -unlock t: -password # must be admin!
   controller)          handle_it "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}";;
-  browser)             open "$HOME/usr/src/DotNet/c#/Browser/Browser.csproj";;
+  browser)             handle_it 'C:\cygwin64\home\gsisson\usr\src\DotNet\c#\Browser\Browser.sln';;
   # folder shorthands that can be 'opened'
-  anki)                open "$HOME/Library/Application Support/Anki2/";;
+ #anki)                open "$HOME/Library/Application Support/Anki2/";;
   browser)             open "$HOME/usr/src/DotNet/c#/Browser/";;
-  completion)          open "$HOME/usr/completion/";;
+  g|o)                 open "$HOME/usr/bin/functions/completion";;
   auto_hot_key)        open "$HOME/usr/bin/config/";;
   cloud)               if [ "${CYGWIN}" = "" ]; then
                          open "$HOME/Dropbox/"
                        else
                          open "$HOME/Documents/Cloud"
                        fi;;
-  data)                handle_it "$HOME/Documents/HOME/DATA";;
+  data)                handle_it "C:/users/gsisson/Documents/HOME/DATA";;
   dropbox)             if [ "${CYGWIN}" = "" ]; then
                          handle_it "$HOME/Documents/Cloud/Dropbox"
                        else
-                         handle_it "$HOME/Dropbox/"
+                         handle_it "C:\Users\gsisson\Dropbox"
                        fi;;
-  downloads)           handle_it "$HOME/Downloads";;
-  home)                handle_it "$HOME";;
-  links)               handle_it "$HOME/usr/bin0/pc/lnk/";;
-  movies)              handle_it "C:/_MOVIES_C/";;
+  downloads)           if [ "${CYGWIN}" = "" ]; then
+                         handle_it "$HOME/Downloads"
+                       else
+                         handle_it shell:Downloads #"C:\Users\gsisson\Downloads"
+                       fi;;
+  home)                if [ "${CYGWIN}" = "" ]; then
+                         handle_it "$HOME"
+                       else
+                         handle_it "C:\Users\gsisson"
+                       fi;;
+  links)               handle_it "$HOME/usr/local/pc/lnk/";;
+  movies)              handle_it "C:/___MOVIES_C/";;
   photos)              if [ "${CYGWIN}" = "" ]; then
                          echo "fix $0 for mac"
                        else
-                         handle_it "$HOME/Pictures/" # open "shell:Pictures"
+                         handle_it "shell:My Pictures"
                        fi;;
+  pics.MY)             handle_it "shell:My Pictures";; # "C:/Users/gsisson/Pictures/";;
+  pics.P)              handle_it "P:/Photos";;
+  pics.rotate)         handle_it "P:/Photos/My_Pictures_ToRotate";;
+  pics.scan)           handle_it "P:/Photos/My_Pictures_Scan_In";;
   audiobooks)          handle_it "P:/Audio.Books/";;
   humor)               handle_it "P:/Audio.Books/";;
-  room)                handle_it $HOME/Documents/HOME/*stat*/*05*/*en*;;
-  rotate)              handle_it "P:/Photos/My_Pictures_ToRotate";;
-  scan)                handle_it "P:/Photos/My_Pictures_Scan_In";;
-  sysinternals)        handle_it "$HOME/usr/bin0/pc/SysInternals/";;
+  room)                open $HOME/Documents/HOME/*stat*/*05*/*en*;;
+  sysinternals)        handle_it "$HOME/usr/local/SysInternals/";;
   video)               handle_it "P:/Videos/";;
-  video.marker)        efile "$HOME/usr/local/video.marker/index.html";;
+  video.marker)        efile "/cygwin64/home/gsisson/usr/local/video.marker/index.html";;
   # places (executabl  es that are kind of like folders)
-  diskmgmt)            handle_it "C:/Windows/System32/diskmgmt.msc";;
-  computer)            handle_it "shell:MyComputerFolder";;
-  control.panel)       handle_it "shell:ControlPanelFolder";;
-  desktop)             handle_it "$HOME/Desktop/";;
-  desktop.common)      handle_it "shell:Common Desktop";;
-  documents)           handle_it "shell:Documents";;
-  #documents.local)    handle_it "shell:Local Documents";; #same place as 'documents' actually
-  documents.common)    handle_it "shell:Common Documents";;
-  libraries)           handle_it "shell:Libraries";;
-  music)               handle_it "P:/Music";;
-  music.shell)         handle_it "shell:My Music";;
-  music.backup)        handle_it "T:/___Mac.Music_BACKUP";;
-  music.to.get)        handle_it "P:/Music/_MUSIC_TO_GET";;
-  music.to.store)      handle_it "P:/Music/_MUSIC_READY_TO_STORE";;
-  photos.pc)           handle_it "shell:My Pictures";;
-  pictures)            handle_it "$HOME/Pictures/";;
-  pictures.desktop)    handle_it "$desktop_pictures_locn";;
-  pinned)              handle_it "shell:User Pinned";;
-  playlists)           handle_it "shell:Playlists";;
+  diskmgmt)            open "C:/Windows/System32/diskmgmt.msc";;
+  computer|pc)         handle_it "shell:MyComputerFolder";;
+  control.panel.folder)  handle_it "shell:ControlPanelFolder";;
+  control.panel.options) handle_it "shell:::{ED7BA470-8E54-465E-825C-99712043E01C}";;
+  device.mgr)          echo "look under Devices-and-Printers/Device-Manager"
+                       echo "           -----------------------------------"
+                       handle_it "shell:::{ED7BA470-8E54-465E-825C-99712043E01C}";;
+
+  desktop.pub)         handle_it "shell:Common Desktop";;
+  desktop)             if [ "${CYGWIN}" = "" ]; then
+                         handle_it "$HOME/Desktop"
+                       else
+                         handle_it "C:\Users\gsisson\Desktop" #shell:Desktop (weird 'HOME')
+                       fi;;
+  documents.pub)       handle_it "shell:Common Documents";;
+  documents)           handle_it "shell:Documents";; # shell:Local Documents (same place)
+ #libraries)           handle_it "shell:Libraries";;
+  music)               handle_it "C:\Users\gsisson\Dropbox\Music";;
+  music.MY)            handle_it "shell:My Music";;
+  music.to.get)        handle_it "C:\Users\gsisson\Dropbox\Music\Music.To.Get";;
+  music.to.store)      handle_it "C:/Users/gsisson/Dropbox/Music/Music.Ready.to.Store";;
+ #pinned)              handle_it "shell:User Pinned";;
+ #playlists)           handle_it "shell:Playlists";;
   printers)            handle_it "shell:PrintersFolder";;
-  quick.launch)        handle_it "shell:Quick Launch";;
-  phone)               handle_it "shell:MyComputerFolder"
-                       handle_it "T:/_IMAGES.FOR.PHONE_VIDEO";;
-  ringtones)           handle_it "P:/Music/_MUSIC_Ringtones";;
+ #quick.launch)        handle_it "shell:Quick Launch";;
+  phone)               handle_it "T:/_IMAGES.FOR.PHONE";;
+  ringtones)           handle_it "C:\Users\gsisson\Dropbox\Music\Music.Ringtones";;
   recycle)             if [ "${CYGWIN}" = "" ]; then
                          handle_it "$HOME/Recycle"
                        else
@@ -189,31 +216,20 @@ case "$@" in
   screenshots)         if [ "${CYGWIN}" = "" ]; then
                          handle_it "$HOME/Desktop/Screenshots"
                        else
-                         handle_it "shell:ScreenShots"
+                         #handle_it "shell:ScreenShots"
+                         open "C:\Users\gsisson\Pictures\Screenshots"
                        fi;;
-  sendto)              handle_it "shell:SendTo";;
+  sendto)              open "c:/users/gsisson/AppData/Roaming/Microsoft/Windows/SendTo";;
+                      #handle_it "shell:SendTo";; # doesn't work in Win11
+ #sendto.pub)          handle_it "shell:Common SendTo";;
+  startmenu.pub)       handle_it "shell:Common Start Menu";;
   startmenu)           handle_it "shell:Start Menu";;
-  startmenu.common)    handle_it "shell:Common Start Menu";;
-  startup)             handle_it "shell:Startup";;
-  startup.common)      handle_it "shell:Common Startup";;
-  # web pages
-  tix1)                handle_it "https://bit.ly/3d7sBPj";;
-  tix2)                handle_it "https://bit.ly/2SqFD0u";;
-  sso0)                handle_it 'https://tiny.amazon.com/135smat4n';;
-  sso1)                handle_it 'https://tiny.amazon.com/130r5i4sm';;
-  sso9)                handle_it 'https://tiny.amazon.com/vn3ywec7';;  # 9d1
-  sso-tlz-docs)        handle_it "${tlz_docs_isengard}";;
-  tiny)                handle_it 'http://tiny.amazon.com/';;
-  isengard)            handle_it 'https://tiny.amazon.com/r91blny0';;
-#  tlz)                 case ${@} in
-#                         docs);;
-#                       esac;;
-  tlz-docs)            handle_it 'https://tlz-product-docs-dev.tlzdemo.net/';;
-  tlz-docs-isengard)   handle_it ${tlz_docs_isengard};;
-  tlz-docs-code-build) handle_it 'https://tiny.amazon.com/1h1qdeb8q';;
-  tlz-docs-github)     handle_it 'https://github.com/tlzproject/tlz-product-docs';;
-  tlz-OLD-workshop)    handle_it 'https://tlz-workshop.tlzdemo.net/';;
-  sage)                handle_it 'https://sage.amazon.com/search?q=what+is+sage';;
-  msfs-community)      handle_it "C:/";;
+  startup.pub)         handle_it "shell:Common Startup";;
+  startup)            #handle_it "shell:Startup";; # doesn't work in Win11
+                       handle_it "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup";;
+# control
+  shell-colon-options) echo "https://ss64.com/nt/shell.html"
+                       echo "------------------------------"
+                       wget -O - "https://ss64.com/nt/shell.html" | grep '>shell:.*</td>' | sed -e 's:.*shell:shell:' -e 's:<.*::';;
   *)                   handle_it "$*";;
 esac

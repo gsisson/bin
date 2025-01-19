@@ -15,6 +15,7 @@ esac
 cmd='C:/Program Files/Adobe/Photoshop/Photoshop.exe' # Creative Cloud
 cmd='C:/Program Files/Adobe/Adobe Photoshop CS6 (64 Bit)/Photoshop.exe' # Creative Suite
 cmd='C:/Program Files (x86)/Adobe/Adobe Photoshop CS6/Photoshop.exe'
+cmd='C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Adobe Production Premium CS6/Adobe Photoshop CS6 (64 Bit).lnk'
 if [ ! -f "$cmd" ]; then
   echo "unable to find file: \"$cmd\""
   exit 1
