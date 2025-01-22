@@ -41,15 +41,6 @@ return
 clipboard = %clipboard%
 return
 
-^!+d::
-IfWinExist Dropbox
-  WinActivate
-else {
-  Run %A_MyDocuments%\Dropbox
-  WinWait Dropbox
-}
-return
-
 ^!+p::
 IfWinExist Password Safe
   WinActivate
@@ -59,15 +50,21 @@ else {
 }
 return
 
+^!+d::
+IfWinExist Dropbox
+  WinActivate
+else {
+  Run %A_MyDocuments%\Dropbox
+  WinWait Dropbox
+}
+return
+
 ^+u::
 SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_1_Ctrl_Shift_U
-{
   WinActivate
-} else {
-  ;Run %USERPROFILE%\usr\local\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
+else
   Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Mintty_1_Ctrl_Shift_U.lnk
-}
 return
 
 ^+j::
@@ -75,7 +72,6 @@ SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_2_Ctrl_Shift_J
   WinActivate
 else
-  ;Run %USERPROFILE%\usr\local\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
   Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Mintty_2_Ctrl_Shift_J.lnk
 return
 
@@ -84,8 +80,32 @@ SetTitleMatchMode 2 ;match anywhere in title
 IfWinExist Mintty_3_Ctrl_Shift_N
   WinActivate
 else
-  ;Run %USERPROFILE%\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
   Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\Mintty_3_Ctrl_Shift_N.lnk
+return
+
+;; does not work!!??!!??!! hmmm...
+^!+u::
+SetTitleMatchMode 2 ;match anywhere in title
+IfWinExist Mintty_1a_Ctrl_Shift_U
+  WinActivate
+else
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\mintty_admin\Mintty_1a_Ctrl_Shift_U.lnk
+return
+
+^!+j::
+SetTitleMatchMode 2 ;match anywhere in title
+IfWinExist Mintty_2a_Ctrl_Shift_J
+  WinActivate
+else
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\mintty_admin\Mintty_2a_Ctrl_Shift_J.lnk
+return
+
+^!+n::
+SetTitleMatchMode 2 ;match anywhere in title
+IfWinExist Mintty_3a_Ctrl_Shift_N
+  WinActivate
+else
+  Run C:\cygwin64\home\gsisson\usr\local\pc\lnk\mintty_admin\Mintty_3a_Ctrl_Shift_N.lnk
 return
 
 ^+i::

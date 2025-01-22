@@ -227,6 +227,7 @@ case "$@" in
   startup.pub)         handle_it "shell:Common Startup";;
   startup)            #handle_it "shell:Startup";; # doesn't work in Win11
                        handle_it "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup";;
+  mintty)              open "$HOME/usr/local/pc/lnk/";;
 # control
   shell-colon-options) echo "https://ss64.com/nt/shell.html"
                        echo "------------------------------"
