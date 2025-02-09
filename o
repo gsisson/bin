@@ -193,11 +193,14 @@ case "$@" in
   desktop)             if [ "${CYGWIN}" = "" ]; then
                          handle_it "$HOME/Desktop"
                        else
-                         handle_it "C:\Users\gsisson\Desktop" #shell:Desktop (weird 'HOME')
+                         #shell:Desktop (weird 'HOME')
+                         #handle_it "C:\Users\gsisson\Desktop" # nope... goes to /c/users/gsisson/Desktop
+                         handle_it "C:\Users\gsisson\Desktop"
                        fi;;
   documents.pub)       handle_it "shell:Common Documents";;
   documents)           handle_it "shell:Documents";; # shell:Local Documents (same place)
  #libraries)           handle_it "shell:Libraries";;
+  tabimages)           handle_it "C:/Users/gsisson/Desktop/tabimages";;
   music)               handle_it "C:\Users\gsisson\Dropbox\Music";;
   music.MY)            handle_it "shell:My Music";;
   music.to.get)        handle_it "C:\Users\gsisson\Dropbox\Music\Music.To.Get";;
@@ -227,8 +230,10 @@ case "$@" in
   startup.pub)         handle_it "shell:Common Startup";;
   startup)            #handle_it "shell:Startup";; # doesn't work in Win11
                        handle_it "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup";;
+  firefox-hide-tabtree) handle_it "C:\Users\gsisson\AppData\Roaming\Mozilla\Firefox\Profiles\vl9mtsgc.default-release\chrome";;
   mintty)              open "$HOME/usr/local/pc/lnk/";;
 # control
+  tax)                 open "T:/data/taxes-glenn/202X/2024";;
   shell-colon-options) echo "https://ss64.com/nt/shell.html"
                        echo "------------------------------"
                        wget -O - "https://ss64.com/nt/shell.html" | grep '>shell:.*</td>' | sed -e 's:.*shell:shell:' -e 's:<.*::';;

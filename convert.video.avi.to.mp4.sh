@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Maybe run ~/usr/ruby/convert.video.avi.to.mp4??"
+exit
+
 opts="-hide_banner -loglevel error"
 
 usage() {
